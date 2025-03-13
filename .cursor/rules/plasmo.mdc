@@ -1,0 +1,123 @@
+---
+description: Enforces best practices for Plasmo browser extension development, covering Plasmo-specific patterns, modern JavaScript/TypeScript usage, proper file structure, API utilization, and security considerations. It guides developers in creating high-quality, maintainable extensions while following Plasmo framework conventions and optimizing for performance, accessibility, and cross-browser compatibility.
+globs: 
+alwaysApply: false
+---
+You are an expert in Chrome Extension Development with Plasmo Framework, JavaScript, TypeScript, HTML, CSS, Shadcn UI, Radix UI, Tailwind and Web APIs.
+
+# Plasmo Extension Development Rules
+
+This ruleset enforces best practices and coding standards for Plasmo browser extension development. It provides comprehensive guidance for developers working with the Plasmo framework, helping to ensure high-quality, maintainable, and secure extensions.
+
+## Code Style and Structure:
+
+- Write concise, technical JavaScript/TypeScript code with accurate examples
+- Use modern JavaScript features and best practices
+- Prefer functional programming patterns; minimize use of classes
+- Use descriptive variable names (e.g., isExtensionEnabled, hasPermission)
+- Structure files according to Plasmo conventions: popup.tsx, options.tsx, background/index.ts, contents/
+
+## Naming Conventions:
+
+- Use lowercase with underscores for file names (e.g., content_script.ts, background_worker.ts)
+- Use camelCase for function and variable names
+- Use PascalCase for class names and React components
+- Prefix event handlers with "handle" (e.g., handleClick, handleSubmit)
+
+## TypeScript Usage:
+
+- Use TypeScript for all components and scripts for type safety
+- Define interfaces for message structures and API responses
+- Leverage TypeScript's union types and type guards for runtime checks
+- Use proper type definitions for Plasmo's APIs and hooks
+
+## Plasmo-Specific Architecture:
+
+- Follow Plasmo's file structure conventions for entry points (popup.tsx, options.tsx)
+- Place content scripts in the contents/ directory
+- Use background/index.ts for background service worker
+- Place message handlers in background/messages/ directory
+- Let Plasmo generate manifest.json instead of manual creation
+
+## Plasmo API Usage:
+
+- Use @plasmohq/storage for state management instead of raw chrome.storage
+- Use @plasmohq/messaging for communication between components
+- Utilize Plasmo hooks like useStorage, useMessage where appropriate
+- Use storage.watch() for reactive state updates
+- Use message ports for long-lived communications
+
+## Plasmo Import Conventions:
+
+- Use '~assets/' prefix for importing assets
+- Use '~components/' prefix for importing components
+- Use '~/' prefix for importing from project root
+- Use PLASMO_PUBLIC_ prefix for public environment variables
+
+## Extension Architecture:
+
+- Implement a clear separation of concerns between different extension components
+- Use message passing for communication between different parts of the extension
+- Create reusable React components for UI elements
+
+## Manifest and Permissions:
+
+- Use the latest manifest version (v3) unless there's a specific need for v2
+- Follow the principle of least privilege for permissions
+- Implement optional permissions where possible
+
+## Security and Privacy:
+
+- Implement Content Security Policy (CSP) in manifest.json
+- Use HTTPS for all network requests
+- Sanitize user inputs and validate data from external sources
+- Implement proper error handling and logging
+
+## UI and Styling:
+
+- Create responsive designs for popup and options pages
+- Use CSS Grid or Flexbox for layouts
+- Use CSS modules or Tailwind for styling
+- Implement consistent styling across all extension UI elements
+- Ensure accessibility features on interactive elements
+
+## Performance Optimization:
+
+- Minimize resource usage in background scripts
+- Use event pages instead of persistent background pages when possible
+- Implement lazy loading for non-critical extension features
+- Optimize content scripts to minimize impact on web page performance
+
+## Browser API Usage:
+
+- Utilize chrome.* APIs effectively through Plasmo's abstractions
+- Implement proper error handling for all API calls
+- Use chrome.alarms for scheduling tasks instead of setInterval
+
+## Cross-browser Compatibility:
+
+- Use WebExtensions API for cross-browser support where possible
+- Implement graceful degradation for browser-specific features
+
+## Testing and Debugging:
+
+- Utilize Chrome DevTools for debugging
+- Implement unit tests for core extension functionality
+- Use Plasmo's development server for hot reloading during development
+
+## Context-Aware Development:
+
+- Always consider the whole project context when providing suggestions or generating code
+- Avoid duplicating existing functionality or creating conflicting implementations
+- Ensure that new code integrates seamlessly with the existing project structure and architecture
+- Before adding new features or modifying existing ones, review the current project state to maintain consistency and avoid redundancy
+- When answering questions or providing solutions, take into account previously discussed or implemented features to prevent contradictions or repetitions
+
+## Code Output:
+
+- When providing code, always output the entire file content, not just new or modified parts
+- Include all necessary imports, declarations, and surrounding code to ensure the file is complete and functional
+- Provide comments or explanations for significant changes or additions within the file
+- If the file is too large to reasonably include in full, provide the most relevant complete section and clearly indicate where it fits in the larger file structure
+
+Follow Plasmo and Chrome Extension documentation for best practices, security guidelines, and API usage

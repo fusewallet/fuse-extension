@@ -13,6 +13,7 @@ import { useCurrentState } from '~hooks/memo/current_state';
 import { useGoto } from '~hooks/memo/goto';
 import { useMounted } from '~hooks/memo/mounted';
 import { useTokenInfoCurrent, useTokenInfoCustom } from '~hooks/store/local';
+import { useCurrentIdentity } from '~hooks/store/local-secure';
 import { cn } from '~lib/utils/cn';
 import { resort_list } from '~lib/utils/sort';
 import {
@@ -24,7 +25,7 @@ import {
     TokenTag,
     type TokenInfo,
 } from '~types/tokens';
-import { get_token_logo, PRESET_ALL_TOKEN_INFO } from '~types/tokens/preset';
+import { get_preset_all_token_info, get_token_logo } from '~types/tokens/preset';
 
 import { FunctionHeader } from '../components/header';
 import CustomTokenDrawer from './components/custom-token-drawer';
@@ -41,18 +42,21 @@ const TABS: Tab[] = ['current', 'all', 'ck', 'sns', 'custom'];
 
 function FunctionTokenViewPage() {
     const current_state = useCurrentState();
-
+    const { current_chain_network } = useCurrentIdentity();
     const { setHide, goto: _goto } = useGoto();
 
-    const [custom, { pushCustomIcToken, removeCustomToken }] = useTokenInfoCustom();
+    const [custom, { pushCustomToken, removeCustomToken }] = useTokenInfoCustom();
     const [current, { pushToken, removeToken, resortToken }] = useTokenInfoCurrent();
 
     const [search, setSearch] = useState('');
-
+    const ALL_TOKEN_INFO = useMemo(() => get_preset_all_token_info(current_chain_network), [current_chain_network]);
     const currentTokens = useMemo(() => current, [current]);
-    const allTokens = useMemo(() => [...PRESET_ALL_TOKEN_INFO, ...custom.map((t) => t.token)], [custom]);
-    const ckTokens = useMemo(() => PRESET_ALL_TOKEN_INFO.filter((t) => t.tags.includes(TokenTag.ChainIcCk)), []);
-    const snsTokens = useMemo(() => PRESET_ALL_TOKEN_INFO.filter((t) => t.tags.includes(TokenTag.ChainIcSns)), []);
+    const allTokens = useMemo(() => [...ALL_TOKEN_INFO, ...custom.map((t) => t.token)], [ALL_TOKEN_INFO, custom]);
+    const ckTokens = useMemo(() => ALL_TOKEN_INFO.filter((t) => t.tags.includes(TokenTag.ChainIcCk)), [ALL_TOKEN_INFO]);
+    const snsTokens = useMemo(
+        () => ALL_TOKEN_INFO.filter((t) => t.tags.includes(TokenTag.ChainIcSns)),
+        [ALL_TOKEN_INFO],
+    );
     const customTokens = useMemo(() => custom.map((t) => t.token), [custom]);
 
     const [tab, setTab] = useState<Tab>('current');
@@ -76,6 +80,7 @@ function FunctionTokenViewPage() {
             if (!s) return true;
             return match_combined_token_info(t.info, {
                 ic: (ic) => 0 <= ic.name.toLowerCase().indexOf(s) || 0 <= ic.symbol.toLowerCase().indexOf(s),
+                evm: (evm) => 0 <= evm.name.toLowerCase().indexOf(s) || 0 <= evm.symbol.toLowerCase().indexOf(s),
             });
         });
     }, [search, tab, currentTokens, allTokens, ckTokens, snsTokens, customTokens]);
@@ -115,11 +120,15 @@ function FunctionTokenViewPage() {
     const mounted = useMounted();
 
     const isTokenExist = useCallback(
-        (token: { ic: string }) => {
+        (token: { ic: string } | { evm: string }) => {
             const found = allTokens.find((t) =>
                 match_combined_token_info(t.info, {
                     ic: (ic) => {
                         if ('ic' in token) return ic.canister_id === token.ic;
+                        return false;
+                    },
+                    evm: (evm) => {
+                        if ('evm' in token) return evm.address === token.evm;
                         return false;
                     },
                 }),
@@ -185,7 +194,10 @@ function FunctionTokenViewPage() {
                                     container={ref.current ?? undefined}
                                     isTokenExist={isTokenExist}
                                     pushIcToken={async (ic_token) => {
-                                        pushCustomIcToken(ic_token).then((token) => {
+                                        pushCustomToken({
+                                            info: { ic: ic_token },
+                                            tags: [TokenTag.ChainIcCustom],
+                                        }).then((token) => {
                                             if (token) pushToken(token);
                                         });
                                     }}

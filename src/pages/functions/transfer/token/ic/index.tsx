@@ -10,7 +10,7 @@ import { useTokenInfoCustom } from '~hooks/store/local';
 import { MILLISECOND, MINUTE } from '~lib/utils/datetime';
 import { FunctionHeader } from '~pages/functions/components/header';
 import { match_combined_token_info } from '~types/tokens';
-import { get_token_logo, PRESET_ALL_TOKEN_INFO } from '~types/tokens/preset';
+import { get_token_logo, PRESET_IC_ALL_TOKEN_INFO } from '~types/tokens/preset';
 
 import FunctionTransferTokenIcAddressPage from './address';
 import FunctionTransferTokenIcAmountPage from './amount';
@@ -23,7 +23,7 @@ function FunctionTransferTokenIcPage() {
     const { setHide, goto: _goto } = useGoto();
     const [custom] = useTokenInfoCustom();
 
-    const allTokens = useMemo(() => [...PRESET_ALL_TOKEN_INFO, ...custom.map((t) => t.token)], [custom]);
+    const allTokens = useMemo(() => [...PRESET_IC_ALL_TOKEN_INFO, ...custom.map((t) => t.token)], [custom]);
     const location = useLocation();
     const [canister_id, setCanisterId] = useState<string>();
 
@@ -42,7 +42,10 @@ function FunctionTransferTokenIcPage() {
         if (!canister_id) return;
 
         const token = allTokens.find((t) =>
-            match_combined_token_info(t.info, { ic: (ic) => ic.canister_id === canister_id }),
+            match_combined_token_info(t.info, {
+                ic: (ic) => ic.canister_id === canister_id,
+                evm: (evm) => evm.address === canister_id,
+            }),
         );
 
         if (!token) throw new Error('Unknown token info');

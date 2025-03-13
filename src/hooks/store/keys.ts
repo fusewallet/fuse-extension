@@ -40,10 +40,14 @@ const LOCAL_KEY_PREFIX_TOKEN = `${LOCAL_KEY_PREFIX}:token`;
 export const LOCAL_KEY_TOKEN_INFO_IC = `${LOCAL_KEY_PREFIX_TOKEN}:info:ic`; // * local
 export const LOCAL_KEY_TOKEN_INFO_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:info:ic:updated`; // * local
 export const LOCAL_KEY_TOKEN_BALANCE_IC = (principal: string) => `${LOCAL_KEY_PREFIX_TOKEN}:balance:ic:${principal}`; // * local
-export const LOCAL_KEY_TOKEN_INFO_CUSTOM = `${LOCAL_KEY_PREFIX_TOKEN}:info:custom`; // * local
-export const LOCAL_KEY_TOKEN_INFO_CURRENT = `${LOCAL_KEY_PREFIX_TOKEN}:info:current`; // * local
+export const LOCAL_KEY_TOKEN_INFO_CUSTOM = (identity_network: IdentityNetwork): string =>
+    `${LOCAL_KEY_PREFIX_TOKEN}:info:custom:${get_identity_network_key(identity_network)}`; // * local
+export const LOCAL_KEY_TOKEN_INFO_CURRENT = (identity_network: IdentityNetwork): string =>
+    `${LOCAL_KEY_PREFIX_TOKEN}:info:current:${get_identity_network_key(identity_network)}`; // * local
 export const LOCAL_KEY_TOKEN_PRICE_IC = `${LOCAL_KEY_PREFIX_TOKEN}:price:ic`; // * local
 export const LOCAL_KEY_TOKEN_PRICE_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:price:ic:updated`; // * local
+
+export const LOCAL_KEY_PREFIX_CURRENT_CHAIN_NETWORK = `${LOCAL_KEY_PREFIX}:current_chain_network`;
 
 const LOCAL_KEY_PREFIX_RECORD = `${LOCAL_KEY_PREFIX}:record`;
 export const LOCAL_KEY_RECORD_STARTED = (identity_network: IdentityNetwork) =>
@@ -52,7 +56,8 @@ export const LOCAL_KEY_RECORD_COUNT = (identity_network: IdentityNetwork) =>
     `${LOCAL_KEY_PREFIX_RECORD}:${get_identity_network_key(identity_network)}:count`; // * local
 export const LOCAL_KEY_RECORD_DATE = (identity_network: IdentityNetwork, date: string) =>
     `${LOCAL_KEY_PREFIX_RECORD}:${get_identity_network_key(identity_network)}:date:${date}`; // * local
-
+// !react query
+export const LOCAL_KEY_REACT_QUERY_CACHE = `${LOCAL_KEY_PREFIX}:react:query:cache`; // * local
 // ############### SESSION ###############
 
 export const SESSION_KEY_PASSWORD = `${SESSION_KEY_PREFIX}:password`; // * session

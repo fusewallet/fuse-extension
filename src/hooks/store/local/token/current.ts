@@ -2,21 +2,25 @@ import { useCallback } from 'react';
 
 import type { Storage } from '@plasmohq/storage';
 
-import { useCachedStoreData0, type DataMetadata0 } from '~hooks/meta/metadata-0';
+import { useCachedStoreData1, type DataMetadata1 } from '~hooks/meta/metadata-1';
 import { resort_list, type ResortFunction } from '~lib/utils/sort';
+import { get_identity_network_key, type IdentityNetwork } from '~types/network';
 import { get_token_symbol, is_same_token_info, type CurrentTokens, type TokenInfo } from '~types/tokens';
-import { DEFAULT_TOKEN_INFO } from '~types/tokens/preset';
+import { get_default_token_info } from '~types/tokens/preset';
 
 import { LOCAL_KEY_TOKEN_INFO_CURRENT } from '../../keys';
 
 // ! always try to use this value to avoid BLINK
 type DataType = CurrentTokens;
-const get_key = (): string => LOCAL_KEY_TOKEN_INFO_CURRENT;
-const get_default_value = (): DataType => DEFAULT_TOKEN_INFO;
-let cached_value = get_default_value();
-const get_cached_value = (): DataType => cached_value;
-const set_cached_value = (value: DataType): DataType => (cached_value = value);
-const meta: DataMetadata0<DataType> = {
+const get_key = (identity_network: IdentityNetwork): string => LOCAL_KEY_TOKEN_INFO_CURRENT(identity_network);
+const get_default_value = (identity_network?: IdentityNetwork): DataType =>
+    get_default_token_info(identity_network?.network);
+const cached_value: Record<string, DataType> = {};
+const get_cached_value = (identity_network: IdentityNetwork): DataType =>
+    cached_value[get_identity_network_key(identity_network)] ?? get_default_value(identity_network);
+const set_cached_value = (value: DataType, identity_network: IdentityNetwork): DataType =>
+    (cached_value[get_identity_network_key(identity_network)] = value);
+const meta: DataMetadata1<DataType, IdentityNetwork> = {
     get_key,
     get_default_value,
     get_cached_value,
@@ -24,11 +28,14 @@ const meta: DataMetadata0<DataType> = {
 };
 
 // token info current ic -> // * local
-export const useTokenInfoCurrentInner = (storage: Storage): [DataType, (value: DataType) => Promise<void>] =>
-    useCachedStoreData0(storage, meta);
+export const useTokenInfoCurrentInner = (
+    storage: Storage,
+    identity_network: IdentityNetwork,
+): [DataType, (value: DataType) => Promise<void>] => useCachedStoreData1(storage, meta, identity_network);
 
 export const useTokenInfoCurrentInner2 = (
     storage: Storage,
+    identity_network: IdentityNetwork,
 ): [
     DataType,
     {
@@ -37,7 +44,7 @@ export const useTokenInfoCurrentInner2 = (
         resortToken: ResortFunction;
     },
 ] => {
-    const [current, setCurrent] = useTokenInfoCurrentInner(storage);
+    const [current, setCurrent] = useTokenInfoCurrentInner(storage, identity_network);
 
     // push
     const pushToken = useCallback(

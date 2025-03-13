@@ -1,8 +1,8 @@
 // prettier-ignore // cSpell:words eurc dogmi dolr elna goldao icvc kinic motoko nfidw sneed trax yuku draggin icpcc neutrinite nfid origyn
-import { is_same_token_info, match_combined_token_info, TokenTag, type CombinedTokenInfo, type TokenInfo } from ".";
+import { is_same_token_info, match_combined_token_info_async, TokenTag, type CombinedTokenInfo, type TokenInfo } from ".";
 import { IcTokenStandard, type IcTokenInfo } from "./ic";
 import { get_cached_data } from "~hooks/store/local";
-
+import { evm_get_logo_uri, type EvmTokenInfo } from './evm';
 // IC
 import TOKEN_IC_ICP_SVG from 'data-base64:~assets/svg/tokens/ic/ICP.min.svg';
 // CK
@@ -55,6 +55,10 @@ import TOKEN_IC_SNS_NFIDW_PNG  from 'data-base64:~assets/svg/tokens/ic/sns/NFIDW
 import TOKEN_IC_SNS_FUEL_PNG   from 'data-base64:~assets/svg/tokens/ic/sns/FUEL.png';
 import TOKEN_IC_SNS_ICE_PNG    from 'data-base64:~assets/svg/tokens/ic/sns/ICE.png';
 import TOKEN_IC_SNS_DKP_PNG    from 'data-base64:~assets/svg/tokens/ic/sns/DKP.png';
+import { mainnet, sepolia } from 'viem/chains';
+import type { ChainEvmNetwork, ChainNetwork } from '~types/network';
+import { match_chain } from '~types/chain';
+
 
 const PRESET_LOGO: Record<string, string> = {
     'ic#ryjl3-tyaaa-aaaaa-aaaba-cai': TOKEN_IC_ICP_SVG,
@@ -110,18 +114,25 @@ const PRESET_LOGO: Record<string, string> = {
     'ic#zfcdd-tqaaa-aaaaq-aaaga-cai': TOKEN_IC_SNS_DKP_PNG,
 }
 
-export const get_token_logo_key = (token: {ic: {canister_id: string}}): string => {
+export const get_token_logo_key = (token: {ic: {canister_id: string}}|{evm: {address: string, chainId: number}}): string => {
     if ('ic' in token) return `token:ic:${token.ic.canister_id}:logo`;
-    return ''
+    if ('evm' in token) return `token:evm:${token.evm.address}:${token.evm.chainId}:logo`;
+    throw new Error('Invalid token');
 }
 
 export const get_token_logo = async (info: CombinedTokenInfo): Promise<string | undefined> => {
-    const preset = match_combined_token_info(info, {
-        ic: (ic) => PRESET_LOGO[`ic#${ic.canister_id}`],
+    return match_combined_token_info_async(info, {
+        ic: async (ic) => {
+            const preset = PRESET_LOGO[`ic#${ic.canister_id}`]
+            if (preset) return preset;
+            const key = get_token_logo_key({ic: {canister_id: ic.canister_id}})
+            return get_cached_data(key, async () => undefined, 1000 * 60 * 60 * 24  * 365 * 100)
+        },
+        evm: async (evm) => {
+           return evm_get_logo_uri(evm.address, evm.chainId)
+        },
     });
-    if (preset) return preset;
-    const key = get_token_logo_key(info)
-    return get_cached_data(key, async () => undefined, 1000 * 60 * 60 * 24  * 365 * 100)
+
 }
 
 const TOKEN_INFO_IC_ICP : IcTokenInfo = { canister_id: 'ryjl3-tyaaa-aaaaa-aaaba-cai', standards: [IcTokenStandard.ICRC1, IcTokenStandard.ICRC2], name: 'Internet Computer', symbol: 'ICP', decimals:  8, fee: '10000' }; // fee 0.0001 ICP
@@ -176,8 +187,9 @@ const TOKEN_INFO_IC_SNS_FUEL   : IcTokenInfo = { canister_id: 'nfjys-2iaaa-aaaaq
 const TOKEN_INFO_IC_SNS_ICE    : IcTokenInfo = { canister_id: 'ifwyg-gaaaa-aaaaq-aaeqq-cai', standards: [IcTokenStandard.ICRC1, IcTokenStandard.ICRC2], name: 'ICExplorer',           symbol: 'ICE',    decimals: 8, fee:              '100000' }; // fee 0.001 ICE
 const TOKEN_INFO_IC_SNS_DKP    : IcTokenInfo = { canister_id: 'zfcdd-tqaaa-aaaaq-aaaga-cai', standards: [IcTokenStandard.ICRC1, IcTokenStandard.ICRC2], name: 'Draggin Karma Points', symbol: 'DKP',    decimals: 8, fee:              '100000' }; // fee 0.001 DKP
 
+// ========================== IC TOKEN INFO ==========================
 
-export const DEFAULT_TOKEN_INFO: TokenInfo[] = [
+export const DEFAULT_IC_TOKEN_INFO: TokenInfo[] = [
     { info: { ic: TOKEN_INFO_IC_ICP }, tags: [TokenTag.ChainIc] },
     // CK
     { info: { ic: TOKEN_INFO_IC_CK_BTC  }, tags: [TokenTag.ChainIc, TokenTag.ChainIcCk] },
@@ -191,7 +203,7 @@ export const DEFAULT_TOKEN_INFO: TokenInfo[] = [
     { info: { ic: TOKEN_INFO_IC_SNS_KONG }, tags: [TokenTag.ChainIc, TokenTag.ChainIcSns] },
 ];
 
-export const PRESET_ALL_TOKEN_INFO: TokenInfo[] = [
+export const PRESET_IC_ALL_TOKEN_INFO: TokenInfo[] = [
     { info: { ic: TOKEN_INFO_IC_ICP     }, tags: [TokenTag.ChainIc] },
     // CK
     { info: { ic: TOKEN_INFO_IC_CK_BTC    }, tags: [TokenTag.ChainIc, TokenTag.ChainIcCk] },
@@ -245,4 +257,65 @@ export const PRESET_ALL_TOKEN_INFO: TokenInfo[] = [
     { info: { ic: TOKEN_INFO_IC_SNS_DKP    }, tags: [TokenTag.ChainIc, TokenTag.ChainIcSns] },
 ];
 
-export const is_known_token = (token: TokenInfo): boolean => !!PRESET_ALL_TOKEN_INFO.find(t => is_same_token_info(t, token))
+// ========================== EVM TOKEN INFO ==========================
+
+// Ethereum Mainnet
+const TOKEN_INFO_EVM_ETH     : EvmTokenInfo = { address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', name: 'Ether',         symbol: 'ETH',   decimals: 18, chainId: mainnet.id, logoURI: evm_get_logo_uri('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', mainnet.id) };
+const TOKEN_INFO_EVM_WETH    : EvmTokenInfo = { address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', name: 'Wrapped Ether', symbol: 'WETH',  decimals: 18, chainId: mainnet.id, logoURI: evm_get_logo_uri('0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', mainnet.id) };
+const TOKEN_INFO_EVM_USDC    : EvmTokenInfo = { address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', name: 'USD Coin',      symbol: 'USDC',  decimals: 6,  chainId: mainnet.id, logoURI: evm_get_logo_uri('0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', mainnet.id) };
+const TOKEN_INFO_EVM_USDT    : EvmTokenInfo = { address: '0xdAC17F958D2ee523a2206206994597C13D831ec7', name: 'Tether USD',    symbol: 'USDT',  decimals: 6,  chainId: mainnet.id, logoURI: evm_get_logo_uri('0xdAC17F958D2ee523a2206206994597C13D831ec7', mainnet.id) };
+const TOKEN_INFO_EVM_DAI     : EvmTokenInfo = { address: '0x6B175474E89094C44Da98b954EedeAC495271d0F', name: 'Dai',           symbol: 'DAI',   decimals: 18, chainId: mainnet.id, logoURI: evm_get_logo_uri('0x6B175474E89094C44Da98b954EedeAC495271d0F', mainnet.id) };
+const TOKEN_INFO_EVM_LINK    : EvmTokenInfo = { address: '0x514910771AF9Ca656af840dff83E8264EcF986CA', name: 'ChainLink',     symbol: 'LINK',  decimals: 18, chainId: mainnet.id, logoURI: evm_get_logo_uri('0x514910771AF9Ca656af840dff83E8264EcF986CA', mainnet.id) };
+
+// Sepolia Testnet
+const TOKEN_INFO_SEP_WETH    : EvmTokenInfo = { address: '0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9', name: 'Wrapped Ether', symbol: 'WETH',  decimals: 18, chainId: sepolia.id, logoURI: evm_get_logo_uri('0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', sepolia.id) };
+const TOKEN_INFO_SEP_USDC    : EvmTokenInfo = { address: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238', name: 'USD Coin',      symbol: 'USDC',  decimals: 6,  chainId: sepolia.id, logoURI: evm_get_logo_uri('0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', sepolia.id) };
+const TOKEN_INFO_SEP_USDT    : EvmTokenInfo = { address: '0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0', name: 'Tether USD',    symbol: 'USDT',  decimals: 6,  chainId: sepolia.id, logoURI: evm_get_logo_uri('0xdAC17F958D2ee523a2206206994597C13D831ec7', sepolia.id) };
+const TOKEN_INFO_SEP_LINK    : EvmTokenInfo = { address: '0x779877A7B0D9E8603169DdbD7836e478b4624789', name: 'ChainLink',     symbol: 'LINK',  decimals: 18, chainId: sepolia.id, logoURI: evm_get_logo_uri('0x514910771AF9Ca656af840dff83E8264EcF986CA', sepolia.id) };
+const TOKEN_INFO_SEP_DAI     : EvmTokenInfo = { address: '0x8267cF9254734C6Eb452a7bb9AAF97B392258b21', name: 'Dai',           symbol: 'DAI',   decimals: 18, chainId: sepolia.id, logoURI: evm_get_logo_uri('0x6B175474E89094C44Da98b954EedeAC495271d0F', sepolia.id) };
+
+export const DEFAULT_EVM_TOKEN_INFO: Record<number, TokenInfo[]> = {
+    [mainnet.id]: [
+        { info: { evm: TOKEN_INFO_EVM_ETH  }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_EVM_WETH }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_EVM_USDC }, tags: [TokenTag.ChainEvm] },
+    ],
+    [sepolia.id]: [
+        { info: { evm: TOKEN_INFO_SEP_WETH }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_SEP_USDC }, tags: [TokenTag.ChainEvm] },
+    ],
+};
+
+export const PRESET_EVM_ALL_TOKEN_INFO: Record<number, TokenInfo[]> = {
+    [mainnet.id]: [
+        { info: { evm: TOKEN_INFO_EVM_ETH     }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_EVM_WETH    }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_EVM_USDC    }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_EVM_USDT    }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_EVM_DAI     }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_EVM_LINK    }, tags: [TokenTag.ChainEvm] },
+    ],
+    [sepolia.id]: [
+        { info: { evm: TOKEN_INFO_EVM_ETH     }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_SEP_WETH    }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_SEP_USDC    }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_SEP_USDT    }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_SEP_LINK    }, tags: [TokenTag.ChainEvm] },
+        { info: { evm: TOKEN_INFO_SEP_DAI     }, tags: [TokenTag.ChainEvm] },
+    ],
+};
+export const get_default_token_info = (chain_network?: ChainNetwork) => {
+    if (!chain_network) return [];
+    return match_chain<TokenInfo[]>(chain_network.chain, {
+        ic: () => DEFAULT_IC_TOKEN_INFO,
+        evm: () => DEFAULT_EVM_TOKEN_INFO[(chain_network as ChainEvmNetwork).chainId]
+    })
+}
+export const get_preset_all_token_info = (chain_network?: ChainNetwork) => {
+    if (!chain_network) return [];
+    return match_chain<TokenInfo[]>(chain_network.chain, {
+        ic: () => PRESET_IC_ALL_TOKEN_INFO,
+        evm: () => PRESET_EVM_ALL_TOKEN_INFO[(chain_network as ChainEvmNetwork).chainId]
+    })
+}
+export const is_known_token = (token: TokenInfo): boolean => !!PRESET_IC_ALL_TOKEN_INFO.find(t => is_same_token_info(t, token))

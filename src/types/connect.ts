@@ -23,9 +23,10 @@ export type ConnectedApps = ConnectedApp[];
 
 export interface CurrentConnectedApps {
     ic: ConnectedApps;
+    evm: ConnectedApps;
 }
 
-export const DEFAULT_CURRENT_CONNECTED_APPS: CurrentConnectedApps = { ic: [] };
+export const DEFAULT_CURRENT_CONNECTED_APPS: CurrentConnectedApps = { ic: [], evm: [] };
 
 export const update_connected_app = (old: ConnectedApp, app: ConnectedApp) => {
     old.title = app.title;

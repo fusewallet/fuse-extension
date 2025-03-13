@@ -32,6 +32,7 @@ import FunctionSwitchAccountPage from './functions/switch';
 import FunctionRecordsPage from './functions/record';
 import HomePage from './home';
 import ImportExtraAccountPage from './functions/switch/pages/import-extra-account';
+import FunctionChainPage from './functions/chains';
 
 export const getRoutes = (wt: WindowType) => {
     const routes: RouteObject[] = [
@@ -85,6 +86,10 @@ export const getRoutes = (wt: WindowType) => {
         ...(hit(wt, []) ? [{ path: '/home/settings/connected', element: <FunctionSettingsConnectedAppPage /> }] : []),
         // settings/about
         ...(hit(wt, []) ? [{ path: '/home/settings/about', element: <FunctionSettingsAboutPage /> }] : []),
+
+        // -------------- home chains --------------
+
+        ...(hit(wt, []) ? [{ path: '/home/chains', element: <FunctionChainPage /> }] : []),
 
         // -------------- home icons --------------
 

@@ -4,9 +4,11 @@ import { Ed25519KeyIdentity } from '@dfinity/identity';
 import { Secp256k1KeyIdentity } from '@dfinity/identity-secp256k1';
 import * as bip39 from 'bip39';
 import { HDKey } from 'ethereum-cryptography/hdkey.js';
+import { keccak256 } from 'ethereum-cryptography/keccak';
 import _ from 'lodash';
 // import hdkey from 'hdkey';
 import * as secp256k1 from 'secp256k1';
+import { getAddress } from 'viem';
 
 import type { IdentityAddress } from '~types/identity';
 import type { MnemonicParsed } from '~types/keys/mnemonic';
@@ -25,7 +27,7 @@ export const get_address_by_mnemonic_and_metadata = (
     mnemonic: string,
     subaccount = 0,
     parsed?: MnemonicParsed,
-): [IdentityAddress, { ic?: SignIdentity }] => {
+): [IdentityAddress, { ic?: SignIdentity; evm?: { privateKey: Uint8Array; address: string } }] => {
     const seed = bip39.mnemonicToSeedSync(mnemonic);
     // const root = hdkey.fromMasterSeed(seed); // ? always failed by assert is not a function
     const root = HDKey.fromMasterSeed(seed);
@@ -48,7 +50,32 @@ export const get_address_by_mnemonic_and_metadata = (
         return [{ owner, account_id }, identity];
     })();
 
-    return [{ ic }, { ic: ic_identity }];
+    // evm
+    const [evm, evm_keys] = (() => {
+        // Use Ethereum standard derivation path m/44'/60'/0'/0/index
+        const { privateKey } = root.derive(`m/44'/60'/0'/0/${subaccount}`);
+
+        // Generate public key from private key
+        const publicKey = secp256k1.publicKeyCreate(new Uint8Array(privateKey ?? []), false);
+
+        // Generate Ethereum address from public key
+        // Remove the first byte (0x04) from the public key, then calculate keccak256 hash
+        const publicKeyWithoutPrefix = Buffer.from(publicKey.slice(1));
+        const addressBuffer = keccak256(publicKeyWithoutPrefix).slice(-20);
+
+        // Convert to checksum address format (EIP-55)
+        const checksumAddress = getAddress(`0x${Buffer.from(addressBuffer).toString('hex')}`);
+
+        return [
+            { address: checksumAddress },
+            { privateKey: new Uint8Array(privateKey ?? []), address: checksumAddress },
+        ];
+    })();
+
+    return [
+        { ic, evm },
+        { ic: ic_identity, evm: evm_keys },
+    ];
 };
 
 export const get_address_by_mnemonic = (
@@ -63,4 +90,21 @@ export const pick_word_exclude_appeared = (appeared: string[]): string => {
     const words = get_all_mnemonic_words();
     const filtered = words.filter((word) => !appeared.includes(word));
     return filtered[Math.floor(Math.random() * filtered.length)];
+};
+
+// Helper functions for EVM addresses
+export const get_evm_address_by_mnemonic = (mnemonic: string, subaccount = 0): string | undefined => {
+    const [addresses] = get_address_by_mnemonic_and_metadata(mnemonic, subaccount);
+    return addresses.evm?.address;
+};
+
+export const get_evm_private_key = (mnemonic: string, subaccount = 0): Uint8Array | undefined => {
+    const [, identities] = get_address_by_mnemonic_and_metadata(mnemonic, subaccount);
+    return identities.evm?.privateKey;
+};
+
+export const get_evm_private_key_hex = (mnemonic: string, subaccount = 0): string | undefined => {
+    const privateKey = get_evm_private_key(mnemonic, subaccount);
+    if (!privateKey) return undefined;
+    return Buffer.from(privateKey).toString('hex');
 };

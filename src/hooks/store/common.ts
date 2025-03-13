@@ -9,7 +9,10 @@ export const identity_network_callback = async <T>(
     default_value: T,
     callback: (identity_network: IdentityNetwork) => Promise<T>,
 ): Promise<T> => {
-    const identity_network = match_chain<IdentityNetwork | undefined>(chain, { ic: () => current_identity_network.ic });
+    const identity_network = match_chain<IdentityNetwork | undefined>(chain, {
+        ic: () => current_identity_network.ic,
+        evm: () => current_identity_network.evm,
+    });
     if (!identity_network) return default_value;
     return await callback(identity_network);
 };

@@ -55,6 +55,13 @@ export const AccountItem = ({
                         }
                     }
                 },
+                evm: (evm) => {
+                    const index = canisters.findIndex((c) => c == evm.address);
+                    if (index < 0) return;
+                    const balance = '0';
+                    if (!balance) return;
+                    if (balance === '0') return;
+                },
             });
         }
 

@@ -45,6 +45,22 @@ function LockedPage({ wt }: { wt: WindowType }) {
         unlock(password1);
     }, [valid, password1, unlock]);
 
+    // Add global keyboard event listener for Enter key
+    useEffect(() => {
+        const handleKeyPress = (e: KeyboardEvent) => {
+            if (e.key === 'Enter' && valid) {
+                onAlive();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+
+        // Clean up event listener on component unmount
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [valid, onAlive]);
+
     return (
         <FusePage current_state={current_state} states={CurrentState.LOCKED} replace={true}>
             <div className="flex h-full w-full flex-col items-center justify-center p-5">

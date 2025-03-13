@@ -9,17 +9,17 @@ import { type ConnectedApps, type CurrentConnectedApps } from '~types/connect';
 import type { CurrentInfo } from '~types/current';
 import { type IdentityAddress, type IdentityKey, type PrivateKeys } from '~types/identity';
 import {
-    DEFAULT_CURRENT_CHAIN_NETWORK,
-    type CurrentChainNetwork,
+    type ChainEvmNetwork,
+    type ChainIcNetwork,
+    type ChainNetwork,
     type CurrentIdentityNetwork,
     type IdentityNetwork,
 } from '~types/network';
 
-import { agent_refresh_unique_identity } from '../agent';
+import { agent_refresh_unique_identity, refresh_unique_evm_wallet_client } from '../agent';
 import { identity_network_callback } from '../common';
 import {
     LOCAL_SECURE_KEY_APPROVED,
-    LOCAL_SECURE_KEY_CURRENT_CHAIN_NETWORK,
     LOCAL_SECURE_KEY_CURRENT_CONNECTED_APPS,
     LOCAL_SECURE_KEY_PRIVATE_KEYS,
     SESSION_KEY_PASSWORD,
@@ -28,7 +28,6 @@ import { setPasswordHashedDirectly, usePasswordHashed } from '../local';
 import { __get_session_storage, lockDirectly, refreshPasswordDirectly, usePassword } from '../session';
 import { useMarkedAddressesInner2 } from './address/marked_address';
 import { useRecentAddressesInner2 } from './address/recent_address';
-import { useCurrentChainNetworkInner } from './current/current_chain_network';
 import { useCurrentConnectedAppsInner } from './current/current_connected_apps';
 import { useCurrentIdentityBy } from './memo/current';
 import { useIdentityKeysBy, useIdentityKeysCountBy } from './memo/identity';
@@ -81,16 +80,12 @@ export const useCurrentConnectedApps = () => {
     const [password] = usePassword();
     const storage = useSecureStorageBy(password);
     const [private_keys] = usePrivateKeysInner(storage);
-    const [current_chain_network] = useCurrentChainNetworkInner(storage, private_keys?.current);
     const current_identity_network: CurrentIdentityNetwork | undefined = useMemo(() => {
         if (!private_keys) return undefined;
         const current = private_keys.keys.find((i) => i.id === private_keys.current);
         if (!current) return undefined;
-        const address = current.address;
-        return {
-            ic: address.ic ? { chain: 'ic', owner: address.ic.owner, network: current_chain_network.ic } : undefined,
-        };
-    }, [private_keys, current_chain_network]);
+        return private_keys.current_identity_network;
+    }, [private_keys]);
     return useCurrentConnectedAppsInner(storage, current_identity_network);
 };
 
@@ -98,8 +93,7 @@ export const useCurrentIdentity = () => {
     const [password] = usePassword();
     const storage = useSecureStorageBy(password);
     const [private_keys] = usePrivateKeysInner(storage);
-    const [current_chain_network] = useCurrentChainNetworkInner(storage, private_keys?.current);
-    return useCurrentIdentityBy(private_keys, current_chain_network);
+    return useCurrentIdentityBy(private_keys);
 };
 
 export const useIdentityKeysCount = () => {
@@ -149,7 +143,14 @@ const get_password_secure_storage = async () => {
 
 // identity address
 const _inner_get_current_address = async (): Promise<
-    | { current_address: IdentityAddress; storage: SecureStorage; private_keys: PrivateKeys; current: IdentityKey }
+    | {
+          current_address: IdentityAddress;
+          storage: SecureStorage;
+          private_keys: PrivateKeys;
+          current: IdentityKey;
+          current_chain_network: ChainNetwork;
+          current_identity_network: CurrentIdentityNetwork;
+      }
     | undefined
 > => {
     const storage = await get_password_secure_storage();
@@ -163,8 +164,9 @@ const _inner_get_current_address = async (): Promise<
     if (!current) throw new Error('can not find current identity');
 
     const current_address = current.address;
-
-    return { current_address, storage, private_keys, current };
+    const current_chain_network = current.current_chain_network;
+    const current_identity_network = private_keys.current_identity_network;
+    return { current_address, storage, private_keys, current, current_chain_network, current_identity_network };
 };
 export const get_current_identity_address = async (): Promise<IdentityAddress | undefined> => {
     return (await _inner_get_current_address())?.current_address;
@@ -175,24 +177,27 @@ export const get_current_info = async (): Promise<CurrentInfo | undefined> => {
     const _r = await _inner_get_current_address();
     if (!_r) return undefined;
 
-    const { current_address, storage, private_keys, current } = _r;
+    const { storage, private_keys, current, current_chain_network, current_identity_network } = _r;
 
-    const current_chain_network =
-        (await storage.get<CurrentChainNetwork>(LOCAL_SECURE_KEY_CURRENT_CHAIN_NETWORK(private_keys.current))) ??
-        DEFAULT_CURRENT_CHAIN_NETWORK;
-
-    agent_refresh_unique_identity(current, current_chain_network); // * refresh identity
-
-    const current_identity_network: CurrentIdentityNetwork = {
-        ic: current_address.ic
-            ? { chain: 'ic', owner: current_address.ic.owner, network: current_chain_network.ic }
-            : undefined,
-    };
+    // ! refresh ic identity or evm wallet client
+    match_chain(current_chain_network.chain, {
+        ic: () => {
+            agent_refresh_unique_identity(current, current_chain_network as ChainIcNetwork); // * refresh ic identity
+        },
+        evm: () => {
+            refresh_unique_evm_wallet_client(current, current_chain_network as ChainEvmNetwork); // * refresh evm wallet client
+        },
+    });
 
     const current_connected_apps: CurrentConnectedApps = {
-        ic: current_identity_network.ic
+        ic: current_identity_network
             ? ((await storage.get<ConnectedApps>(
                   LOCAL_SECURE_KEY_CURRENT_CONNECTED_APPS(current_identity_network.ic),
+              )) ?? [])
+            : [],
+        evm: current_identity_network
+            ? ((await storage.get<ConnectedApps>(
+                  LOCAL_SECURE_KEY_CURRENT_CONNECTED_APPS(current_identity_network.evm),
               )) ?? [])
             : [],
     };
@@ -214,7 +219,10 @@ export const set_current_connected_apps = async (
     const storage = await get_password_secure_storage();
     if (!storage) return undefined; // get secure storage after password
 
-    const identity_network = match_chain<IdentityNetwork | undefined>(chain, { ic: () => current_identity_network.ic });
+    const identity_network = match_chain<IdentityNetwork | undefined>(chain, {
+        ic: () => current_identity_network.ic,
+        evm: () => current_identity_network.evm,
+    });
     if (!identity_network) return;
 
     const key = LOCAL_SECURE_KEY_CURRENT_CONNECTED_APPS(identity_network);

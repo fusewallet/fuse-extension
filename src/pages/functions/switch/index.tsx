@@ -28,6 +28,7 @@ function FunctionSwitchAccountPage() {
         for (const token of current_tokens) {
             match_combined_token_info(token.info, {
                 ic: (ic) => canisters.push(ic.canister_id),
+                evm: (evm) => canisters.push(evm.address),
             });
         }
         return canisters;

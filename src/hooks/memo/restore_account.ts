@@ -8,6 +8,7 @@ import { refreshPasswordDirectly } from '~hooks/store/session';
 import { validate_mnemonic } from '~lib/mnemonic';
 import { check_password, hash_password } from '~lib/password';
 import type { CombinedIdentityKey, PrivateKeys } from '~types/identity';
+import { CHAIN_IC_MAINNET } from '~types/network';
 import { CurrentState } from '~types/state';
 
 export const useRestoreAccount = (
@@ -74,6 +75,7 @@ const new_account_by_mnemonic = async (
                 icon: '😀',
                 key,
                 address: inner_get_identity_address(key),
+                current_chain_network: CHAIN_IC_MAINNET,
             },
         ],
         current,

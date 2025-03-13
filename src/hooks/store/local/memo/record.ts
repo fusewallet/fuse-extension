@@ -3,7 +3,12 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { format_record_date } from '~hooks/store/common';
 import { DAY } from '~lib/utils/datetime';
-import { get_identity_network_key, type CurrentIdentityNetwork, type IdentityNetwork } from '~types/network';
+import {
+    get_identity_network_key,
+    type ChainIcIdentityNetwork,
+    type CurrentIdentityNetwork,
+    type IdentityNetwork,
+} from '~types/network';
 import { get_fuse_record_created, type FuseRecordList } from '~types/records';
 
 import { get_local_record_count, get_local_record_list, get_local_record_started } from '..';
@@ -47,7 +52,7 @@ export const useFuseRecordList = (
                         done.push(result);
                     } else {
                         temp.push(result);
-                        identity_networks.push(identity_network);
+                        identity_networks.push(identity_network as ChainIcIdentityNetwork);
                     }
                 }
                 _next -= DAY;

@@ -30,6 +30,7 @@ export const HomeShowToken = ({
                 prices={ic_prices}
             />
         ),
+        evm: () => <div>evm not implemented</div>,
     });
 };
 

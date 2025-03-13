@@ -6,6 +6,7 @@ import { verify_password } from '~lib/password';
 import { random_account_icon } from '~lib/utils/account_icon';
 import { same } from '~lib/utils/same';
 import { resort_list, type ResortFunction } from '~lib/utils/sort';
+import { match_chain } from '~types/chain';
 import {
     is_same_combined_identity_key,
     match_combined_identity_key,
@@ -16,6 +17,7 @@ import {
     type PrivateKeys,
     type ShowIdentityKey,
 } from '~types/identity';
+import { CHAIN_IC_MAINNET, type ChainNetwork } from '~types/network';
 
 export const useIdentityKeysCountBy = (private_keys: PrivateKeys | undefined): number => {
     const count = useMemo(() => private_keys?.keys.length ?? 0, [private_keys]);
@@ -28,6 +30,7 @@ export const useIdentityKeysBy = (
     setPrivateKeys: (value: PrivateKeys) => Promise<void>,
 ): {
     current_identity: IdentityId | undefined;
+    current_chain_network: ChainNetwork | undefined;
     identity_list: ShowIdentityKey[] | undefined;
     main_mnemonic_identity: string | undefined;
     showMnemonic: (
@@ -41,10 +44,14 @@ export const useIdentityKeysBy = (
     pushIdentityByMainMnemonic: () => Promise<boolean | undefined>;
     updateIdentity: (id: IdentityId, name: string, icon: string) => Promise<boolean | undefined>;
     switchIdentity: (id: IdentityId) => Promise<boolean | undefined>;
+    switchChainNetwork: (id: IdentityId, chain_network: ChainNetwork) => Promise<boolean | undefined>;
     resortIdentityKeys: ResortFunction;
 } => {
     const current_identity = useMemo(() => private_keys?.current, [private_keys]);
-
+    const current_chain_network = useMemo(
+        () => private_keys?.keys.find((key) => key.id === private_keys?.current)?.current_chain_network,
+        [private_keys],
+    );
     // !React state update on a component that hasn't mounted
     // const identity_list = useMemo<ShowIdentityKey[] | undefined>(() => {
     //     if (!private_keys) return undefined;
@@ -130,7 +137,12 @@ export const useIdentityKeysBy = (
                 return undefined; // can not delete main account
             }
             const new_keys = private_keys.keys.filter((i) => i.id !== id);
-            await setPrivateKeys({ mnemonic: private_keys.mnemonic, current: private_keys.current, keys: new_keys });
+            await setPrivateKeys({
+                mnemonic: private_keys.mnemonic,
+                current: private_keys.current,
+                current_identity_network: private_keys.current_identity_network,
+                keys: new_keys,
+            });
             return true;
         },
         [password_hashed, private_keys, setPrivateKeys],
@@ -157,11 +169,20 @@ export const useIdentityKeysBy = (
                     icon: random_account_icon(),
                     key,
                     address: inner_get_identity_address(key),
+                    current_chain_network: CHAIN_IC_MAINNET,
                 },
             ];
             await setPrivateKeys({
                 mnemonic: private_keys.mnemonic,
                 current: id, // ? change to current ?
+                current_identity_network: {
+                    ...private_keys.current_identity_network,
+                    ic: {
+                        chain: 'ic',
+                        network: CHAIN_IC_MAINNET,
+                        owner: new_keys[new_keys.length - 1].address.ic.owner,
+                    }, // ? default ic
+                },
                 keys: new_keys,
             });
             return true;
@@ -223,6 +244,7 @@ export const useIdentityKeysBy = (
                 await setPrivateKeys({
                     mnemonic: private_keys.mnemonic,
                     current: private_keys.current,
+                    current_identity_network: private_keys.current_identity_network,
                     keys: [...private_keys.keys],
                 });
             }
@@ -238,12 +260,26 @@ export const useIdentityKeysBy = (
             if (!private_keys) return undefined;
             const identity = private_keys.keys.find((i) => i.id === id);
             if (!identity) return undefined; // can not find account
+            if (!identity.current_chain_network) return undefined; // can not find current chain network
             if (identity.id === private_keys.current) return true;
-
+            const chain = identity.current_chain_network.chain;
             await setPrivateKeys({
                 mnemonic: private_keys.mnemonic,
                 current: identity.id,
                 keys: [...private_keys.keys],
+                current_identity_network: {
+                    ...private_keys.current_identity_network,
+                    [chain]: {
+                        chain,
+                        network: identity.current_chain_network,
+                        ...match_chain<{ owner: string } | { address: `0x${string}` }>(chain, {
+                            ic: () => ({
+                                owner: identity.address.ic.owner,
+                            }),
+                            evm: () => ({ address: identity.address.evm.address }),
+                        }),
+                    },
+                },
             });
 
             return true;
@@ -266,8 +302,38 @@ export const useIdentityKeysBy = (
         [private_keys, setPrivateKeys],
     );
 
+    // switch chain network
+    const switchChainNetwork = useCallback(
+        async (id: IdentityId, chain_network: ChainNetwork): Promise<boolean | undefined> => {
+            if (!private_keys) return undefined;
+            const identity = private_keys.keys.find((i) => i.id === id);
+            if (!identity) return undefined; // can not find account
+
+            identity.current_chain_network = chain_network;
+            const chain = chain_network.chain;
+            await setPrivateKeys({
+                ...private_keys,
+                keys: [...private_keys.keys],
+                current_identity_network: {
+                    ...private_keys.current_identity_network,
+                    [chain]: {
+                        chain,
+                        network: chain_network,
+                        ...match_chain<{ owner: string } | { address: `0x${string}` }>(chain, {
+                            ic: () => ({ owner: identity.address.ic.owner }),
+                            evm: () => ({ address: identity.address.evm.address }),
+                        }),
+                    },
+                },
+            });
+            return true;
+        },
+        [private_keys, setPrivateKeys],
+    );
+
     return {
         current_identity,
+        current_chain_network,
         identity_list,
         main_mnemonic_identity,
         showMnemonic,
@@ -279,6 +345,7 @@ export const useIdentityKeysBy = (
         updateIdentity,
         switchIdentity,
         resortIdentityKeys,
+        switchChainNetwork,
     };
 };
 

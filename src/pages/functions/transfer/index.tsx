@@ -21,7 +21,7 @@ import {
     TokenTag,
     type TokenInfo,
 } from '~types/tokens';
-import { PRESET_ALL_TOKEN_INFO } from '~types/tokens/preset';
+import { get_preset_all_token_info } from '~types/tokens/preset';
 
 import { TransferShowToken } from './components/token_item';
 
@@ -46,11 +46,15 @@ function FunctionTransferPage() {
     const [current] = useTokenInfoCurrent();
 
     const [search, setSearch] = useState('');
-
+    const { current_chain_network } = useCurrentIdentity();
+    const ALL_TOKEN_INFO = useMemo(() => get_preset_all_token_info(current_chain_network), [current_chain_network]);
     const currentTokens = useMemo(() => current, [current]);
-    const allTokens = useMemo(() => [...PRESET_ALL_TOKEN_INFO, ...custom.map((t) => t.token)], [custom]);
-    const ckTokens = useMemo(() => PRESET_ALL_TOKEN_INFO.filter((t) => t.tags.includes(TokenTag.ChainIcCk)), []);
-    const snsTokens = useMemo(() => PRESET_ALL_TOKEN_INFO.filter((t) => t.tags.includes(TokenTag.ChainIcSns)), []);
+    const allTokens = useMemo(() => [...ALL_TOKEN_INFO, ...custom.map((t) => t.token)], [ALL_TOKEN_INFO, custom]);
+    const ckTokens = useMemo(() => ALL_TOKEN_INFO.filter((t) => t.tags.includes(TokenTag.ChainIcCk)), [ALL_TOKEN_INFO]);
+    const snsTokens = useMemo(
+        () => ALL_TOKEN_INFO.filter((t) => t.tags.includes(TokenTag.ChainIcSns)),
+        [ALL_TOKEN_INFO],
+    );
     const customTokens = useMemo(() => custom.map((t) => t.token), [custom]);
 
     const tab_tokens = useMemo(() => {
@@ -89,6 +93,20 @@ function FunctionTransferPage() {
                             current: !!currentTokens.find((c) => is_same_token_info(c, token)),
                         });
                         canisters.push(ic.canister_id);
+                    }
+                },
+                evm: (evm) => {
+                    const s = search.trim().toLowerCase();
+                    if (
+                        !s ||
+                        (s && (0 <= evm.name.toLowerCase().indexOf(s) || 0 <= evm.symbol.toLowerCase().indexOf(s)))
+                    ) {
+                        tokens.push({
+                            ...token,
+                            id: get_token_unique_id(token),
+                            current: !!currentTokens.find((c) => is_same_token_info(c, token)),
+                        });
+                        canisters.push(evm.address);
                     }
                 },
             });

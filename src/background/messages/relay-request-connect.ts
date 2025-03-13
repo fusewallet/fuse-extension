@@ -129,7 +129,10 @@ export default handler;
 
 const find_connected = async (current_info: CurrentInfo, body: RequestBody): Promise<boolean | undefined> => {
     // console.error(`🚀 ~ const find_connected= ~ current_info:`, current_info);
-    const apps = match_chain(body.chain, { ic: () => current_info.current_connected_apps.ic });
+    const apps = match_chain(body.chain, {
+        ic: () => current_info.current_connected_apps.ic,
+        evm: () => current_info.current_connected_apps.evm,
+    });
     const app = apps.find((app) => app.origin === body.origin);
     if (app === undefined) return undefined;
     // update information

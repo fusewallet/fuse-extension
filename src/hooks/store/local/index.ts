@@ -1,6 +1,6 @@
 import { Storage } from '@plasmohq/storage';
 
-import type { IdentityNetwork } from '~types/network';
+import { get_current_identity_network, type CurrentIdentityNetwork, type IdentityNetwork } from '~types/network';
 import type { FuseRecord, FuseRecordList } from '~types/records';
 
 import { format_record_date } from '../common';
@@ -11,6 +11,7 @@ import {
     LOCAL_KEY_RECORD_DATE,
     LOCAL_KEY_RECORD_STARTED,
 } from '../keys';
+import { useCurrentIdentity } from '../local-secure';
 import { usePasswordHashedInner } from './password_hashed';
 import { useTokenInfoCurrentInner, useTokenInfoCurrentInner2 } from './token/current';
 import { useTokenInfoCustomInner2 } from './token/custom';
@@ -35,10 +36,31 @@ export const useWelcomed = () => useWelcomedInner(LOCAL_STORAGE); // local
 export const usePasswordHashed = () => usePasswordHashedInner(LOCAL_STORAGE); // local
 
 // token/custom
-export const useTokenInfoCustom = () => useTokenInfoCustomInner2(LOCAL_STORAGE); // local
+export const useTokenInfoCustom = () => {
+    const { current_identity_network, current_chain_network } = useCurrentIdentity();
+    const current = get_current_identity_network(
+        current_chain_network?.chain ?? 'ic',
+        current_identity_network as CurrentIdentityNetwork,
+    );
+    return useTokenInfoCustomInner2(LOCAL_STORAGE, current);
+}; // local
 // token/current
-export const useTokenInfoCurrentRead = () => useTokenInfoCurrentInner(LOCAL_STORAGE)[0]; // local
-export const useTokenInfoCurrent = () => useTokenInfoCurrentInner2(LOCAL_STORAGE); // local
+export const useTokenInfoCurrentRead = () => {
+    const { current_identity_network, current_chain_network } = useCurrentIdentity();
+    const current = get_current_identity_network(
+        current_chain_network?.chain ?? 'ic',
+        current_identity_network as CurrentIdentityNetwork,
+    );
+    return useTokenInfoCurrentInner(LOCAL_STORAGE, current)[0]; // local
+}; // local
+export const useTokenInfoCurrent = () => {
+    const { current_identity_network, current_chain_network } = useCurrentIdentity();
+    const current = get_current_identity_network(
+        current_chain_network?.chain ?? 'ic',
+        current_identity_network as CurrentIdentityNetwork,
+    );
+    return useTokenInfoCurrentInner2(LOCAL_STORAGE, current); // local
+}; // local
 // token/ic/info
 export const useTokenInfoIcByInitial = (canister_id: string) =>
     useTokenInfoIcByInitialInner(LOCAL_STORAGE, canister_id); // local

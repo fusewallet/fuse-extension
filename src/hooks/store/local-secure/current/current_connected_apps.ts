@@ -181,6 +181,7 @@ const push_or_update_connected_app = async (
     const apps = [
         ...match_chain(chain, {
             ic: () => current_connected_apps.ic,
+            evm: () => current_connected_apps.evm,
         }),
     ];
     const a = apps.find((a) => a.origin === app.origin);
@@ -193,6 +194,13 @@ const push_or_update_connected_app = async (
             const key_ic = LOCAL_SECURE_KEY_CURRENT_CONNECTED_APPS(current_identity_network.ic);
             await storage.set(key_ic, apps);
             const new_current_connected_apps: CurrentConnectedApps = { ...current_connected_apps, ic: apps };
+            return new_current_connected_apps;
+        },
+        evm: async () => {
+            if (!current_identity_network.evm) return current_connected_apps;
+            const key_evm = LOCAL_SECURE_KEY_CURRENT_CONNECTED_APPS(current_identity_network.evm);
+            await storage.set(key_evm, apps);
+            const new_current_connected_apps: CurrentConnectedApps = { ...current_connected_apps, evm: apps };
             return new_current_connected_apps;
         },
     });
@@ -209,6 +217,7 @@ const remove_connected_app = async (
     let apps = [
         ...match_chain(chain, {
             ic: () => current_connected_apps.ic,
+            evm: () => current_connected_apps.evm,
         }),
     ];
     const a = apps.find((a) => a.origin === app.origin);
@@ -227,6 +236,13 @@ const remove_connected_app = async (
             const new_current_connected_apps: CurrentConnectedApps = { ...current_connected_apps, ic: apps };
             return new_current_connected_apps;
         },
+        evm: async () => {
+            if (!current_identity_network.evm) return current_connected_apps;
+            const key_evm = LOCAL_SECURE_KEY_CURRENT_CONNECTED_APPS(current_identity_network.evm);
+            await storage.set(key_evm, apps);
+            const new_current_connected_apps: CurrentConnectedApps = { ...current_connected_apps, evm: apps };
+            return new_current_connected_apps;
+        },
     });
 };
 
@@ -240,6 +256,7 @@ const remove_all_connected_app = async (
     let apps = [
         ...match_chain(chain, {
             ic: () => current_connected_apps.ic,
+            evm: () => current_connected_apps.evm,
         }),
     ];
     if (apps.length === 0) return undefined;
@@ -257,6 +274,13 @@ const remove_all_connected_app = async (
             const key_ic = LOCAL_SECURE_KEY_CURRENT_CONNECTED_APPS(current_identity_network.ic);
             await storage.set(key_ic, apps);
             const new_current_connected_apps: CurrentConnectedApps = { ...current_connected_apps, ic: apps };
+            return new_current_connected_apps;
+        },
+        evm: async () => {
+            if (!current_identity_network.evm) return current_connected_apps;
+            const key_evm = LOCAL_SECURE_KEY_CURRENT_CONNECTED_APPS(current_identity_network.evm);
+            await storage.set(key_evm, apps);
+            const new_current_connected_apps: CurrentConnectedApps = { ...current_connected_apps, evm: apps };
             return new_current_connected_apps;
         },
     });

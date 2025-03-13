@@ -25,6 +25,8 @@
         "icrc3",
         "jellypack",
         "jestconfig",
+        "Moralis",
+        "multicall",
         "nanos",
         "pangea",
         "plasmo",
@@ -38,7 +40,8 @@
         "subaccount",
         "testflight",
         "usehooks",
-        "vaul"
+        "vaul",
+        "viem"
     ],
     "nuxt.isNuxtApp": false
 }
