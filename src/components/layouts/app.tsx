@@ -1,6 +1,6 @@
 import { HeroUIProvider } from '@heroui/react';
-// FIXME refactor
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HashRouter, useRoutes, type RouteObject } from 'react-router-dom';
 
 import logo_black from '~assets/svg/logo-black.svg';
@@ -29,15 +29,15 @@ export const SinglePageApp = ({
     wt?: WindowType;
 }) => {
     return (
-        // <ReactQueryProvider>
+        <QueryClientProvider client={new QueryClient()}>
         <HashRouter>
             <HeroUIProvider>
                 <WrapOptionPage className={className} routes={routes} wt={wt} />
-                {/* <ReactQueryDevtools /> */}
                 <Toaster position="top-center" theme="dark" />
+                    <ReactQueryDevtools />
             </HeroUIProvider>
         </HashRouter>
-        // </ReactQueryProvider>
+        </QueryClientProvider>
     );
 };
 
