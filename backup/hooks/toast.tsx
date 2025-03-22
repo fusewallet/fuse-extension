@@ -6,7 +6,7 @@ import error_svg from '~assets/svg/tips/error.min.svg';
 import info_svg from '~assets/svg/tips/info.min.svg';
 import success_svg from '~assets/svg/tips/success.min.svg';
 import { cn } from '~lib/utils/cn';
-import type { WindowType } from '~types/pages';
+import type { WindowType } from '~types/window';
 
 // <ToastProvider placement="top-center" toastProps={{ classNames: HERO_TOAST_CLASS_NAMES(wt) }} />
 export const HERO_TOAST_CLASS_NAMES = (wt?: WindowType) => ({

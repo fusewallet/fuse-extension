@@ -3,7 +3,7 @@
     "displayName": "Fuse Wallet Extension",
     "version": "0.0.1",
     "description": "A basic Plasmo extension.",
-    "author": "FuseWallet Corp. <developer@fusewallet.ai>",
+    "author": "FuseWallet Corp. <developer@fusewallet.top>",
     "scripts": {
         "dev": "plasmo dev",
         "build": "plasmo build",

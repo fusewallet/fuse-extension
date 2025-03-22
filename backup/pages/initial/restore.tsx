@@ -7,8 +7,8 @@ import { useRestoreAccount } from '~hooks/memo/restore_account';
 import { useIdentityKeys } from '~hooks/store/local-secure';
 import { validate_mnemonic } from '~lib/mnemonic';
 import type { CombinedIdentityKey } from '~types/identity';
-import type { WindowType } from '~types/pages';
 import { CurrentState } from '~types/state';
+import type { WindowType } from '~types/window';
 
 import InputPasswordPage from './pages/password';
 import RestoreMnemonicPage from './pages/restore_mnemonic';

@@ -10,8 +10,8 @@ import { useUnlock } from '~hooks/memo/unlock';
 import { usePasswordHashed } from '~hooks/store/local';
 import { useRestore } from '~hooks/store/session';
 import { verify_password } from '~lib/password';
-import type { WindowType } from '~types/pages';
 import { CurrentState } from '~types/state';
+import type { WindowType } from '~types/window';
 
 function LockedPage({ wt }: { wt: WindowType }) {
     const current_state = useCurrentState();

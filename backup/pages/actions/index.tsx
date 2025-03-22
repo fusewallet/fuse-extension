@@ -4,7 +4,7 @@ import { FusePage } from '~components/layouts/page';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { usePopupActions } from '~hooks/store/session';
 import { match_popup_action, type PopupAction } from '~types/actions';
-import type { WindowType } from '~types/pages';
+import type { WindowType } from '~types/window';
 import { CurrentState } from '~types/state';
 
 import ApproveEvmSendTransactionActionPage from './approve/evm/send-transaction';

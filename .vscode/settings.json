@@ -9,11 +9,11 @@
     },
     "material-icon-theme.folders.associations": {
         "iconfont": "font",
+        "tabs": "public",
     },
     "cSpell.words": [
         "BGSW",
         "choptop",
-        "contentscript",
         "CSUI",
         "CSUIJSX",
         "dfinity",
@@ -38,8 +38,8 @@
         "plasmohq",
         "qrcode",
         "secp256k",
-        "Shadcn",
-        "Sidepanel",
+        "shadcn",
+        "sidepanel",
         "solana",
         "sonner",
         "subaccount",

@@ -1,7 +1,7 @@
 import { FusePage } from '~components/layouts/page';
 import { FusePageTransition } from '~components/layouts/transition';
 import { useCurrentState } from '~hooks/memo/current_state';
-import type { WindowType } from '~types/pages';
+import type { WindowType } from '~types/window';
 
 function FunctionDappsPage({ wt }: { wt: WindowType }) {
     const current_state = useCurrentState();
