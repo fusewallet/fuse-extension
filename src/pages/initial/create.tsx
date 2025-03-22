@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { FusePage } from '~components/layouts/page';
 import { useCurrentState } from '~hooks/memo/current_state';
-import { useRestoreAccount } from '~hooks/memo/restore_account';
-import { useIdentityKeys } from '~hooks/store/local-secure';
-import { random_mnemonic, validate_mnemonic } from '~lib/mnemonic';
+import { useRestoreAccount } from '~hooks/memo/restore-account';
+import { random_mnemonic, validate_mnemonic } from '~lib/identity/mnemonic';
+import { direct_message_manage_identity_push_identity } from '~lib/messages/direct/direct-manage-identity';
 import type { CombinedIdentityKey } from '~types/identity';
 import { CurrentState } from '~types/state';
 import type { WindowType } from '~types/window';
@@ -22,7 +22,6 @@ function InnerCreatePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
     const navigate = useNavigate();
 
     const { restoreAccountByMnemonic } = useRestoreAccount(current_state);
-    const { pushIdentity } = useIdentityKeys();
 
     const [state, setState] = useState<CreateState>(extra ? 'mnemonic' : 'password');
 
@@ -47,7 +46,7 @@ function InnerCreatePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
                     subaccount: 0,
                 },
             };
-            pushIdentity(key).then((r) => {
+            direct_message_manage_identity_push_identity(key).then((r) => {
                 if (r === undefined) throw Error('push identity failed');
                 if (r === false) throw Error('push identity failed');
                 navigate(-2); // back 2 pages
@@ -60,7 +59,7 @@ function InnerCreatePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
             await chrome.action.openPopup();
             // window.close(); // close window if current window is individual page
         }
-    }, [extra, password1, current_mnemonic, restoreAccountByMnemonic, pushIdentity, wt, navigate]);
+    }, [extra, password1, current_mnemonic, restoreAccountByMnemonic, wt, navigate]);
 
     const [password_class, setPasswordClass] = useState<'slide-in-right' | 'slide-in-left'>('slide-in-right');
     const [mnemonic_class, setMnemonicClass] = useState<'slide-in-right' | 'slide-in-left'>('slide-in-right');

@@ -2,7 +2,7 @@ import { Button, cn } from '@heroui/react';
 import { useState } from 'react';
 
 import Icon from '~components/icon';
-import { useSonnerToast } from '~hooks/toast';
+import { useSonnerToast } from '~components/toast';
 
 function RestoreWayPage({
     className,

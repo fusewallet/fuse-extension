@@ -7,6 +7,7 @@ import { useMemo, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import Icon from '~components/icon';
+import { useSonnerToast } from '~components/toast';
 import {
     Drawer,
     DrawerContent,
@@ -15,7 +16,6 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from '~components/ui/drawer';
-import { useSonnerToast } from '~hooks/toast';
 import { truncate_text } from '~lib/utils/text';
 import type { TokenTransferredIcRecord } from '~types/records/token/transferred_ic';
 import type { IcTokenInfo } from '~types/tokens/chain/ic';

@@ -8,10 +8,10 @@ import { useParams } from 'react-router-dom';
 import Icon from '~components/icon';
 import { FusePage } from '~components/layouts/page';
 import { FusePageTransition } from '~components/layouts/transition';
+import { useSonnerToast } from '~components/toast';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useGoto, type GotoFunction } from '~hooks/memo/goto';
 import { useIdentityKeys } from '~hooks/store/local-secure';
-import { useSonnerToast } from '~hooks/toast';
 import { truncate_text } from '~lib/utils/text';
 
 import { FunctionHeader } from '../../../components/header';

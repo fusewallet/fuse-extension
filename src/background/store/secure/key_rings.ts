@@ -5,6 +5,7 @@ import { FuseSecureStorage } from './storage';
 import { LOCAL_SECURE_KEY_KEY_RINGS } from './storage/keys';
 
 // exist
+// TODO how to notice data which dependency this data?
 export const $bgsw_is_key_rings_exist = async () => {
     return __get_local_storage().getItem(LOCAL_SECURE_KEY_KEY_RINGS) !== undefined;
 };
@@ -29,6 +30,7 @@ export const $bgsw_get_key_rings = async (password: string): Promise<KeyRings | 
     return inner_key_rings;
 };
 
+// TODO how to notice data which dependency this data?
 export const $bgsw_set_key_rings = async (password: string, key_rings: KeyRings) => {
     if (!password) throw new Error('invalid password');
 
@@ -37,6 +39,7 @@ export const $bgsw_set_key_rings = async (password: string, key_rings: KeyRings)
     inner_key_rings = key_rings;
 };
 
+// TODO how to notice data which dependency this data?
 export const $bgsw_remove_key_rings = async (password: string) => {
     if (!password) throw new Error('invalid password');
 

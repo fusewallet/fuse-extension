@@ -6,8 +6,7 @@ export type MessageResult<T, E> = { ok: T; err?: undefined } | { ok?: undefined;
 // Message Flow
 // * Extension-Pages/CS	-> BGSW
 export const MESSAGE_PING = 'ping';
-export const DIRECT_MESSAGE_INITIALIZED = 'direct-initialized'; // Extension-Pages/CS -> BGSW // ? one-time
-export const DIRECT_MESSAGE_UNLOCKED = 'direct-unlocked';
+export const DIRECT_MESSAGE_MANAGE_IDENTITY = 'direct-manage-identity'; // Extension-Pages/CS -> BGSW // ? one-time
 
 // Relay Flow via relay
 // * Website -> CS/BGSW

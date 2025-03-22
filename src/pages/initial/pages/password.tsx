@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import Icon from '~components/icon';
 import InputPassword from '~components/input-password';
-import { check_password } from '~lib/password';
+import { check_password } from '~lib/identity/password';
 import { cn } from '~lib/utils/cn';
 
 function InputPasswordPage({

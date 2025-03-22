@@ -4,9 +4,9 @@ import Img_logo from '~assets/svg/logo.svg';
 import Icon from '~components/icon';
 import { FusePage } from '~components/layouts/page';
 import { FusePageTransition } from '~components/layouts/transition';
+import { useSonnerToast } from '~components/toast';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useGoto } from '~hooks/memo/goto';
-import { useSonnerToast } from '~hooks/toast';
 
 import { FunctionHeader } from '../../components/header';
 import { SettingsGroup } from '../components/group';

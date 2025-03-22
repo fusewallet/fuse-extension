@@ -1,7 +1,6 @@
 import type { Address as EvmAddress } from 'viem';
 
 // FIXME
-// import { inner_get_identity_address } from '~lib/address';
 // import { same } from '~lib/utils/same';
 
 import type { Chain } from './chain';
@@ -67,13 +66,6 @@ export const match_combined_identity_key_async = <T>(
     if ('private_key' in self) return private_key(self.private_key);
     throw new Error(`Unknown identity type: ${Object.keys(self)[0]}`);
 };
-
-// FIXME
-// export const is_same_combined_identity_key = (a: CombinedIdentityKey, b: CombinedIdentityKey): boolean => {
-//     const a_address = inner_get_identity_address(a);
-//     const b_address = inner_get_identity_address(b);
-//     return same(a_address, b_address);
-// };
 
 // =================== show identity ===================
 

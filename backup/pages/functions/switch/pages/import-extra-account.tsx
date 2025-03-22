@@ -2,9 +2,9 @@ import { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { FusePage } from '~components/layouts/page';
+import { useSonnerToast } from '~components/toast';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useIdentityKeys } from '~hooks/store/local-secure';
-import { useSonnerToast } from '~hooks/toast';
 import { validate_mnemonic } from '~lib/mnemonic';
 import RestoreMnemonicPage from '~pages/initial/pages/restore_mnemonic';
 import RestorePrivateKeyPage from '~pages/initial/pages/restore_private_key';

@@ -4,12 +4,12 @@ import { useCallback, useState } from 'react';
 import InputPassword from '~components/input-password';
 import { FusePage } from '~components/layouts/page';
 import { FusePageTransition } from '~components/layouts/transition';
+import { useSonnerToast } from '~components/toast';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useGoto } from '~hooks/memo/goto';
 import { usePasswordHashed } from '~hooks/store/local';
 import { useChangePassword } from '~hooks/store/local-secure';
 import { lockDirectly } from '~hooks/store/session';
-import { useSonnerToast } from '~hooks/toast';
 import { verify_password } from '~lib/password';
 
 import { FunctionHeader } from '../../../components/header';
@@ -69,21 +69,21 @@ function FunctionSettingsSecurityChangePasswordPage() {
                     />
                 }
             >
-                <div className="flex flex-col justify-between px-5 w-full h-full">
+                <div className="flex h-full w-full flex-col justify-between px-5">
                     <div className="flex-1">
                         <div className="mt-5 w-full">
-                            <label className="block my-3 text-sm">Old Password</label>
+                            <label className="my-3 block text-sm">Old Password</label>
                             <InputPassword placeholder="Enter old password" onChange={(val) => setOldPassword(val)} />
                         </div>
                         <div className="mt-5 w-full">
-                            <label className="block my-3 text-sm">New Password</label>
+                            <label className="my-3 block text-sm">New Password</label>
                             <InputPassword
                                 placeholder="At least 8 characters"
                                 onChange={(val) => setNewPassword(val)}
                             />
                         </div>
                         <div className="mt-5 w-full">
-                            <label className="block my-3 text-sm">Confirm New Password</label>
+                            <label className="my-3 block text-sm">Confirm New Password</label>
                             <InputPassword
                                 placeholder="Confirm Password"
                                 onChange={(val) => setNewConfirmPassword(val)}

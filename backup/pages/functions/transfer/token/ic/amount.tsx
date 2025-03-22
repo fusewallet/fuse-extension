@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import Icon from '~components/icon';
+import { useSonnerToast } from '~components/toast';
 import type { GotoFunction } from '~hooks/memo/goto';
 import { useCurrentConnectedIcIdentity } from '~hooks/memo/identity';
 import { identity_network_callback } from '~hooks/store/common';
@@ -15,7 +16,6 @@ import {
     useTokenPriceIcRead,
 } from '~hooks/store/local';
 import { useCurrentIdentity, useRecentAddresses } from '~hooks/store/local-secure';
-import { useSonnerToast } from '~hooks/toast';
 import { icrc1_transfer, transfer } from '~lib/canisters/icrc1';
 import type { MessageResult } from '~lib/messages';
 import { truncate_principal, truncate_text } from '~lib/utils/text';

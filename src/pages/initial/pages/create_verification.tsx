@@ -4,8 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTimeout } from 'usehooks-ts';
 
 import Icon from '~components/icon';
-import { useSonnerToast } from '~hooks/toast';
-import { pick_word_exclude_appeared } from '~lib/mnemonic';
+import { useSonnerToast } from '~components/toast';
+import { pick_word_exclude_appeared } from '~lib/identity/mnemonic';
 import { cn } from '~lib/utils/cn';
 import { is_development } from '~lib/utils/env';
 

@@ -3,9 +3,9 @@ import { useState } from 'react';
 import Icon from '~components/icon';
 import { FusePage } from '~components/layouts/page';
 import { FusePageTransition } from '~components/layouts/transition';
+import { useSonnerToast } from '~components/toast';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useGoto } from '~hooks/memo/goto';
-import { useSonnerToast } from '~hooks/toast';
 
 import { FunctionHeader } from '../../../components/header';
 

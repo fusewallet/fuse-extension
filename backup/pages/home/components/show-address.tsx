@@ -1,7 +1,7 @@
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import Icon from '~components/icon';
-import { useSonnerToast } from '~hooks/toast';
+import { useSonnerToast } from '~components/toast';
 
 export const ShowSingleAddress = ({
     address,

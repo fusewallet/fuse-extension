@@ -4,6 +4,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 import Icon from '~components/icon';
 import InputPassword from '~components/input-password';
+import { useSonnerToast } from '~components/toast';
 import {
     Drawer,
     DrawerClose,
@@ -13,7 +14,6 @@ import {
     DrawerTitle,
 } from '~components/ui/drawer';
 import { usePasswordHashed } from '~hooks/store/local';
-import { useSonnerToast } from '~hooks/toast';
 import { verify_password } from '~lib/password';
 import { cn } from '~lib/utils/cn';
 

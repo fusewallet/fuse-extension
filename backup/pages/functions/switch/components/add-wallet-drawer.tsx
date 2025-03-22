@@ -2,6 +2,7 @@ import { Button } from '@heroui/react';
 import { useState } from 'react';
 
 import Icon from '~components/icon';
+import { useSonnerToast } from '~components/toast';
 import {
     Drawer,
     DrawerClose,
@@ -12,7 +13,6 @@ import {
     DrawerTrigger,
 } from '~components/ui/drawer';
 import { type GotoFunction } from '~hooks/memo/goto';
-import { useSonnerToast } from '~hooks/toast';
 
 export const AddWalletDrawer = ({
     trigger,

@@ -1,12 +1,10 @@
 import { useCallback } from 'react';
 import { v4 as uuid } from 'uuid';
 
-import { setPasswordHashedDirectly } from '~hooks/store/local';
-import { setKeyRingsDirectly } from '~hooks/store/local-secure';
-import { __get_actual_password, refreshUnlockedDirectly } from '~hooks/store/session';
-import { inner_get_identity_address } from '~lib/address';
-import { validate_mnemonic } from '~lib/mnemonic';
-import { check_password, hash_password } from '~lib/password';
+import { inner_get_identity_address } from '~lib/identity/address';
+import { validate_mnemonic } from '~lib/identity/mnemonic';
+import { check_password } from '~lib/identity/password';
+import { direct_message_manage_identity_restore_identity } from '~lib/messages/direct/direct-manage-identity';
 import type { CombinedIdentityKey, KeyRings } from '~types/identity';
 import { CurrentState } from '~types/state';
 
@@ -23,14 +21,9 @@ export const useRestoreAccount = (
             if (!check_password(password)) return false;
             if (!validate_mnemonic(mnemonic)) return false;
 
-            const { password_hashed, key_rings } = await new_account_by_mnemonic(password, mnemonic);
+            const key_rings = await new_key_rings_by_mnemonic(mnemonic);
 
-            const { unlocked, actual_password } = await __get_actual_password(password); // ! wrapped password
-            await setKeyRingsDirectly(actual_password, key_rings);
-            await setPasswordHashedDirectly(password_hashed);
-            await refreshUnlockedDirectly(unlocked);
-
-            return true;
+            return await direct_message_manage_identity_restore_identity(password, key_rings);
         },
         [current_state],
     );
@@ -40,14 +33,7 @@ export const useRestoreAccount = (
     };
 };
 
-const new_account_by_mnemonic = async (
-    password: string,
-    mnemonic: string,
-): Promise<{
-    password_hashed: string;
-    key_rings: KeyRings;
-}> => {
-    const password_hashed = await hash_password(password);
+const new_key_rings_by_mnemonic = async (mnemonic: string): Promise<KeyRings> => {
     const current = uuid();
     const created = Date.now();
     const name = `Account #1`;
@@ -69,5 +55,5 @@ const new_account_by_mnemonic = async (
         ],
         current,
     };
-    return { password_hashed, key_rings };
+    return key_rings;
 };

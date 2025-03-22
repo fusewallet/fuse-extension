@@ -1,8 +1,8 @@
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import Icon from '~components/icon';
+import { useSonnerToast } from '~components/toast';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~components/ui/tooltip';
-import { useSonnerToast } from '~hooks/toast';
 import type { ChainAddress, MarkedAddress } from '~types/address';
 
 export const AddressMenuTooltip = ({

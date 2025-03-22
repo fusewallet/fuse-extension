@@ -2,7 +2,7 @@ import { Button } from '@heroui/react';
 import { useState } from 'react';
 
 import Icon from '~components/icon';
-import { random_mnemonic } from '~lib/mnemonic';
+import { random_mnemonic } from '~lib/identity/mnemonic';
 import { cn } from '~lib/utils/cn';
 
 function CreateMnemonicPage({

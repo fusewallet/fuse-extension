@@ -2,12 +2,12 @@ import { useRef } from 'react';
 
 import { FusePage } from '~components/layouts/page';
 import { FusePageTransition } from '~components/layouts/transition';
+import { useSonnerToast } from '~components/toast';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useGoto } from '~hooks/memo/goto';
 import { useTokenInfoCurrentRead } from '~hooks/store/local';
 import { useIdentityKeys } from '~hooks/store/local-secure';
 import { useTokenPrices } from '~hooks/store/local/memo/price';
-import { useSonnerToast } from '~hooks/toast';
 
 import { FunctionHeader } from '../components/header';
 import { AccountItem } from './components/account-item';
