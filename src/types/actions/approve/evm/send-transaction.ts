@@ -1,7 +1,8 @@
+// FIXME
 import { sha256_hash } from '~lib/utils/hash';
 import type { EvmChain } from '~types/chain';
 
-export type EvmTransaction = {
+export interface EvmTransaction {
     from: `0x${string}`;
     to: `0x${string}`;
     value?: string;
@@ -9,7 +10,7 @@ export type EvmTransaction = {
     gas?: string;
     gasPrice?: string;
     nonce?: number;
-};
+}
 export interface ApproveEvmSendTransactionAction {
     type: 'approve_evm_send_transaction';
     id: string;
