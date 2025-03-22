@@ -1,7 +1,8 @@
 import type { Address as EvmAddress } from 'viem';
 
-import { inner_get_identity_address } from '~lib/address';
-import { same } from '~lib/utils/same';
+// FIXME
+// import { inner_get_identity_address } from '~lib/address';
+// import { same } from '~lib/utils/same';
 
 import type { Chain } from './chain';
 import type { IdentityKeyMnemonic, MnemonicParsed } from './keys/mnemonic';
@@ -28,10 +29,10 @@ export interface IdentityAddress {
     };
     ethereum?: { address: EvmAddress };
     ethereum_test_sepolia?: { address: EvmAddress };
-    polygon?: { address: EvmAddress };
-    polygon_test_amoy?: { address: EvmAddress };
     bsc?: { address: EvmAddress };
     bsc_test?: { address: EvmAddress };
+    polygon?: { address: EvmAddress };
+    polygon_test_amoy?: { address: EvmAddress };
 }
 
 export interface KeyRings {
@@ -67,13 +68,14 @@ export const match_combined_identity_key_async = <T>(
     throw new Error(`Unknown identity type: ${Object.keys(self)[0]}`);
 };
 
-export const is_same_combined_identity_key = (a: CombinedIdentityKey, b: CombinedIdentityKey): boolean => {
-    const a_address = inner_get_identity_address(a);
-    const b_address = inner_get_identity_address(b);
-    return same(a_address, b_address);
-};
+// FIXME
+// export const is_same_combined_identity_key = (a: CombinedIdentityKey, b: CombinedIdentityKey): boolean => {
+//     const a_address = inner_get_identity_address(a);
+//     const b_address = inner_get_identity_address(b);
+//     return same(a_address, b_address);
+// };
 
-// show identity
+// =================== show identity ===================
 
 export type CombinedShowIdentityKey =
     | { type: 'mnemonic'; subaccount: number; parsed?: MnemonicParsed }

@@ -14,6 +14,7 @@
         "local": "base",
         "actions": "queue",
         "ports": "connection",
+        "background": "admin",
     },
     "cSpell.words": [
         "BGSW",
