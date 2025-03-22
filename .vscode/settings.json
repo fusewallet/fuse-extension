@@ -15,6 +15,8 @@
         "actions": "queue",
         "ports": "connection",
         "background": "admin",
+        "session": "guard",
+        "sync": "aws",
     },
     "cSpell.words": [
         "BGSW",

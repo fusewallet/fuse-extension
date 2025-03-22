@@ -1,10 +1,9 @@
-import { Storage } from '@plasmohq/storage';
+import { __get_storage } from '~lib/storage';
 
 import { useUserSettingsIdleInner } from './user/settings/idle';
 
 // * sync -> sync by google account -> user custom settings
-const STORAGE = new Storage(); // sync
-// const secure_storage = new SecureStorage(); // sync
+const STORAGE = __get_storage(); // sync
 
 // ================ hooks ================
 

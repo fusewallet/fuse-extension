@@ -16,10 +16,9 @@ import '~assets/iconfont/iconfont.js';
 import { useEffect } from 'react';
 
 import { Toaster } from '~components/ui/sonner';
+import { useBackground } from '~hooks/memo/background';
 import { queryClient } from '~lib/react-query';
 import { is_development } from '~lib/utils/env';
-// FIXME refactor
-// import { useBackground } from '~hooks/memo/background';
 import type { WindowType } from '~types/window';
 
 // FIXME refactor
@@ -78,8 +77,8 @@ const WrapOptionPage = ({ className, routes, wt }: { className?: string; routes:
 };
 
 const PageRoutes = ({ routes }: { routes: RouteObject[] }) => {
+    useBackground();
     // FIXME refactor
-    // useBackground();
     // useWatchCurrentIdentity();
     const views = useRoutes(routes);
     return <>{views}</>;
