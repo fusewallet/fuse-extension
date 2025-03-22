@@ -2,8 +2,7 @@ import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persi
 import { persistQueryClient } from '@tanstack/query-persist-client-core';
 import { QueryClient } from '@tanstack/react-query';
 
-import { Storage } from '@plasmohq/storage';
-
+import { __get_local_storage } from './storage';
 import { parse_factory, stringify_factory } from './utils/json';
 
 // import { SHOULD_DEHYDRATE_QUERY_KEY } from '~hooks/evm/viem';
@@ -28,9 +27,7 @@ export const queryClient = new QueryClient({
 
 // Create storage persistence
 const asyncStoragePersister = createAsyncStoragePersister({
-    // FIXME
-    // storage: __get_local_storage(),
-    storage: new Storage({ area: 'local' }),
+    storage: __get_local_storage(),
     // FIXME
     // key: LOCAL_KEY_REACT_QUERY_CACHE,
     key: 'cache',
