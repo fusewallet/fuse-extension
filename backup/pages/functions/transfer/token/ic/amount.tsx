@@ -192,11 +192,11 @@ function FunctionTransferTokenIcAmountPage({
                                 setAmount(value);
                             }
                         }}
-                        className="h-[48px] min-w-[50px] border-none bg-transparent pr-3 text-right text-5xl font-bold text-white outline-none"
+                        className="h-[48px] min-w-[50px] border-none bg-transparent pr-3 text-right text-5xl font-semibold text-white outline-none"
                         style={{ width: `${amount.length + 1}ch` }}
                         ref={sendRef}
                     />
-                    <span className="text-5xl font-bold text-white">{token?.symbol}</span>
+                    <span className="text-5xl font-semibold text-white">{token?.symbol}</span>
                 </div>
                 <span className="block w-full py-2 text-center text-base text-[#999999]">${showUsd}</span>
                 <div className="flex items-center justify-center text-sm">

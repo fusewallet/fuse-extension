@@ -63,7 +63,7 @@ function FunctionSettingsAddressesPage() {
                                     >
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center">
-                                                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#333333] p-2 text-xl font-bold">
+                                                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#333333] p-2 text-xl font-semibold">
                                                     {item.address.address.charAt(0)}
                                                 </div>
                                                 <div className="pl-3">

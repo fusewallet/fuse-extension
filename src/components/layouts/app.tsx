@@ -8,7 +8,9 @@ import logo_black from '~assets/svg/logo-black.svg';
 import Icon from '~components/icon';
 
 import '~index.css';
+import '~assets/styles/reset.css';
 import '~assets/styles/globals.css';
+import '~assets/styles/animation.css';
 import '~assets/iconfont/iconfont.js';
 
 import { useEffect } from 'react';

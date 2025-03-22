@@ -1,0 +1,23 @@
+* {
+    scrollbar-width: none;
+    box-sizing: border-box;
+    user-select: none;
+    overscroll-behavior: none;
+}
+
+body,
+div,
+p,
+span,
+ul,
+li,
+dl,
+dt,
+dd,
+h1,
+h2,
+h3,
+h4 {
+    margin: 0;
+    padding: 0;
+}
