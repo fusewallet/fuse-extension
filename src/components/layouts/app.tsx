@@ -2,7 +2,7 @@ import { HeroUIProvider } from '@heroui/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HashRouter, useRoutes, type RouteObject } from 'react-router-dom';
-import VConsole from 'vconsole';
+import type VConsole from 'vconsole';
 
 import logo_black from '~assets/svg/logo-black.svg';
 import Icon from '~components/icon';
@@ -36,7 +36,10 @@ export const SinglePageApp = ({
 }) => {
     useEffect(() => {
         let v_console: VConsole | undefined = undefined;
-        if (is_development() && wt !== 'options') v_console = new VConsole();
+        if (is_development() && wt !== 'options') {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            import('vconsole').then((v: any) => (v_console = new v()));
+        }
         return () => v_console?.destroy();
     }, [wt]);
     return (

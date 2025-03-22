@@ -10,6 +10,10 @@
     "material-icon-theme.folders.associations": {
         "iconfont": "font",
         "tabs": "public",
+        "memo": "functions",
+        "local": "base",
+        "actions": "queue",
+        "ports": "connection",
     },
     "cSpell.words": [
         "BGSW",
