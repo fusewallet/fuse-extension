@@ -1,5 +1,4 @@
-// FIXME refactor
-// import { HeroUIProvider } from '@heroui/react';
+import { HeroUIProvider } from '@heroui/react';
 // FIXME refactor
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HashRouter, useRoutes, type RouteObject } from 'react-router-dom';
@@ -32,11 +31,11 @@ export const SinglePageApp = ({
     return (
         // <ReactQueryProvider>
         <HashRouter>
-            {/* <HeroUIProvider> */}
-            <WrapOptionPage className={className} routes={routes} wt={wt} />
-            {/* <ReactQueryDevtools /> */}
-            <Toaster position="top-center" theme="dark" />
-            {/* </HeroUIProvider> */}
+            <HeroUIProvider>
+                <WrapOptionPage className={className} routes={routes} wt={wt} />
+                {/* <ReactQueryDevtools /> */}
+                <Toaster position="top-center" theme="dark" />
+            </HeroUIProvider>
         </HashRouter>
         // </ReactQueryProvider>
     );
