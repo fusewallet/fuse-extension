@@ -5,29 +5,29 @@ import { __get_local_storage } from '~lib/storage';
 // import type { FuseRecord, FuseRecordList } from '~types/records';
 
 // import { format_record_date } from '../common';
-// import {
-//     LOCAL_KEY_ACTION_RESULT,
-//     LOCAL_KEY_CACHED_KEY,
-//     LOCAL_KEY_PASSWORD_HASHED,
-//     LOCAL_KEY_RECORD_COUNT,
-//     LOCAL_KEY_RECORD_DATE,
-//     LOCAL_KEY_RECORD_STARTED,
-// } from '../keys';
+import {
+    //     LOCAL_KEY_ACTION_RESULT,
+    LOCAL_KEY_CACHED_KEY,
+    //     LOCAL_KEY_PASSWORD_HASHED,
+    //     LOCAL_KEY_RECORD_COUNT,
+    //     LOCAL_KEY_RECORD_DATE,
+    //     LOCAL_KEY_RECORD_STARTED,
+} from '../keys';
 // import { usePasswordHashedInner } from './password_hashed';
 // import { useTokenInfoCurrentInner, useTokenInfoCurrentInner2 } from './token/current';
 // import { useTokenInfoCustomInner2 } from './token/custom';
 // import { useTokenBalanceIcByRefreshingInner } from './token/ic/balance';
-// import { useTokenInfoIcByInitialInner, useTokenInfoIcByRefreshingInner } from './token/ic/info';
+import { useTokenInfoIcByInitialInner, useTokenInfoIcByRefreshingInner } from './token/ic/info';
 // import {
 //     useTokenMetadataIcByInitialInner,
 //     useTokenMetadataIcByRefreshingInner,
 //     useTokenMetadataIcInner,
 // } from './token/ic/metadata';
-// import {
-//     useTokenPriceIcByInitialInner,
-//     useTokenPriceIcByRefreshingInner,
-//     useTokenPriceIcInner,
-// } from './token/ic/price';
+import {
+    //     useTokenPriceIcByInitialInner,
+    useTokenPriceIcByRefreshingInner,
+    //     useTokenPriceIcInner,
+} from './token/ic/price';
 import { useWelcomedInner } from './welcome';
 
 // * local -> current extension
@@ -37,7 +37,6 @@ const LOCAL_STORAGE = __get_local_storage(); // local
 
 // ############### LOCAL ###############
 export const useWelcomed = () => useWelcomedInner(LOCAL_STORAGE); // local
-// export const usePasswordHashed = () => usePasswordHashedInner(LOCAL_STORAGE); // local
 
 // // token/custom
 // export const useTokenInfoCustom = () => useTokenInfoCustomInner2(LOCAL_STORAGE); // local
@@ -47,7 +46,7 @@ export const useWelcomed = () => useWelcomedInner(LOCAL_STORAGE); // local
 // // token/ic/info
 // export const useTokenInfoIcByInitial = (canister_id: string) =>
 //     useTokenInfoIcByInitialInner(LOCAL_STORAGE, canister_id); // local
-// export const useTokenInfoIcByRefreshing = (sleep: number) => useTokenInfoIcByRefreshingInner(LOCAL_STORAGE, sleep); // local
+export const useTokenInfoIcByRefreshing = (sleep: number) => useTokenInfoIcByRefreshingInner(LOCAL_STORAGE, sleep); // local
 // // token/ic/balance
 // export const useTokenBalanceIcByRefreshing = (principal: string | undefined, canisters: string[], sleep: number) =>
 //     useTokenBalanceIcByRefreshingInner(LOCAL_STORAGE, principal, canisters, sleep); // local
@@ -55,7 +54,7 @@ export const useWelcomed = () => useWelcomedInner(LOCAL_STORAGE); // local
 // export const useTokenPriceIcRead = () => useTokenPriceIcInner(LOCAL_STORAGE)[0]; // local
 // export const useTokenPriceIcByInitial = (canister_id: string) =>
 //     useTokenPriceIcByInitialInner(LOCAL_STORAGE, canister_id); // local
-// export const useTokenPriceIcByRefreshing = (sleep: number) => useTokenPriceIcByRefreshingInner(LOCAL_STORAGE, sleep); // local
+export const useTokenPriceIcByRefreshing = (sleep: number) => useTokenPriceIcByRefreshingInner(LOCAL_STORAGE, sleep); // local
 
 // // token/ic/metadata
 // export const useTokenMetadataIcRead = () => useTokenMetadataIcInner(LOCAL_STORAGE)[0]; // local
@@ -78,26 +77,26 @@ export const useWelcomed = () => useWelcomedInner(LOCAL_STORAGE); // local
 //     return !!password_hashed;
 // };
 
-// // cached data
-// export const get_cached_data = async (
-//     key: string,
-//     produce: () => Promise<string | undefined>,
-//     alive = 86400000,
-// ): Promise<string | undefined> => {
-//     const cache_key = LOCAL_KEY_CACHED_KEY(key);
-//     let cached = await LOCAL_STORAGE.get<{
-//         value: string;
-//         created: number;
-//     }>(cache_key);
-//     const now = Date.now();
-//     if (!cached || cached.created + alive < now) {
-//         const value = await produce();
-//         if (value === undefined) return undefined;
-//         cached = { value, created: now };
-//         await LOCAL_STORAGE.set(cache_key, cached);
-//     }
-//     return cached.value;
-// };
+// cached data
+export const get_cached_data = async (
+    key: string,
+    produce: () => Promise<string | undefined>,
+    alive = 86400000,
+): Promise<string | undefined> => {
+    const cache_key = LOCAL_KEY_CACHED_KEY(key);
+    let cached = await LOCAL_STORAGE.get<{
+        value: string;
+        created: number;
+    }>(cache_key);
+    const now = Date.now();
+    if (!cached || cached.created + alive < now) {
+        const value = await produce();
+        if (value === undefined) return undefined;
+        cached = { value, created: now };
+        await LOCAL_STORAGE.set(cache_key, cached);
+    }
+    return cached.value;
+};
 
 // // ---------- record ----------
 // export const get_local_record_started = async (identity_network: IdentityNetwork): Promise<number> => {

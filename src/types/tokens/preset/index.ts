@@ -1,6 +1,4 @@
-import { get_cached_data } from '~hooks/store/local';
-
-import { is_same_token_info, match_combined_token_info, TokenTag, type CombinedTokenInfo, type TokenInfo } from '..';
+import { is_same_token_info, TokenTag, type TokenInfo } from '..';
 import {
     PRESET_ALL_TOKEN_INFO_BSC,
     TOKEN_INFO_BSC_BNB,
@@ -32,7 +30,6 @@ import {
 } from './ethereum-test-sepolia';
 import {
     PRESET_ALL_TOKEN_INFO_IC,
-    PRESET_LOGO_IC,
     TOKEN_INFO_IC_CK_BTC,
     TOKEN_INFO_IC_CK_ETH,
     TOKEN_INFO_IC_CK_USDC,
@@ -45,7 +42,6 @@ import {
 } from './ic';
 import {
     PRESET_ALL_TOKEN_INFO_POLYGON,
-    PRESET_LOGO_POLYGON,
     TOKEN_INFO_POLYGON_MATIC,
     TOKEN_INFO_POLYGON_USDC,
     TOKEN_INFO_POLYGON_USDT,
@@ -78,27 +74,6 @@ export const get_token_logo_key = (
     if ('bsc' in token) return `token:bsc:${token.bsc.address}:logo`;
     if ('bsc_test' in token) return `token:bsc_test:${token.bsc_test.address}:logo`;
     return '';
-};
-// evm token logo
-const get_token_logo_from_covalent = (address: string, chainId: number): string => {
-    return `https://logos.covalenthq.com/tokens/${chainId}/${address.toLowerCase()}.png`;
-};
-
-export const get_token_logo = async (info: CombinedTokenInfo): Promise<string | undefined> => {
-    const preset = match_combined_token_info(info, {
-        ic: (ic) => PRESET_LOGO_IC[`ic#${ic.canister_id}`],
-        ethereum: (ethereum) => get_token_logo_from_covalent(ethereum.address, 1),
-        ethereum_test_sepolia: (ethereum_test_sepolia) =>
-            get_token_logo_from_covalent(ethereum_test_sepolia.address, 11155111),
-        polygon: (polygon) =>
-            PRESET_LOGO_POLYGON[polygon.address] ?? get_token_logo_from_covalent(polygon.address, 137),
-        polygon_test_amoy: (polygon_test_amoy) => get_token_logo_from_covalent(polygon_test_amoy.address, 80001),
-        bsc: (bsc) => get_token_logo_from_covalent(bsc.address, 56),
-        bsc_test: (bsc_test) => get_token_logo_from_covalent(bsc_test.address, 97),
-    });
-    if (preset) return preset;
-    const key = get_token_logo_key(info);
-    return get_cached_data(key, async () => undefined, 1000 * 60 * 60 * 24 * 365 * 100);
 };
 
 export const DEFAULT_TOKEN_INFO: TokenInfo[] = [

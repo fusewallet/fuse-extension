@@ -16,25 +16,24 @@ export const SYNC_KEY_USER_SETTINGS_IDLE = `${SYNC_KEY_PREFIX_USER_SETTINGS}:idl
 // ############### LOCAL ###############
 
 export const LOCAL_KEY_WELCOMED = `${LOCAL_KEY_PREFIX}:welcomed`; // * local
-// export const LOCAL_KEY_PASSWORD_HASHED = `${LOCAL_KEY_PREFIX}:password_hashed`; // * local
 
-// const LOCAL_KEY_PREFIX_CACHED = `${LOCAL_KEY_PREFIX}:cached`;
-// export const LOCAL_KEY_CACHED_KEY = (key: string) => `${LOCAL_KEY_PREFIX_CACHED}:${key}`; // * local
+const LOCAL_KEY_PREFIX_CACHED = `${LOCAL_KEY_PREFIX}:cached`;
+export const LOCAL_KEY_CACHED_KEY = (key: string) => `${LOCAL_KEY_PREFIX_CACHED}:${key}`; // * local
 
-// // token info
-// const LOCAL_KEY_PREFIX_TOKEN = `${LOCAL_KEY_PREFIX}:token`;
+// token info
+const LOCAL_KEY_PREFIX_TOKEN = `${LOCAL_KEY_PREFIX}:token`;
 // export const LOCAL_KEY_TOKEN_INFO_CUSTOM = `${LOCAL_KEY_PREFIX_TOKEN}:info:custom`; // * local
 // export const LOCAL_KEY_TOKEN_INFO_CURRENT = `${LOCAL_KEY_PREFIX_TOKEN}:info:current`; // * local
-// // ic
-// export const LOCAL_KEY_TOKEN_INFO_IC = `${LOCAL_KEY_PREFIX_TOKEN}:info:ic`; // * local
-// export const LOCAL_KEY_TOKEN_INFO_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:info:ic:updated`; // * local
+// ic
+export const LOCAL_KEY_TOKEN_INFO_IC = `${LOCAL_KEY_PREFIX_TOKEN}:info:ic`; // * local
+export const LOCAL_KEY_TOKEN_INFO_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:info:ic:updated`; // * local
 
 // export const LOCAL_KEY_TOKEN_METADATA_IC = `${LOCAL_KEY_PREFIX_TOKEN}:metadata:ic`; // * local
 // export const LOCAL_KEY_TOKEN_METADATA_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:metadata:ic:updated`; // * local
 
 // export const LOCAL_KEY_TOKEN_BALANCE_IC = (principal: string) => `${LOCAL_KEY_PREFIX_TOKEN}:balance:ic:${principal}`; // * local
-// export const LOCAL_KEY_TOKEN_PRICE_IC = `${LOCAL_KEY_PREFIX_TOKEN}:price:ic`; // * local
-// export const LOCAL_KEY_TOKEN_PRICE_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:price:ic:updated`; // * local
+export const LOCAL_KEY_TOKEN_PRICE_IC = `${LOCAL_KEY_PREFIX_TOKEN}:price:ic`; // * local
+export const LOCAL_KEY_TOKEN_PRICE_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:price:ic:updated`; // * local
 
 // const LOCAL_KEY_PREFIX_RECORD = `${LOCAL_KEY_PREFIX}:record`;
 // export const LOCAL_KEY_RECORD_STARTED = (identity_network: IdentityNetwork) =>
@@ -47,13 +46,11 @@ export const LOCAL_KEY_WELCOMED = `${LOCAL_KEY_PREFIX}:welcomed`; // * local
 // export const LOCAL_KEY_REACT_QUERY_CACHE = `${LOCAL_KEY_PREFIX}:react:query:cache`; // * local
 // // action result
 // export const LOCAL_KEY_ACTION_RESULT = (message_id: string) => `${LOCAL_KEY_PREFIX}:action:result:${message_id}`; // * local
-// // ############### SESSION ###############
 
-// export const SESSION_KEY_UNLOCKED = `${SESSION_KEY_PREFIX}:unlocked`; // * session
-// export const SESSION_KEY_UNLOCKED_ALIVE = `${SESSION_KEY_PREFIX}:unlocked:alive`; // * session
+// ############### SESSION ###############
+
 // export const SESSION_KEY_RESTORE = `${SESSION_KEY_PREFIX}:restore`; // * session
-// export const SESSION_KEY_POPUP_ACTIONS = `${SESSION_KEY_PREFIX}:popup:actions`; // * session
-// export const SESSION_KEY_PATHNAME = `${SESSION_KEY_PREFIX}:pathname`; // * session
+export const SESSION_KEY_PATHNAME = `${SESSION_KEY_PREFIX}:pathname`; // * session
 
 // // session, once user connect app, is_connected always cloud be true // ? true => connected, false => disconnected
 // export const SESSION_KEY_CURRENT_SESSION_CONNECTED_APP = (identity_network: IdentityNetwork, origin: string) =>

@@ -45,9 +45,9 @@ export const getRoutes = (wt: WindowType) => {
         // // locked
         // ...(hit(wt, []) ? [{ path: '/locked', element: <LockedPage wt={wt} /> }] : []),
 
-        // // home
-        // ...(hit(wt, []) ? [{ path: '/', element: <HomePage /> }] : []),
-        // ...(hit(wt, []) ? [{ path: '/home', element: <HomePage /> }] : []),
+        // home
+        ...(hit(wt, []) ? [{ path: '/', element: <HomePage /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/home', element: <HomePage /> }] : []),
 
         // // -------------- home header --------------
 
