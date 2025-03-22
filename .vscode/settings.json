@@ -7,6 +7,9 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"
     },
+    "material-icon-theme.folders.associations": {
+        "iconfont": "font",
+    },
     "cSpell.words": [
         "BGSW",
         "choptop",
