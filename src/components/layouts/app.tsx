@@ -2,6 +2,7 @@ import { HeroUIProvider } from '@heroui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HashRouter, useRoutes, type RouteObject } from 'react-router-dom';
+import VConsole from 'vconsole';
 
 import logo_black from '~assets/svg/logo-black.svg';
 import Icon from '~components/icon';
@@ -10,7 +11,10 @@ import '~index.css';
 import '~assets/styles/globals.css';
 import '~assets/iconfont/iconfont.js';
 
+import { useEffect } from 'react';
+
 import { Toaster } from '~components/ui/sonner';
+import { is_development } from '~lib/utils/env';
 // FIXME refactor
 // import { useBackground } from '~hooks/memo/background';
 import type { WindowType } from '~types/window';
@@ -28,13 +32,18 @@ export const SinglePageApp = ({
     routes: RouteObject[];
     wt?: WindowType;
 }) => {
+    useEffect(() => {
+        let v_console: VConsole | undefined = undefined;
+        if (is_development() && wt !== 'options') v_console = new VConsole();
+        return () => v_console?.destroy();
+    }, [wt]);
     return (
         <QueryClientProvider client={new QueryClient()}>
         <HashRouter>
             <HeroUIProvider>
                 <WrapOptionPage className={className} routes={routes} wt={wt} />
                 <Toaster position="top-center" theme="dark" />
-                    <ReactQueryDevtools />
+                    {is_development() && <ReactQueryDevtools />}
             </HeroUIProvider>
         </HashRouter>
         </QueryClientProvider>
