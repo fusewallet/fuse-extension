@@ -1,4 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
+import { lazy } from 'react';
 
 import type { WindowType } from '~types/window';
 
@@ -7,7 +8,7 @@ import type { WindowType } from '~types/window';
 // import FunctionSettingsPage from './functions/settings';
 // import SettingsAccountsPage from './functions/settings/pages/accounts';
 // import AccountsSinglePage from './functions/settings/pages/accounts/edit';
-// import InitialPage from './initial';
+import InitialPage from './initial';
 // import InnerCreatePage from './initial/create';
 // import CreateRestorePage from './initial/restore';
 // import LockedPage from './locked';
@@ -31,14 +32,17 @@ import type { WindowType } from '~types/window';
 // import FunctionSwitchAccountPage from './functions/switch';
 // import FunctionRecordsPage from './functions/record';
 import HomePage from './home';
+
 // import ImportExtraAccountPage from './functions/switch/pages/import-extra-account';
+
+// const InitialPage = lazy(() => import(`./initial`));
 
 export const getRoutes = (wt: WindowType) => {
     const routes: RouteObject[] = [
         // ...(hit(wt, []) ? [{ path: '/welcome', element: <WelcomePage /> }] : []),
 
         // // initial
-        // ...(hit(wt, []) ? [{ path: '/initial', element: <InitialPage /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/initial', element: <InitialPage /> }] : []),
         // ...(hit(wt, []) ? [{ path: '/initial/create', element: <InnerCreatePage wt={wt} /> }] : []),
         // ...(hit(wt, []) ? [{ path: '/initial/restore', element: <CreateRestorePage wt={wt} /> }] : []),
 
@@ -65,7 +69,7 @@ export const getRoutes = (wt: WindowType) => {
         // // settings/accounts
         // ...(hit(wt, []) ? [{ path: '/home/settings', element: <FunctionSettingsPage /> }] : []),
         // ...(hit(wt, []) ? [{ path: '/home/settings/accounts', element: <SettingsAccountsPage /> }] : []),
-        // ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra', element: <InitialPage extra={true} /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra', element: <InitialPage extra={true} /> }] : []),
         // ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra/create', element: <InnerCreatePage wt={wt} extra={true} /> }] : []),
         // ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra/restore', element: <CreateRestorePage wt={wt} extra={true} /> }] : []),
         // ...(hit(wt, []) ? [{ path: '/home/settings/accounts/import/:type', element: <ImportExtraAccountPage /> }] : []),
