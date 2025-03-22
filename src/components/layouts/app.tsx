@@ -1,5 +1,5 @@
 import { HeroUIProvider } from '@heroui/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HashRouter, useRoutes, type RouteObject } from 'react-router-dom';
 import VConsole from 'vconsole';
@@ -16,13 +16,13 @@ import '~assets/iconfont/iconfont.js';
 import { useEffect } from 'react';
 
 import { Toaster } from '~components/ui/sonner';
+import { queryClient } from '~lib/react-query';
 import { is_development } from '~lib/utils/env';
 // FIXME refactor
 // import { useBackground } from '~hooks/memo/background';
 import type { WindowType } from '~types/window';
 
 // FIXME refactor
-// import { ReactQueryProvider } from './provider';
 // import { useWatchCurrentIdentity } from '~hooks/memo/identity';
 
 export const SinglePageApp = ({
@@ -40,14 +40,14 @@ export const SinglePageApp = ({
         return () => v_console?.destroy();
     }, [wt]);
     return (
-        <QueryClientProvider client={new QueryClient()}>
-        <HashRouter>
-            <HeroUIProvider>
-                <WrapOptionPage className={className} routes={routes} wt={wt} />
-                <Toaster position="top-center" theme="dark" />
-                    {is_development() && <ReactQueryDevtools />}
-            </HeroUIProvider>
-        </HashRouter>
+        <QueryClientProvider client={queryClient}>
+            <HashRouter>
+                <HeroUIProvider>
+                    <WrapOptionPage className={className} routes={routes} wt={wt} />
+                    <Toaster position="top-center" theme="dark" />
+                    {is_development() && <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />}
+                </HeroUIProvider>
+            </HashRouter>
         </QueryClientProvider>
     );
 };
