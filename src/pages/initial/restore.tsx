@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { FusePage } from '~components/layouts/page';
 import { useCurrentState } from '~hooks/memo/current_state';
-import { useRestoreAccount } from '~hooks/memo/restore_account';
-import { useIdentityKeys } from '~hooks/store/local-secure';
-import { validate_mnemonic } from '~lib/mnemonic';
+import { useRestoreAccount } from '~hooks/memo/restore-account';
+import { validate_mnemonic } from '~lib/identity/mnemonic';
+import {
+    direct_message_manage_identity_is_key_exist,
+    direct_message_manage_identity_push_identity,
+} from '~lib/messages/direct/direct-manage-identity';
 import type { CombinedIdentityKey } from '~types/identity';
 import { CurrentState } from '~types/state';
 import type { WindowType } from '~types/window';
@@ -23,7 +26,6 @@ function CreateRestorePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
     const navigate = useNavigate();
 
     const { restoreAccountByMnemonic } = useRestoreAccount(current_state);
-    const { isKeyExist, pushIdentity } = useIdentityKeys();
 
     const [state, setState] = useState<RestoreState>('way');
     const [last_state, setLastState] = useState<'mnemonic' | 'private_key'>();
@@ -45,9 +47,9 @@ function CreateRestorePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
                     subaccount: 0,
                 },
             };
-            isKeyExist(key).then((exist) => {
+            direct_message_manage_identity_is_key_exist(key).then((exist) => {
                 if (exist) throw new Error('key already exists');
-                pushIdentity(key).then((r) => {
+                direct_message_manage_identity_push_identity(key).then((r) => {
                     if (r === undefined) throw Error('push identity failed');
                     if (r === false) throw new Error('push identity failed');
                     navigate(-2); // back 2 pages
@@ -63,7 +65,7 @@ function CreateRestorePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
             // window.close(); // close window if current window is individual page
             navigate('/');
         }
-    }, [extra, password1, mnemonic, restoreAccountByMnemonic, isKeyExist, pushIdentity, wt, navigate]);
+    }, [extra, password1, mnemonic, restoreAccountByMnemonic, wt, navigate]);
 
     const onPrivateKeyCompleted = useCallback(async () => {
         throw new Error('Come soon');

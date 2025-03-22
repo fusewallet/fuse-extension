@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTimeout } from 'usehooks-ts';
 
 import Icon from '~components/icon';
-import { validate_mnemonic } from '~lib/mnemonic';
+import { validate_mnemonic } from '~lib/identity/mnemonic';
 import { cn } from '~lib/utils/cn';
 import { is_development } from '~lib/utils/env';
 
