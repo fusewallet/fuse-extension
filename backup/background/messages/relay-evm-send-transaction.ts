@@ -26,7 +26,7 @@ export interface RequestBody {
 export type ResponseBody = MessageResult<string, string>; // Returns transaction hash on success, error message on failure
 
 const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async (req, res) => {
-    if (!req.body) return res.send({ err: 'request body is undefined' });
+    if (req.body === undefined) return res.send({ err: 'request body is undefined' });
     const body: RequestBody = req.body;
     const message_id = body.message_id;
     const current_window = req.body.window;

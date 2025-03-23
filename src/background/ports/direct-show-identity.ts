@@ -1,5 +1,6 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
 
+import { $bgsw_show_identity } from '~background/memo/ports/identity/show-identity';
 import type { IdentityId, ShowIdentityKey } from '~types/identity';
 
 export type RequestBody = undefined;
@@ -11,11 +12,11 @@ export type ResponseBody =
       }
     | undefined;
 
-const handler: PlasmoMessaging.PortHandler<RequestBody, ResponseBody> = async (req, res) => {
-    if (req.body === undefined) throw new Error(`can not find request body from direct-show-identity port`);
+const handler: PlasmoMessaging.PortHandler<RequestBody, ResponseBody> = async (_, res) => {
+    // if (req.body === undefined) throw new Error(`can not find request body from direct-show-identity port`);
 
-    const alive = await $bgsw_check_alive(req.body);
-    res.send(alive);
+    const show = await $bgsw_show_identity();
+    res.send(show);
 };
 
 export default handler;

@@ -8,12 +8,11 @@ import { __get_local_storage } from '~lib/storage';
 import {
     //     LOCAL_KEY_ACTION_RESULT,
     LOCAL_KEY_CACHED_KEY,
-    //     LOCAL_KEY_PASSWORD_HASHED,
     //     LOCAL_KEY_RECORD_COUNT,
     //     LOCAL_KEY_RECORD_DATE,
     //     LOCAL_KEY_RECORD_STARTED,
 } from '../keys';
-// import { usePasswordHashedInner } from './password_hashed';
+import { useInitializedInner } from './initialized';
 // import { useTokenInfoCurrentInner, useTokenInfoCurrentInner2 } from './token/current';
 // import { useTokenInfoCustomInner2 } from './token/custom';
 // import { useTokenBalanceIcByRefreshingInner } from './token/ic/balance';
@@ -37,6 +36,7 @@ const LOCAL_STORAGE = __get_local_storage(); // local
 
 // ############### LOCAL ###############
 export const useWelcomed = () => useWelcomedInner(LOCAL_STORAGE); // local
+export const useInitialized = () => useInitializedInner(LOCAL_STORAGE); // local
 
 // // token/custom
 // export const useTokenInfoCustom = () => useTokenInfoCustomInner2(LOCAL_STORAGE); // local

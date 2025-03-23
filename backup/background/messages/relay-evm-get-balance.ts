@@ -19,7 +19,7 @@ export interface RequestBody {
 export type ResponseBody = MessageResult<string, string>;
 
 const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async (req, res) => {
-    if (!req.body) return res.send({ err: 'request body is undefined' });
+    if (req.body === undefined) return res.send({ err: 'request body is undefined' });
     const body: RequestBody = req.body;
 
     const current_info = await get_current_info(__inner_get_password);

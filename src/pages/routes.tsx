@@ -11,7 +11,7 @@ import type { WindowType } from '~types/window';
 import InitialPage from './initial';
 import InnerCreatePage from './initial/create';
 import CreateRestorePage from './initial/restore';
-// import LockedPage from './locked';
+import LockedPage from './locked';
 import WelcomePage from './welcome';
 // import FunctionSettingsSecurityPage from './functions/settings/pages/security';
 // import FunctionSettingsSecurityChangePasswordPage from './functions/settings/pages/security/password';
@@ -46,8 +46,8 @@ export const getRoutes = (wt: WindowType) => {
         ...(hit(wt, []) ? [{ path: '/initial/create', element: <InnerCreatePage wt={wt} /> }] : []),
         ...(hit(wt, []) ? [{ path: '/initial/restore', element: <CreateRestorePage wt={wt} /> }] : []),
 
-        // // locked
-        // ...(hit(wt, []) ? [{ path: '/locked', element: <LockedPage wt={wt} /> }] : []),
+        // locked
+        ...(hit(wt, []) ? [{ path: '/locked', element: <LockedPage wt={wt} /> }] : []),
 
         // home
         ...(hit(wt, []) ? [{ path: '/', element: <HomePage /> }] : []),

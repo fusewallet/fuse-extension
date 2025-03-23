@@ -20,11 +20,7 @@
 import { __get_session_storage } from '~lib/storage';
 
 import { usePathnameInner } from './pathname';
-
-// import { usePopupActionsInner2 } from './popup_actions';
-// import { useRestoreInner } from './restore';
-// import { useUnlockedInner } from './unlocked';
-// import { useUnlockedAliveInner } from './unlocked_alive';
+import { useRestoreInner } from './restore';
 
 // * session -> current session
 const SESSION_STORAGE = __get_session_storage(); // session
@@ -50,10 +46,7 @@ const SESSION_STORAGE = __get_session_storage(); // session
 // ================ hooks ================
 
 // ############### SESSION ###############
-// export const useUnlocked = () => useUnlockedInner(SESSION_STORAGE); // session
-// export const useUnlockedAlive = () => useUnlockedAliveInner(SESSION_STORAGE); // session
-// export const useRestore = () => useRestoreInner(SESSION_STORAGE); // session
-// export const usePopupActions = () => usePopupActionsInner2(SESSION_STORAGE); // session
+export const useRestore = () => useRestoreInner(SESSION_STORAGE); // session
 export const usePathname = () => usePathnameInner(SESSION_STORAGE); // session
 
 // // ================ set directly by storage ================

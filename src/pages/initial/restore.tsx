@@ -6,9 +6,9 @@ import { useCurrentState } from '~hooks/memo/current_state';
 import { useRestoreAccount } from '~hooks/memo/restore-account';
 import { validate_mnemonic } from '~lib/identity/mnemonic';
 import {
-    direct_message_manage_identity_is_key_exist,
-    direct_message_manage_identity_push_identity,
-} from '~lib/messages/direct/direct-manage-identity';
+    direct_message_handle_identity_is_key_exist,
+    direct_message_handle_identity_push_identity,
+} from '~lib/messages/direct/direct-handle-identity';
 import type { CombinedIdentityKey } from '~types/identity';
 import { CurrentState } from '~types/state';
 import type { WindowType } from '~types/window';
@@ -47,9 +47,9 @@ function CreateRestorePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
                     subaccount: 0,
                 },
             };
-            direct_message_manage_identity_is_key_exist(key).then((exist) => {
+            direct_message_handle_identity_is_key_exist(key).then((exist) => {
                 if (exist) throw new Error('key already exists');
-                direct_message_manage_identity_push_identity(key).then((r) => {
+                direct_message_handle_identity_push_identity(key).then((r) => {
                     if (r === undefined) throw Error('push identity failed');
                     if (r === false) throw new Error('push identity failed');
                     navigate(-2); // back 2 pages

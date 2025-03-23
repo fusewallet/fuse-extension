@@ -1,5 +1,6 @@
 import { Storage } from '@plasmohq/storage';
 
+import { sha256_hash } from '~lib/utils/hash';
 import { same } from '~lib/utils/same';
 
 interface CryptoOptions {
@@ -33,27 +34,38 @@ export const DEFAULT_CRYPTO_OPTIONS: CryptoOptions = {
 };
 
 interface WrappedData {
-    data: string;
+    encrypted: string;
     options: CryptoOptions;
 }
+
+export const DEFAULT_NS_SEPARATOR = '|:|';
 
 export class FuseSecureStorage<T> {
     #encoder = new TextEncoder();
     #decoder = new TextDecoder();
 
+    private key_namespace: string;
     private passwordKey: CryptoKey | undefined;
     private data: T | undefined;
     constructor(
         private storage: Storage,
         private key: string,
         private options: CryptoOptions = DEFAULT_CRYPTO_OPTIONS,
-    ) {}
+        private namespace = '',
+        private separator: string = DEFAULT_NS_SEPARATOR,
+    ) {
+        this.key_namespace = '';
+    }
 
-    public async restore(password: string): Promise<FuseSecureStorage<T>> {
+    public async restore(password: string): Promise<boolean> {
         if (!password) throw new Error('invalid password');
 
-        const wrapped_data = await this.storage.get<WrappedData>(this.key);
-        const { data: encrypted, options: _options } = wrapped_data ?? { options: this.options };
+        if (!this.namespace) this.namespace = (await sha256_hash(`SHA-256#${password}`)).slice(-16);
+        this.key_namespace = `${this.namespace}${this.separator}`;
+
+        const namespace_key = `${this.key_namespace}${this.key}`;
+        const wrapped_data = await this.storage.get<WrappedData>(namespace_key);
+        const { encrypted, options: _options } = wrapped_data ?? { options: this.options };
 
         const passwordBuffer = this.#encoder.encode(password);
         this.passwordKey = await crypto.subtle.importKey(
@@ -63,9 +75,15 @@ export class FuseSecureStorage<T> {
             false, // Not exportable
             ['deriveKey'],
         );
+        let verified = false;
         if (encrypted) {
-            const json = await this.#decrypt(this.passwordKey, encrypted);
-            this.data = JSON.parse(json);
+            try {
+                const json = await this.#decrypt(this.passwordKey, encrypted);
+                this.data = JSON.parse(json);
+                verified = true;
+            } catch (e) {
+                console.error(`wrong password`, e);
+            }
         }
 
         if (!same(this.options, _options)) {
@@ -76,18 +94,20 @@ export class FuseSecureStorage<T> {
             }
         }
 
-        return this;
+        return verified;
     }
 
     #persist = async (passwordKey: CryptoKey, data: T | undefined) => {
+        const namespace_key = `${this.key_namespace}${this.key}`;
+
         if (data === undefined) {
-            await this.storage.remove(this.key);
+            await this.storage.remove(namespace_key);
             return;
         }
 
         const json = JSON.stringify(data);
         const encrypted = await this.#encrypt(passwordKey, json);
-        await this.storage.set(this.key, { data: encrypted, options: this.options });
+        await this.storage.set(namespace_key, { data: encrypted, options: this.options });
     };
 
     #decrypt = async (passwordKey: CryptoKey, encrypted: string) => {

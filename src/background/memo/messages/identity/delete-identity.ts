@@ -1,10 +1,10 @@
-import type { RequestBody, ResponseBody } from '~background/messages/direct-manage-identity';
+import type { RequestBody, ResponseBody } from '~background/messages/direct-handle-identity';
 import { $bgsw_get_key_rings, $bgsw_set_key_rings } from '~background/store/secure/key_rings';
 import { $bgsw_get_password } from '~background/store/session/password';
+import type { ExtractOkType } from '~lib/messages';
 import { match_combined_identity_key } from '~types/identity';
 
 type ExtractDeleteIdentity<T> = T extends { delete_identity: infer U } ? U : never;
-type ExtractOkType<T> = T extends { ok: infer U } ? U : never;
 
 type DeleteIdentityRequestBody = ExtractDeleteIdentity<RequestBody>;
 type DeleteIdentityResponseBody = ExtractDeleteIdentity<ExtractOkType<ResponseBody>>;

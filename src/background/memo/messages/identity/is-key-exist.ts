@@ -1,10 +1,10 @@
-import type { RequestBody, ResponseBody } from '~background/messages/direct-manage-identity';
+import type { RequestBody, ResponseBody } from '~background/messages/direct-handle-identity';
 import { $bgsw_get_key_rings } from '~background/store/secure/key_rings';
 import { $bgsw_get_password } from '~background/store/session/password';
 import { is_same_combined_identity_key } from '~lib/identity/address';
+import type { ExtractOkType } from '~lib/messages';
 
 type ExtractIsKeyExist<T> = T extends { is_key_exist: infer U } ? U : never;
-type ExtractOkType<T> = T extends { ok: infer U } ? U : never;
 
 type IsKeyExistRequestBody = ExtractIsKeyExist<RequestBody>;
 type IsKeyExistResponseBody = ExtractIsKeyExist<ExtractOkType<ResponseBody>>;

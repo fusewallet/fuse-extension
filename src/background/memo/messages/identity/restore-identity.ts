@@ -1,10 +1,10 @@
-import type { RequestBody, ResponseBody } from '~background/messages/direct-manage-identity';
+import type { RequestBody, ResponseBody } from '~background/messages/direct-handle-identity';
 import { $bgsw_set_key_rings } from '~background/store/secure/key_rings';
 import { $bgsw_set_password } from '~background/store/session/password';
 import { $bgsw_set_password_alive } from '~background/store/session/password_alive';
+import type { ExtractOkType } from '~lib/messages';
 
 type ExtractRestoreIdentity<T> = T extends { restore_identity: infer U } ? U : never;
-type ExtractOkType<T> = T extends { ok: infer U } ? U : never;
 
 type RestoreIdentityRequestBody = ExtractRestoreIdentity<RequestBody>;
 type RestoreIdentityResponseBody = ExtractRestoreIdentity<ExtractOkType<ResponseBody>>;

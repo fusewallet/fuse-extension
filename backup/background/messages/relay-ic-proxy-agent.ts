@@ -45,7 +45,7 @@ const services = new Map<string, Map<string, { window?: CurrentWindow; timeout: 
 const stringify = stringify_factory(JSON.stringify);
 
 const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async (req, res) => {
-    if (!req.body) throw new Error(`can not find request body from ic-proxy-agent message`);
+    if (req.body === undefined) throw new Error(`can not find request body from ic-proxy-agent message`);
     const body: RequestBody = req.body;
 
     const response = await match_ic_proxy_agent_async<ResponseBody>(req.body, {

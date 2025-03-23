@@ -2,11 +2,13 @@
 // import type { FuseWalletInpageMessage } from './window';
 
 export type MessageResult<T, E> = { ok: T; err?: undefined } | { ok?: undefined; err: E };
+export type ExtractOkType<T> = T extends { ok: infer U } ? U : never;
 
 // Message Flow
 // * Extension-Pages/CS	-> BGSW
 export const MESSAGE_PING = 'ping';
-export const DIRECT_MESSAGE_MANAGE_IDENTITY = 'direct-manage-identity'; // Extension-Pages/CS -> BGSW // ? one-time
+export const DIRECT_MESSAGE_HANDLE_IDENTITY = 'direct-handle-identity'; // Extension-Pages/CS -> BGSW // ? one-time
+export const DIRECT_MESSAGE_HANDLE_PASSWORD = 'direct-handle-password'; // Extension-Pages/CS -> BGSW // ? one-time
 
 // Relay Flow via relay
 // * Website -> CS/BGSW

@@ -4,19 +4,13 @@ import type { KeyRings } from '~types/identity';
 import { FuseSecureStorage } from './storage';
 import { LOCAL_SECURE_KEY_KEY_RINGS } from './storage/keys';
 
-// exist
-// TODO how to notice data which dependency this data?
-export const $bgsw_is_key_rings_exist = async () => {
-    return __get_local_storage().getItem(LOCAL_SECURE_KEY_KEY_RINGS) !== undefined;
-};
-
 // data
-
 let inner_key_rings: KeyRings | null | undefined = null;
 
 const get_secure_storage = async (password: string): Promise<FuseSecureStorage<KeyRings>> => {
     const secure = new FuseSecureStorage<KeyRings>(__get_local_storage(), LOCAL_SECURE_KEY_KEY_RINGS);
-    return await secure.restore(password);
+    await secure.restore(password);
+    return secure;
 };
 
 export const $bgsw_get_key_rings = async (password: string): Promise<KeyRings | undefined> => {
@@ -45,4 +39,5 @@ export const $bgsw_remove_key_rings = async (password: string) => {
 
     const secure = await get_secure_storage(password);
     await secure.remove();
+    inner_key_rings = undefined;
 };

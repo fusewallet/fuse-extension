@@ -1,15 +1,14 @@
 import { useMemo } from 'react';
 
-import { useInitialized } from '~hooks/ports/initialized';
 import { usePopupActions } from '~hooks/ports/popup_actions';
 import { useUnlocked } from '~hooks/ports/unlocked';
-import { useWelcomed } from '~hooks/store/local';
+import { useInitialized, useWelcomed } from '~hooks/store/local';
 import type { PopupActions } from '~types/actions';
 import { CurrentState } from '~types/state';
 
 export const useCurrentStateBy = (
     welcomed: boolean,
-    initialized: boolean,
+    initialized: string,
     unlocked: boolean,
     popup_actions: PopupActions,
 ) => {
@@ -30,7 +29,7 @@ export const useCurrentStateBy = (
 
 export const useCurrentState = () => {
     const [welcomed] = useWelcomed();
-    const initialized = useInitialized();
+    const [initialized] = useInitialized();
     const unlocked = useUnlocked();
     const popup_actions = usePopupActions();
     return useCurrentStateBy(welcomed, initialized, unlocked, popup_actions);

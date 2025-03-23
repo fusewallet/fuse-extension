@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
 import { v4 as uuid } from 'uuid';
 
+import { useInitialized } from '~hooks/store/local';
 import { inner_get_identity_address } from '~lib/identity/address';
 import { validate_mnemonic } from '~lib/identity/mnemonic';
-import { check_password } from '~lib/identity/password';
-import { direct_message_manage_identity_restore_identity } from '~lib/messages/direct/direct-manage-identity';
+import { check_password, hash_password } from '~lib/identity/password';
+import { direct_message_handle_identity_restore_identity } from '~lib/messages/direct/direct-handle-identity';
 import type { CombinedIdentityKey, KeyRings } from '~types/identity';
 import { CurrentState } from '~types/state';
 
@@ -13,6 +14,8 @@ export const useRestoreAccount = (
 ): {
     restoreAccountByMnemonic: (password: string, mnemonic: string) => Promise<boolean | undefined>;
 } => {
+    const [, setInitialized] = useInitialized();
+
     // set password and mnemonic when initial
     const restoreAccountByMnemonic = useCallback(
         async (password: string, mnemonic: string) => {
@@ -23,9 +26,12 @@ export const useRestoreAccount = (
 
             const key_rings = await new_key_rings_by_mnemonic(mnemonic);
 
-            return await direct_message_manage_identity_restore_identity(password, key_rings);
+            if (!(await direct_message_handle_identity_restore_identity(password, key_rings))) return false;
+            setInitialized(await hash_password(password));
+
+            return true;
         },
-        [current_state],
+        [current_state, setInitialized],
     );
 
     return {

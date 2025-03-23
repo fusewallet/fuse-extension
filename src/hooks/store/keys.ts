@@ -16,6 +16,7 @@ export const SYNC_KEY_USER_SETTINGS_IDLE = `${SYNC_KEY_PREFIX_USER_SETTINGS}:idl
 // ############### LOCAL ###############
 
 export const LOCAL_KEY_WELCOMED = `${LOCAL_KEY_PREFIX}:welcomed`; // * local
+export const LOCAL_KEY_INITIALIZED = `${LOCAL_KEY_PREFIX}:initialized`; // * local
 
 const LOCAL_KEY_PREFIX_CACHED = `${LOCAL_KEY_PREFIX}:cached`;
 export const LOCAL_KEY_CACHED_KEY = (key: string) => `${LOCAL_KEY_PREFIX_CACHED}:${key}`; // * local
@@ -49,7 +50,7 @@ export const LOCAL_KEY_TOKEN_PRICE_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:price
 
 // ############### SESSION ###############
 
-// export const SESSION_KEY_RESTORE = `${SESSION_KEY_PREFIX}:restore`; // * session
+export const SESSION_KEY_RESTORE = `${SESSION_KEY_PREFIX}:restore`; // * session
 export const SESSION_KEY_PATHNAME = `${SESSION_KEY_PREFIX}:pathname`; // * session
 
 // // session, once user connect app, is_connected always cloud be true // ? true => connected, false => disconnected

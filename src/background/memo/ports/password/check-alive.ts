@@ -1,6 +1,6 @@
 import { $bgsw_get_password_alive } from '~background/store/session/password_alive';
 
-import { $bgsw_lock } from './lock';
+import { $bgsw_lock } from '../../messages/password/lock';
 
 export const $bgsw_check_alive = async (idle: number) => {
     const password_alive = await $bgsw_get_password_alive();

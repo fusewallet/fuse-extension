@@ -1,6 +1,6 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
 
-import { $bgsw_check_alive } from '~background/memo/check-alive';
+import { $bgsw_check_alive } from '~background/memo/ports/password/check-alive';
 
 export type RequestBody = number;
 export type ResponseBody = boolean;

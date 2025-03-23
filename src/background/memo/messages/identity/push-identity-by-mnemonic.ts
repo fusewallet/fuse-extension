@@ -1,13 +1,13 @@
-import type { RequestBody, ResponseBody } from '~background/messages/direct-manage-identity';
+import type { RequestBody, ResponseBody } from '~background/messages/direct-handle-identity';
 import { $bgsw_get_key_rings } from '~background/store/secure/key_rings';
 import { $bgsw_get_password } from '~background/store/session/password';
+import type { ExtractOkType } from '~lib/messages';
 import { same } from '~lib/utils/same';
 import { match_combined_identity_key, type CombinedIdentityKey } from '~types/identity';
 
 import { $bgsw_push_identity } from './push-identity';
 
 type ExtractPushIdentityByMainMnemonic<T> = T extends { push_identity_by_main_mnemonic: infer U } ? U : never;
-type ExtractOkType<T> = T extends { ok: infer U } ? U : never;
 
 type PushIdentityByMainMnemonicRequestBody = ExtractPushIdentityByMainMnemonic<RequestBody>;
 type PushIdentityByMainMnemonicResponseBody = ExtractPushIdentityByMainMnemonic<ExtractOkType<ResponseBody>>;

@@ -5,7 +5,7 @@ import { FusePage } from '~components/layouts/page';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useRestoreAccount } from '~hooks/memo/restore-account';
 import { random_mnemonic, validate_mnemonic } from '~lib/identity/mnemonic';
-import { direct_message_manage_identity_push_identity } from '~lib/messages/direct/direct-manage-identity';
+import { direct_message_handle_identity_push_identity } from '~lib/messages/direct/direct-handle-identity';
 import type { CombinedIdentityKey } from '~types/identity';
 import { CurrentState } from '~types/state';
 import type { WindowType } from '~types/window';
@@ -46,7 +46,7 @@ function InnerCreatePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
                     subaccount: 0,
                 },
             };
-            direct_message_manage_identity_push_identity(key).then((r) => {
+            direct_message_handle_identity_push_identity(key).then((r) => {
                 if (r === undefined) throw Error('push identity failed');
                 if (r === false) throw Error('push identity failed');
                 navigate(-2); // back 2 pages

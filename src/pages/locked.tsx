@@ -7,9 +7,9 @@ import InputPassword from '~components/input-password';
 import { FusePage } from '~components/layouts/page';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useUnlock } from '~hooks/memo/unlock';
-import { usePasswordHashed } from '~hooks/store/local';
+import { useInitialized } from '~hooks/store/local';
 import { useRestore } from '~hooks/store/session';
-import { verify_password } from '~lib/password';
+import { verify_password } from '~lib/identity/password';
 import { CurrentState } from '~types/state';
 import type { WindowType } from '~types/window';
 
@@ -19,8 +19,8 @@ function LockedPage({ wt }: { wt: WindowType }) {
     const navigate = useNavigate();
 
     const [password1, setPassword1] = useState('');
-    const [password_hashed] = usePasswordHashed();
-    const unlock = useUnlock(current_state, password_hashed);
+    const [initialized] = useInitialized();
+    const unlock = useUnlock(current_state, initialized);
 
     const [restore, setRestore] = useRestore();
     useEffect(() => {
@@ -30,14 +30,15 @@ function LockedPage({ wt }: { wt: WindowType }) {
         }
     }, [restore, setRestore, navigate, wt]);
 
+    // TODO show password correct or not ?
     const [valid, setValid] = useState(false);
     useEffect(() => {
         (async () => {
             if (!password1) return false;
-            if (!password_hashed) return false;
-            return verify_password(password_hashed, password1);
+            if (!initialized) return false;
+            return verify_password(initialized, password1);
         })().then(setValid);
-    }, [password1, password_hashed]);
+    }, [password1, initialized]);
     // console.debug(`🚀 ~ valid ~ valid:`, valid);
 
     const onAlive = useCallback(() => {

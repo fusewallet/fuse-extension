@@ -1,15 +1,15 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
 
-import { $bgsw_delete_identity } from '~background/memo/identity/delete-identity';
-import { $bgsw_is_key_exist } from '~background/memo/identity/is-key-exist';
-import { $bgsw_push_identity } from '~background/memo/identity/push-identity';
-import { $bgsw_push_identity_by_main_mnemonic } from '~background/memo/identity/push-identity-by-mnemonic';
-import { $bgsw_resort_identity } from '~background/memo/identity/resort-identity';
-import { $bgsw_restore_identity } from '~background/memo/identity/restore-identity';
-import { $bgsw_show_mnemonic } from '~background/memo/identity/show-mnemonic';
-import { $bgsw_show_private_key } from '~background/memo/identity/show-private-key';
-import { $bgsw_switch_identity } from '~background/memo/identity/switch-identity';
-import { $bgsw_update_identity } from '~background/memo/identity/update-identity';
+import { $bgsw_delete_identity } from '~background/memo/messages/identity/delete-identity';
+import { $bgsw_is_key_exist } from '~background/memo/messages/identity/is-key-exist';
+import { $bgsw_push_identity } from '~background/memo/messages/identity/push-identity';
+import { $bgsw_push_identity_by_main_mnemonic } from '~background/memo/messages/identity/push-identity-by-mnemonic';
+import { $bgsw_resort_identity } from '~background/memo/messages/identity/resort-identity';
+import { $bgsw_restore_identity } from '~background/memo/messages/identity/restore-identity';
+import { $bgsw_show_mnemonic } from '~background/memo/messages/identity/show-mnemonic';
+import { $bgsw_show_private_key } from '~background/memo/messages/identity/show-private-key';
+import { $bgsw_switch_identity } from '~background/memo/messages/identity/switch-identity';
+import { $bgsw_update_identity } from '~background/memo/messages/identity/update-identity';
 import type { MessageResult } from '~lib/messages';
 import type { CombinedIdentityKey, IdentityId, KeyRings } from '~types/identity';
 
@@ -39,7 +39,7 @@ export type ResponseBody = MessageResult<
 >;
 
 const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async (req, res) => {
-    if (req.body === undefined) throw new Error(`can not find request body from direct-restore-account message`);
+    if (req.body === undefined) throw new Error(`can not find request body from direct-handle-identity message`);
 
     if ('restore_identity' in req.body) {
         return res.send({ ok: { restore_identity: await $bgsw_restore_identity(req.body.restore_identity) } });
@@ -99,7 +99,7 @@ const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async
         });
     }
 
-    throw new Error(`can not find action: ${Object.keys(req.body)[0]} for direct-restore-account message`);
+    throw new Error(`can not find action: ${Object.keys(req.body)[0]} for direct-handle-identity message`);
 };
 
 export default handler;

@@ -1,14 +1,14 @@
 import { v4 as uuid } from 'uuid';
 
-import type { RequestBody, ResponseBody } from '~background/messages/direct-manage-identity';
+import type { RequestBody, ResponseBody } from '~background/messages/direct-handle-identity';
 import { $bgsw_get_key_rings, $bgsw_set_key_rings } from '~background/store/secure/key_rings';
 import { $bgsw_get_password } from '~background/store/session/password';
 import { inner_get_identity_address, is_same_combined_identity_key } from '~lib/identity/address';
+import type { ExtractOkType } from '~lib/messages';
 import { random_account_icon } from '~lib/utils/account_icon';
 import { type IdentityKey } from '~types/identity';
 
 type ExtractPushIdentity<T> = T extends { push_identity: infer U } ? U : never;
-type ExtractOkType<T> = T extends { ok: infer U } ? U : never;
 
 type PushIdentityRequestBody = ExtractPushIdentity<RequestBody>;
 type PushIdentityResponseBody = ExtractPushIdentity<ExtractOkType<ResponseBody>>;
