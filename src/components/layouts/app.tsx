@@ -1,5 +1,6 @@
 // import { HeroUIProvider } from '@heroui/system';
-// import { QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
+
 import '~index.css';
 import '~assets/styles/reset.css';
 import '~assets/styles/globals.css';
@@ -15,7 +16,7 @@ import logo_black from '~assets/svg/logo-black.svg';
 import Icon from '~components/icon';
 // import { Toaster } from '~components/ui/sonner';
 // import { useBackground } from '~hooks/memo/background';
-// import { queryClient } from '~lib/react-query';
+import { queryClient } from '~lib/react-query';
 import { is_development } from '~lib/utils/env';
 import type { WindowType } from '~types/window';
 
@@ -42,15 +43,15 @@ export const SinglePageApp = ({
         return () => v_console?.destroy();
     }, [wt]);
     return (
-        // <QueryClientProvider client={queryClient}>
-        <HashRouter>
-            {/* <HeroUIProvider> */}
-            <WrapOptionPage className={className} routes={routes} wt={wt} />
-            {/* <Toaster position="top-center" theme="dark" /> */}
-            {/* {is_development() && <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />} */}
-            {/* </HeroUIProvider> */}
-        </HashRouter>
-        // </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+            <HashRouter>
+                {/* <HeroUIProvider> */}
+                <WrapOptionPage className={className} routes={routes} wt={wt} />
+                {/* <Toaster position="top-center" theme="dark" /> */}
+                {/* {is_development() && <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />} */}
+                {/* </HeroUIProvider> */}
+            </HashRouter>
+        </QueryClientProvider>
     );
 };
 
