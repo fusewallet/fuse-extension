@@ -1,10 +1,10 @@
 // import { HeroUIProvider } from '@heroui/system';
 // import { QueryClientProvider } from '@tanstack/react-query';
-// import '~index.css';
-// import '~assets/styles/reset.css';
-// import '~assets/styles/globals.css';
-// import '~assets/styles/animation.css';
-// import '~assets/iconfont/iconfont.js';
+import '~index.css';
+import '~assets/styles/reset.css';
+import '~assets/styles/globals.css';
+import '~assets/styles/animation.css';
+import '~assets/iconfont/iconfont.js';
 
 import { lazy, useEffect } from 'react';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -12,7 +12,7 @@ import { HashRouter, useRoutes, type RouteObject } from 'react-router-dom';
 import type VConsole from 'vconsole';
 
 import logo_black from '~assets/svg/logo-black.svg';
-// import Icon from '~components/icon';
+import Icon from '~components/icon';
 // import { Toaster } from '~components/ui/sonner';
 // import { useBackground } from '~hooks/memo/background';
 // import { queryClient } from '~lib/react-query';
@@ -62,7 +62,7 @@ const WrapOptionPage = ({ className, routes, wt }: { className?: string; routes:
                     <div className="fixed left-0 top-6 flex w-full items-center justify-between px-10">
                         <img src={logo_black} className="mr-2 w-[120px]" />
                         <div className="flex items-center">
-                            {/* <Icon name="icon-tips" className="mr-1 h-4 w-4 text-[#333333]" /> */}
+                            <Icon name="icon-tips" className="mr-1 h-4 w-4 text-[#333333]" />
                             <span className="text-base text-[#333333]">Help</span>
                         </div>
                     </div>
