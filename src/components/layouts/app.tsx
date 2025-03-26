@@ -14,7 +14,7 @@ import type VConsole from 'vconsole';
 import logo_black from '~assets/svg/logo-black.svg';
 import Icon from '~components/icon';
 import { Toaster } from '~components/ui/sonner';
-// import { useBackground } from '~hooks/memo/background';
+import { useBackground } from '~hooks/memo/background';
 import { queryClient } from '~lib/react-query';
 import { is_development } from '~lib/utils/env';
 import type { WindowType } from '~types/window';
@@ -77,7 +77,7 @@ const WrapOptionPage = ({ className, routes, wt }: { className?: string; routes:
 };
 
 const PageRoutes = ({ routes }: { routes: RouteObject[] }) => {
-    // useBackground();
+    useBackground();
     // FIXME refactor
     // useWatchCurrentIdentity();
     const views = useRoutes(routes);
