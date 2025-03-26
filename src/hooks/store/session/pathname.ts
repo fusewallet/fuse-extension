@@ -1,12 +1,11 @@
 import type { Storage } from '@plasmohq/storage';
 
 import { useCachedStoreData0, type DataMetadata0 } from '~hooks/meta/metadata-0';
-
-import { LOCAL_KEY_INITIALIZED } from '../keys';
+import { SESSION_KEY_PATHNAME } from '~lib/storage/keys';
 
 // ! always try to use this value to avoid BLINK
 type DataType = string;
-const get_key = (): string => LOCAL_KEY_INITIALIZED;
+const get_key = (): string => SESSION_KEY_PATHNAME;
 const get_default_value = (): DataType => '';
 let cached_value = get_default_value();
 const get_cached_value = (): DataType => cached_value;
@@ -18,6 +17,6 @@ const meta: DataMetadata0<DataType> = {
     set_cached_value,
 };
 
-// check initialized -> // * local
-export const useInitializedInner = (storage: Storage): [DataType, (value: DataType) => Promise<void>] =>
+// pathname for check transition of pages -> // * session
+export const usePathnameInner = (storage: Storage): [DataType, (value: DataType) => Promise<void>] =>
     useCachedStoreData0(storage, meta);

@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import type { Storage } from '@plasmohq/storage';
 
 import { useCachedStoreData0, type DataMetadata0 } from '~hooks/meta/metadata-0';
+import { LOCAL_KEY_TOKEN_PRICE_IC } from '~lib/storage/keys';
 import { same } from '~lib/utils/same';
 import { type IcTokenPrice } from '~types/tokens/chain/ic';
 
-import { LOCAL_KEY_TOKEN_PRICE_IC } from '../../../keys';
 import { useTokenPriceUpdatedIcInner } from './price_updated';
 
 // ! always try to use this value to avoid BLINK

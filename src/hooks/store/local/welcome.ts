@@ -1,13 +1,12 @@
 import type { Storage } from '@plasmohq/storage';
 
 import { useCachedStoreData0, type DataMetadata0 } from '~hooks/meta/metadata-0';
-
-import { LOCAL_KEY_TOKEN_INFO_IC_UPDATED } from '../../../keys';
+import { LOCAL_KEY_WELCOMED } from '~lib/storage/keys';
 
 // ! always try to use this value to avoid BLINK
-type DataType = number;
-const get_key = (): string => LOCAL_KEY_TOKEN_INFO_IC_UPDATED;
-const get_default_value = (): DataType => 0;
+type DataType = boolean;
+const get_key = (): string => LOCAL_KEY_WELCOMED;
+const get_default_value = (): DataType => true; // * welcome message cloud be skip
 let cached_value = get_default_value();
 const get_cached_value = (): DataType => cached_value;
 const set_cached_value = (value: DataType): DataType => (cached_value = value);
@@ -18,6 +17,6 @@ const meta: DataMetadata0<DataType> = {
     set_cached_value,
 };
 
-// token info updated ic -> // * local
-export const useTokenInfoUpdatedIcInner = (storage: Storage): [DataType, (value: DataType) => Promise<void>] =>
+// check welcome page -> // * local
+export const useWelcomedInner = (storage: Storage): [DataType, (value: DataType) => Promise<void>] =>
     useCachedStoreData0(storage, meta);

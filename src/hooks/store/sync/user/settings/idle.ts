@@ -1,7 +1,7 @@
 import type { Storage } from '@plasmohq/storage';
 import { useStorage } from '@plasmohq/storage/hook';
 
-import { SYNC_KEY_USER_SETTINGS_IDLE } from '../../../keys';
+import { SYNC_KEY_USER_SETTINGS_IDLE } from '~lib/storage/keys';
 
 // user settings idle -> // * sync
 export const useUserSettingsIdleInner = (storage: Storage) => {
