@@ -28,7 +28,7 @@ export const DEFAULT_CRYPTO_OPTIONS: CryptoOptions = {
     cipher_mode: 'AES-GCM',
     cipher_size: 256,
 
-    iterations: 1000_0000,
+    iterations: 1000_000, // note spend time
     salt_size: 32,
     iv_size: 32,
 };
@@ -59,6 +59,8 @@ export class FuseSecureStorage<T> {
 
     public async restore(password: string): Promise<boolean> {
         if (!password) throw new Error('invalid password');
+
+        const s = Date.now();
 
         if (!this.namespace) this.namespace = (await sha256_hash(`SHA-256#${password}`)).slice(-16);
         this.key_namespace = `${this.namespace}${this.separator}`;
@@ -93,6 +95,9 @@ export class FuseSecureStorage<T> {
                 this.options = _options; // use read options
             }
         }
+
+        const e = Date.now();
+        console.debug(`restore secure storage spend: ${e - s}ms`);
 
         return verified;
     }
@@ -189,8 +194,9 @@ const base64ToU8 = (base64: string) => Uint8Array.from(globalThis.atob(base64), 
 
 const { crypto } = globalThis;
 
-const deriveKey = async (options: CryptoOptions, passwordKey: CryptoKey, salt: Uint8Array, keyUsage: KeyUsage[]) =>
-    crypto.subtle.deriveKey(
+const deriveKey = async (options: CryptoOptions, passwordKey: CryptoKey, salt: Uint8Array, keyUsage: KeyUsage[]) => {
+    const s = Date.now();
+    const key = crypto.subtle.deriveKey(
         {
             name: options.algorithm,
             hash: options.hash_algo,
@@ -205,3 +211,7 @@ const deriveKey = async (options: CryptoOptions, passwordKey: CryptoKey, salt: U
         false,
         keyUsage,
     );
+    const e = Date.now();
+    console.debug(`derive key spend: ${e - s}ms`);
+    return key;
+};

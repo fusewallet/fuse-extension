@@ -19,7 +19,7 @@ function LockedPage({ wt }: { wt: WindowType }) {
     const navigate = useNavigate();
 
     const [password1, setPassword1] = useState('');
-    const [initialized] = useInitialized();
+    const initialized = useInitialized();
     const unlock = useUnlock(current_state, initialized);
 
     const [restore, setRestore] = useRestore();

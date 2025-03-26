@@ -23,6 +23,7 @@ export const useRestoreIdentity = (
 
             const key_rings = await new_key_rings_by_mnemonic(mnemonic);
 
+            const s = Date.now();
             if (
                 !(await direct_message_handle_identity_restore_identity(
                     password,
@@ -32,6 +33,9 @@ export const useRestoreIdentity = (
             ) {
                 return false;
             }
+
+            const e = Date.now();
+            console.debug(`direct_message_handle_identity_restore_identity spend: ${e - s}ms `);
 
             return true;
         },
