@@ -57,23 +57,23 @@ const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async
         return res.send({ ok: { delete_identity: await $bgsw_delete_identity(req.body.delete_identity) } });
     }
 
-    // if ('is_key_exist' in req.body) {
-    //     return res.send({ ok: { is_key_exist: await $bgsw_is_key_exist(req.body.is_key_exist) } });
-    // }
+    if ('is_key_exist' in req.body) {
+        return res.send({ ok: { is_key_exist: await $bgsw_is_key_exist(req.body.is_key_exist) } });
+    }
 
-    // if ('push_identity' in req.body) {
-    //     return res.send({ ok: { push_identity: await $bgsw_push_identity(req.body.push_identity) } });
-    // }
+    if ('push_identity' in req.body) {
+        return res.send({ ok: { push_identity: await $bgsw_push_identity(req.body.push_identity) } });
+    }
 
-    // if ('push_identity_by_main_mnemonic' in req.body) {
-    //     return res.send({
-    //         ok: {
-    //             push_identity_by_main_mnemonic: await $bgsw_push_identity_by_main_mnemonic(
-    //                 req.body.push_identity_by_main_mnemonic,
-    //             ),
-    //         },
-    //     });
-    // }
+    if ('push_identity_by_main_mnemonic' in req.body) {
+        return res.send({
+            ok: {
+                push_identity_by_main_mnemonic: await $bgsw_push_identity_by_main_mnemonic(
+                    req.body.push_identity_by_main_mnemonic,
+                ),
+            },
+        });
+    }
 
     if ('update_identity' in req.body) {
         return res.send({
