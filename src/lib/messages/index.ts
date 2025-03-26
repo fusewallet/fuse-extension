@@ -29,9 +29,7 @@ export const DIRECT_MESSAGE_HANDLE_PASSWORD = 'direct-handle-password'; // Exten
 // * BGSW <-> Extension-Pages/CS
 // export const PORT_MAIL = 'mail';
 export const DIRECT_PORT_CHECK_ALIVE = 'direct-check-alive'; // BGSW -> Extension-Pages // ? long-lived
-// export const DIRECT_PORT_INITIALIZED = 'direct-initialized'; // BGSW -> Extension-Pages // ? long-lived
-// export const DIRECT_PORT_UNLOCKED = 'direct-unlocked'; // BGSW -> Extension-Pages // ? long-lived
-// export const DIRECT_PORT_POPUP_ACTIONS = 'direct-popup-actions'; // BGSW -> Extension-Pages // ? long-lived
+export const DIRECT_PORT_POPUP_ACTIONS = 'direct-popup-actions'; // BGSW -> Extension-Pages // ? long-lived
 
 // Ports + Relay
 // * BGSW -> WebPage
