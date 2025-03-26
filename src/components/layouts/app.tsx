@@ -14,7 +14,7 @@ import type VConsole from 'vconsole';
 
 import logo_black from '~assets/svg/logo-black.svg';
 import Icon from '~components/icon';
-// import { Toaster } from '~components/ui/sonner';
+import { Toaster } from '~components/ui/sonner';
 // import { useBackground } from '~hooks/memo/background';
 import { queryClient } from '~lib/react-query';
 import { is_development } from '~lib/utils/env';
@@ -47,7 +47,7 @@ export const SinglePageApp = ({
             <HashRouter>
                 {/* <HeroUIProvider> */}
                 <WrapOptionPage className={className} routes={routes} wt={wt} />
-                {/* <Toaster position="top-center" theme="dark" /> */}
+                <Toaster position="top-center" theme="dark" />
                 {/* {is_development() && <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />} */}
                 {/* </HeroUIProvider> */}
             </HashRouter>
