@@ -16,5 +16,6 @@ export const $bgsw_restore_identity = async ({
     await $bgsw_set_key_rings(password, key_rings);
     await $bgsw_set_password(password);
     await $bgsw_set_password_alive(Date.now());
+    await __ intitaled hash_pass
     return true;
 };

@@ -37,7 +37,7 @@ const LOCAL_STORAGE = __get_local_storage(); // local
 
 // ############### LOCAL ###############
 export const useWelcomed = () => useWelcomedInner(LOCAL_STORAGE); // local
-export const useInitialized = () => useInitializedInner(LOCAL_STORAGE); // local
+export const useInitialized = () => useInitializedInner(LOCAL_STORAGE)[0]; // local
 
 // // token/custom
 // export const useTokenInfoCustom = () => useTokenInfoCustomInner2(LOCAL_STORAGE); // local
