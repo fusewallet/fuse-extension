@@ -44,7 +44,7 @@ export const getRoutes = (wt: WindowType) => {
         // initial
         ...(hit(wt, []) ? [{ path: '/initial', element: <InitialPage /> }] : []),
         ...(hit(wt, []) ? [{ path: '/initial/create', element: <InnerCreatePage wt={wt} /> }] : []),
-        // ...(hit(wt, []) ? [{ path: '/initial/restore', element: <CreateRestorePage wt={wt} /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/initial/restore', element: <CreateRestorePage wt={wt} /> }] : []),
 
         // locked
         // ...(hit(wt, []) ? [{ path: '/locked', element: <LockedPage wt={wt} /> }] : []),
@@ -71,7 +71,7 @@ export const getRoutes = (wt: WindowType) => {
         // ...(hit(wt, []) ? [{ path: '/home/settings/accounts', element: <SettingsAccountsPage /> }] : []),
         ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra', element: <InitialPage extra={true} /> }] : []),
         ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra/create', element: <InnerCreatePage wt={wt} extra={true} /> }] : []),
-        // ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra/restore', element: <CreateRestorePage wt={wt} extra={true} /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra/restore', element: <CreateRestorePage wt={wt} extra={true} /> }] : []),
         // ...(hit(wt, []) ? [{ path: '/home/settings/accounts/import/:type', element: <ImportExtraAccountPage /> }] : []),
         // ...(hit(wt, []) ? [{ path: '/home/settings/accounts/:id', element: <AccountsSinglePage /> }] : []),
         // // settings/security

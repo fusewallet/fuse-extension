@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { FusePage } from '~components/layouts/page';
 import { useCurrentState } from '~hooks/memo/current_state';
-import { useRestoreAccount } from '~hooks/memo/restore-account';
+import { useRestoreIdentity } from '~hooks/memo/restore-identity';
 import { validate_mnemonic } from '~lib/identity/mnemonic';
 import {
     direct_message_handle_identity_is_key_exist,
@@ -25,7 +25,7 @@ function CreateRestorePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
 
     const navigate = useNavigate();
 
-    const { restoreAccountByMnemonic } = useRestoreAccount(current_state);
+    const { restoreIdentityByMnemonic } = useRestoreIdentity(current_state);
 
     const [state, setState] = useState<RestoreState>('way');
     const [last_state, setLastState] = useState<'mnemonic' | 'private_key'>();
@@ -58,14 +58,14 @@ function CreateRestorePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
             return;
         }
 
-        const r = await restoreAccountByMnemonic(password1, mnemonic);
-        if (!r) console.error('restoreAccountByMnemonic failed', r);
+        const r = await restoreIdentityByMnemonic(password1, mnemonic);
+        if (!r) console.error('restoreIdentityByMnemonic failed', r);
         if (wt === 'options') {
             await chrome.action.openPopup();
             // window.close(); // close window if current window is individual page
             navigate('/');
         }
-    }, [extra, password1, mnemonic, restoreAccountByMnemonic, wt, navigate]);
+    }, [extra, password1, mnemonic, restoreIdentityByMnemonic, wt, navigate]);
 
     const onPrivateKeyCompleted = useCallback(async () => {
         throw new Error('Come soon');

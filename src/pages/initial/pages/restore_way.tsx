@@ -1,8 +1,9 @@
-import { Button, cn } from '@heroui/react';
+import { Button } from '@heroui/button';
 import { useState } from 'react';
 
 import Icon from '~components/icon';
 import { useSonnerToast } from '~components/toast';
+import { cn } from '~lib/utils/cn';
 
 function RestoreWayPage({
     className,
