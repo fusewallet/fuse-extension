@@ -1,15 +1,15 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
 
-// import { $bgsw_delete_identity } from '~background/memo/messages/identity/delete-identity';
-// import { $bgsw_is_key_exist } from '~background/memo/messages/identity/is-key-exist';
-// import { $bgsw_push_identity } from '~background/memo/messages/identity/push-identity';
-// import { $bgsw_push_identity_by_main_mnemonic } from '~background/memo/messages/identity/push-identity-by-mnemonic';
-// import { $bgsw_resort_identity } from '~background/memo/messages/identity/resort-identity';
-// import { $bgsw_restore_identity } from '~background/memo/messages/identity/restore-identity';
-// import { $bgsw_show_mnemonic } from '~background/memo/messages/identity/show-mnemonic';
-// import { $bgsw_show_private_key } from '~background/memo/messages/identity/show-private-key';
-// import { $bgsw_switch_identity } from '~background/memo/messages/identity/switch-identity';
-// import { $bgsw_update_identity } from '~background/memo/messages/identity/update-identity';
+import { $bgsw_delete_identity } from '~background/memo/messages/identity/delete-identity';
+import { $bgsw_is_key_exist } from '~background/memo/messages/identity/is-key-exist';
+import { $bgsw_push_identity } from '~background/memo/messages/identity/push-identity';
+import { $bgsw_push_identity_by_main_mnemonic } from '~background/memo/messages/identity/push-identity-by-mnemonic';
+import { $bgsw_resort_identity } from '~background/memo/messages/identity/resort-identity';
+import { $bgsw_restore_identity } from '~background/memo/messages/identity/restore-identity';
+import { $bgsw_show_mnemonic } from '~background/memo/messages/identity/show-mnemonic';
+import { $bgsw_show_private_key } from '~background/memo/messages/identity/show-private-key';
+import { $bgsw_switch_identity } from '~background/memo/messages/identity/switch-identity';
+import { $bgsw_update_identity } from '~background/memo/messages/identity/update-identity';
 import type { MessageResult } from '~lib/messages';
 import type { CombinedIdentityKey, IdentityId, KeyRings } from '~types/identity';
 
@@ -41,21 +41,21 @@ export type ResponseBody = MessageResult<
 const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async (req, res) => {
     if (req.body === undefined) throw new Error(`can not find request body from direct-handle-identity message`);
 
-    // if ('restore_identity' in req.body) {
-    //     return res.send({ ok: { restore_identity: await $bgsw_restore_identity(req.body.restore_identity) } });
-    // }
+    if ('restore_identity' in req.body) {
+        return res.send({ ok: { restore_identity: await $bgsw_restore_identity(req.body.restore_identity) } });
+    }
 
-    // if ('show_mnemonic' in req.body) {
-    //     return res.send({ ok: { show_mnemonic: await $bgsw_show_mnemonic(req.body.show_mnemonic) } });
-    // }
+    if ('show_mnemonic' in req.body) {
+        return res.send({ ok: { show_mnemonic: await $bgsw_show_mnemonic(req.body.show_mnemonic) } });
+    }
 
-    // if ('show_private_key' in req.body) {
-    //     return res.send({ ok: { show_private_key: await $bgsw_show_private_key(req.body.show_private_key) } });
-    // }
+    if ('show_private_key' in req.body) {
+        return res.send({ ok: { show_private_key: await $bgsw_show_private_key(req.body.show_private_key) } });
+    }
 
-    // if ('delete_identity' in req.body) {
-    //     return res.send({ ok: { delete_identity: await $bgsw_delete_identity(req.body.delete_identity) } });
-    // }
+    if ('delete_identity' in req.body) {
+        return res.send({ ok: { delete_identity: await $bgsw_delete_identity(req.body.delete_identity) } });
+    }
 
     // if ('is_key_exist' in req.body) {
     //     return res.send({ ok: { is_key_exist: await $bgsw_is_key_exist(req.body.is_key_exist) } });
@@ -75,29 +75,29 @@ const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async
     //     });
     // }
 
-    // if ('update_identity' in req.body) {
-    //     return res.send({
-    //         ok: {
-    //             update_identity: await $bgsw_update_identity(req.body.update_identity),
-    //         },
-    //     });
-    // }
+    if ('update_identity' in req.body) {
+        return res.send({
+            ok: {
+                update_identity: await $bgsw_update_identity(req.body.update_identity),
+            },
+        });
+    }
 
-    // if ('switch_identity' in req.body) {
-    //     return res.send({
-    //         ok: {
-    //             switch_identity: await $bgsw_switch_identity(req.body.switch_identity),
-    //         },
-    //     });
-    // }
+    if ('switch_identity' in req.body) {
+        return res.send({
+            ok: {
+                switch_identity: await $bgsw_switch_identity(req.body.switch_identity),
+            },
+        });
+    }
 
-    // if ('resort_identity' in req.body) {
-    //     return res.send({
-    //         ok: {
-    //             resort_identity: await $bgsw_resort_identity(req.body.resort_identity),
-    //         },
-    //     });
-    // }
+    if ('resort_identity' in req.body) {
+        return res.send({
+            ok: {
+                resort_identity: await $bgsw_resort_identity(req.body.resort_identity),
+            },
+        });
+    }
 
     throw new Error(`can not find action: ${Object.keys(req.body)[0]} for direct-handle-identity message`);
 };
