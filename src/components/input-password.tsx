@@ -77,7 +77,8 @@ function InputPassword({
             errorMessage={errorMessage}
             isInvalid={!!errorMessage}
             color={!value ? undefined : errorMessage ? 'danger' : 'success'}
-            onChange={(e) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onChange={(e: any) => {
                 const value = e.target.value;
                 onChange(value);
                 setValue(value);
