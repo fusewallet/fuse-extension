@@ -10,9 +10,9 @@ import type { CombinedIdentityKey } from '~types/identity';
 import { CurrentState } from '~types/state';
 import type { WindowType } from '~types/window';
 
-// import CreateMnemonicPage from './pages/create_mnemonic';
-// import CreateVerificationPage from './pages/create_verification';
-// import InputPasswordPage from './pages/password';
+import CreateMnemonicPage from './pages/create_mnemonic';
+import CreateVerificationPage from './pages/create_verification';
+import InputPasswordPage from './pages/password';
 
 type CreateState = 'password' | 'mnemonic' | 'verification';
 
