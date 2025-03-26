@@ -1,5 +1,4 @@
 import { string2principal } from '@choptop/haw';
-// import { CanisterStatus, HttpAgent } from '@dfinity/agent';
 import type { Principal } from '@dfinity/principal';
 
 export const get_canister_status = async (

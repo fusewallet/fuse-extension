@@ -2,7 +2,10 @@ import type { RequestBody, ResponseBody } from '~background/messages/direct-hand
 import { $bgsw_set_key_rings } from '~background/store/secure/key_rings';
 import { $bgsw_set_password } from '~background/store/session/password';
 import { $bgsw_set_password_alive } from '~background/store/session/password_alive';
+import { hash_password } from '~lib/identity/password';
 import type { ExtractOkType } from '~lib/messages';
+import { __get_local_storage } from '~lib/storage';
+import { LOCAL_KEY_INITIALIZED } from '~lib/storage/keys';
 
 type ExtractRestoreIdentity<T> = T extends { restore_identity: infer U } ? U : never;
 
@@ -16,6 +19,6 @@ export const $bgsw_restore_identity = async ({
     await $bgsw_set_key_rings(password, key_rings);
     await $bgsw_set_password(password);
     await $bgsw_set_password_alive(Date.now());
-    await __ intitaled hash_pass
+    await __get_local_storage().setItem(LOCAL_KEY_INITIALIZED, await hash_password(password));
     return true;
 };
