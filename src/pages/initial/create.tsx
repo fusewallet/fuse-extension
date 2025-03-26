@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 // import { FusePage } from '~components/layouts/page';
 import { useCurrentState } from '~hooks/memo/current_state';
-// import { useRestoreIdentity } from '~hooks/memo/restore-identity';
+import { useRestoreIdentity } from '~hooks/memo/restore-identity';
 // import { random_mnemonic, validate_mnemonic } from '~lib/identity/mnemonic';
 // import { direct_message_handle_identity_push_identity } from '~lib/messages/direct/direct-handle-identity';
 // import type { CombinedIdentityKey } from '~types/identity';
@@ -21,7 +21,7 @@ function InnerCreatePage({ wt, extra }: { wt: WindowType; extra?: boolean }) {
 
     const navigate = useNavigate();
 
-    // const { restoreIdentityByMnemonic } = useRestoreIdentity(current_state);
+    const { restoreIdentityByMnemonic } = useRestoreIdentity(current_state);
 
     // const [state, setState] = useState<CreateState>(extra ? 'mnemonic' : 'password');
 
