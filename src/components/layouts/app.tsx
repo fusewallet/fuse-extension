@@ -1,30 +1,28 @@
-import { HeroUIProvider } from '@heroui/react';
-import { QueryClientProvider } from '@tanstack/react-query';
+// import { HeroUIProvider } from '@heroui/system';
+// import { QueryClientProvider } from '@tanstack/react-query';
+// import '~index.css';
+// import '~assets/styles/reset.css';
+// import '~assets/styles/globals.css';
+// import '~assets/styles/animation.css';
+// import '~assets/iconfont/iconfont.js';
+
+import { lazy, useEffect } from 'react';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HashRouter, useRoutes, type RouteObject } from 'react-router-dom';
 import type VConsole from 'vconsole';
 
 import logo_black from '~assets/svg/logo-black.svg';
-import Icon from '~components/icon';
-
-import '~index.css';
-import '~assets/styles/reset.css';
-import '~assets/styles/globals.css';
-import '~assets/styles/animation.css';
-import '~assets/iconfont/iconfont.js';
-
-import { lazy, useEffect } from 'react';
-
-import { Toaster } from '~components/ui/sonner';
-import { useBackground } from '~hooks/memo/background';
-import { queryClient } from '~lib/react-query';
+// import Icon from '~components/icon';
+// import { Toaster } from '~components/ui/sonner';
+// import { useBackground } from '~hooks/memo/background';
+// import { queryClient } from '~lib/react-query';
 import { is_development } from '~lib/utils/env';
 import type { WindowType } from '~types/window';
 
 // FIXME refactor
 // import { useWatchCurrentIdentity } from '~hooks/memo/identity';
 
-const ReactQueryDevtools = lazy(() => import('./devtools'));
+// const ReactQueryDevtools = lazy(() => import('./devtools'));
 
 export const SinglePageApp = ({
     className,
@@ -44,15 +42,15 @@ export const SinglePageApp = ({
         return () => v_console?.destroy();
     }, [wt]);
     return (
-        <QueryClientProvider client={queryClient}>
-            <HashRouter>
-                <HeroUIProvider>
-                    <WrapOptionPage className={className} routes={routes} wt={wt} />
-                    <Toaster position="top-center" theme="dark" />
-                    {is_development() && <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />}
-                </HeroUIProvider>
-            </HashRouter>
-        </QueryClientProvider>
+        // <QueryClientProvider client={queryClient}>
+        <HashRouter>
+            {/* <HeroUIProvider> */}
+            <WrapOptionPage className={className} routes={routes} wt={wt} />
+            {/* <Toaster position="top-center" theme="dark" /> */}
+            {/* {is_development() && <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />} */}
+            {/* </HeroUIProvider> */}
+        </HashRouter>
+        // </QueryClientProvider>
     );
 };
 
@@ -64,7 +62,7 @@ const WrapOptionPage = ({ className, routes, wt }: { className?: string; routes:
                     <div className="fixed left-0 top-6 flex w-full items-center justify-between px-10">
                         <img src={logo_black} className="mr-2 w-[120px]" />
                         <div className="flex items-center">
-                            <Icon name="icon-tips" className="mr-1 h-4 w-4 text-[#333333]" />
+                            {/* <Icon name="icon-tips" className="mr-1 h-4 w-4 text-[#333333]" /> */}
                             <span className="text-base text-[#333333]">Help</span>
                         </div>
                     </div>
@@ -79,7 +77,7 @@ const WrapOptionPage = ({ className, routes, wt }: { className?: string; routes:
 };
 
 const PageRoutes = ({ routes }: { routes: RouteObject[] }) => {
-    useBackground();
+    // useBackground();
     // FIXME refactor
     // useWatchCurrentIdentity();
     const views = useRoutes(routes);
