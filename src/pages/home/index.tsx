@@ -4,9 +4,9 @@
 
 // import ic_svg from '~assets/svg/chains/ic.min.svg';
 // import Icon from '~components/icon';
-import { FusePage } from '~components/layouts/page';
+// import { FusePage } from '~components/layouts/page';
 // import { useERC20Balances } from '~hooks/evm/contracts/multicall/read';
-import { useCurrentState } from '~hooks/memo/current_state';
+// import { useCurrentState } from '~hooks/memo/current_state';
 
 // import { useTokenBalanceIcByRefreshing, useTokenInfoCurrentRead } from '~hooks/store/local';
 // import { useCurrentIdentity, useShowNetworks } from '~hooks/store/local-secure';
@@ -24,22 +24,23 @@ import { useCurrentState } from '~hooks/memo/current_state';
 // import { HomeShowToken } from './components/show-token';
 
 function HomePage() {
-    const current_state = useCurrentState();
-    console.error(`🚀 ~ HomePage ~ current_state: xxxxx`, current_state);
+    return <>Home</>;
+    // const current_state = useCurrentState();
+    // console.error(`🚀 ~ HomePage ~ current_state: xxxxx`, current_state);
     // const { current_identity } = useCurrentIdentity();
 
-    return (
-        <FusePage
-            current_state={current_state}
-            options={{
-                update_pathname: true,
-                refresh_token_price_ic_sleep: 1000 * 60,
-            }}
-        >
-            <>HOME</>
-            {/* {current_identity && <InnerHomePage current_identity={current_identity} />} */}
-        </FusePage>
-    );
+    // return (
+    //     <FusePage
+    //         current_state={current_state}
+    //         options={{
+    //             update_pathname: true,
+    //             refresh_token_price_ic_sleep: 1000 * 60,
+    //         }}
+    //     >
+    //         <>HOME</>
+    //         {/* {current_identity && <InnerHomePage current_identity={current_identity} />} */}
+    //     </FusePage>
+    // );
 }
 
 export default HomePage;
