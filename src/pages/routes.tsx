@@ -12,7 +12,7 @@ import type { WindowType } from '~types/window';
 // import InnerCreatePage from './initial/create';
 // import CreateRestorePage from './initial/restore';
 // import LockedPage from './locked';
-// import WelcomePage from './welcome';
+import WelcomePage from './welcome';
 // import FunctionSettingsSecurityPage from './functions/settings/pages/security';
 // import FunctionSettingsSecurityChangePasswordPage from './functions/settings/pages/security/password';
 // import FunctionSettingsSecurityLockTimePage from './functions/settings/pages/security/lock-time';
@@ -39,7 +39,7 @@ import HomePage from './home';
 
 export const getRoutes = (wt: WindowType) => {
     const routes: RouteObject[] = [
-        // ...(hit(wt, []) ? [{ path: '/welcome', element: <WelcomePage /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/welcome', element: <WelcomePage /> }] : []),
 
         // // // initial
         // ...(hit(wt, []) ? [{ path: '/initial', element: <InitialPage /> }] : []),
