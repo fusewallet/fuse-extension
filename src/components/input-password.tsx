@@ -1,4 +1,4 @@
-import { Input } from '@heroui/react';
+import { Input } from '@heroui/input';
 import { useState } from 'react';
 import { useTimeout } from 'usehooks-ts';
 
