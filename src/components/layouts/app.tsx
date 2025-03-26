@@ -1,4 +1,4 @@
-// import { HeroUIProvider } from '@heroui/system';
+import { HeroUIProvider } from '@heroui/system';
 import { QueryClientProvider } from '@tanstack/react-query';
 
 import '~index.css';
@@ -44,11 +44,11 @@ export const SinglePageApp = ({
     return (
         <QueryClientProvider client={queryClient}>
             <HashRouter>
-                {/* <HeroUIProvider> */}
-                <WrapOptionPage className={className} routes={routes} wt={wt} />
-                <Toaster position="top-center" theme="dark" />
-                {is_development() && <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />}
-                {/* </HeroUIProvider> */}
+                <HeroUIProvider>
+                    <WrapOptionPage className={className} routes={routes} wt={wt} />
+                    <Toaster position="top-center" theme="dark" />
+                    {is_development() && <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />}
+                </HeroUIProvider>
             </HashRouter>
         </QueryClientProvider>
     );
