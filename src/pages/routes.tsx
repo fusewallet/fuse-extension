@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
-import { lazy } from 'react';
+// import { lazy } from 'react';
 
 import type { WindowType } from '~types/window';
 

@@ -8,7 +8,6 @@ import '~assets/styles/animation.css';
 import '~assets/iconfont/iconfont.js';
 
 import { lazy, useEffect } from 'react';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HashRouter, useRoutes, type RouteObject } from 'react-router-dom';
 import type VConsole from 'vconsole';
 
@@ -23,7 +22,7 @@ import type { WindowType } from '~types/window';
 // FIXME refactor
 // import { useWatchCurrentIdentity } from '~hooks/memo/identity';
 
-// const ReactQueryDevtools = lazy(() => import('./devtools'));
+const ReactQueryDevtools = lazy(() => import('./devtools'));
 
 export const SinglePageApp = ({
     className,
@@ -48,7 +47,7 @@ export const SinglePageApp = ({
                 {/* <HeroUIProvider> */}
                 <WrapOptionPage className={className} routes={routes} wt={wt} />
                 <Toaster position="top-center" theme="dark" />
-                {/* {is_development() && <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />} */}
+                {is_development() && <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />}
                 {/* </HeroUIProvider> */}
             </HashRouter>
         </QueryClientProvider>
