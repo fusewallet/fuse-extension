@@ -17,6 +17,7 @@
         "background": "admin",
         "session": "guard",
         "sync": "aws",
+        "storage": "store",
     },
     "cSpell.words": [
         "BGSW",

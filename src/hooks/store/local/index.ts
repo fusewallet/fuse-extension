@@ -1,5 +1,4 @@
 import { __get_local_storage } from '~lib/storage';
-
 // import type { MessageResult } from '~lib/messages';
 // import type { IdentityNetwork } from '~types/network';
 // import type { FuseRecord, FuseRecordList } from '~types/records';
@@ -11,12 +10,14 @@ import {
     //     LOCAL_KEY_RECORD_COUNT,
     //     LOCAL_KEY_RECORD_DATE,
     //     LOCAL_KEY_RECORD_STARTED,
-} from '../keys';
+} from '~lib/storage/keys';
+
 import { useInitializedInner } from './initialized';
 // import { useTokenInfoCurrentInner, useTokenInfoCurrentInner2 } from './token/current';
 // import { useTokenInfoCustomInner2 } from './token/custom';
 // import { useTokenBalanceIcByRefreshingInner } from './token/ic/balance';
-import { useTokenInfoIcByInitialInner, useTokenInfoIcByRefreshingInner } from './token/ic/info';
+// import { useTokenInfoIcByInitialInner, useTokenInfoIcByRefreshingInner } from './token/ic/info';
+import { useTokenInfoIcByRefreshingInner } from './token/ic/info';
 // import {
 //     useTokenMetadataIcByInitialInner,
 //     useTokenMetadataIcByRefreshingInner,

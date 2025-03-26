@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const idlFactory = ({ IDL }: any) => {
     const Timers = IDL.Record({
         last_spawned_timestamp_seconds: IDL.Opt(IDL.Nat64),

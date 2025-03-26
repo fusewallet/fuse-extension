@@ -53,7 +53,7 @@ export const LOCAL_KEY_TOKEN_PRICE_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:price
 export const SESSION_KEY_RESTORE = `${SESSION_KEY_PREFIX}:restore`; // * session
 export const SESSION_KEY_PATHNAME = `${SESSION_KEY_PREFIX}:pathname`; // * session
 export const SESSION_KEY_UNLOCKED = `${SESSION_KEY_PREFIX}:unlocked`; // * session
-export const SESSION_KEY_POPUP_ACTIONS = `${SESSION_KEY_PREFIX}:popup_actions`; // * session
+export const SESSION_KEY_POPUP_ACTIONS_LENGTH = `${SESSION_KEY_PREFIX}:popup_actions_length`; // * session
 
 // // session, once user connect app, is_connected always cloud be true // ? true => connected, false => disconnected
 // export const SESSION_KEY_CURRENT_SESSION_CONNECTED_APP = (identity_network: IdentityNetwork, origin: string) =>
