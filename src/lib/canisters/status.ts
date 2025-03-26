@@ -1,5 +1,5 @@
 import { string2principal } from '@choptop/haw';
-import { CanisterStatus, HttpAgent } from '@dfinity/agent';
+// import { CanisterStatus, HttpAgent } from '@dfinity/agent';
 import type { Principal } from '@dfinity/principal';
 
 export const get_canister_status = async (
@@ -11,6 +11,9 @@ export const get_canister_status = async (
     module_hash: string | undefined;
     candid: string | undefined;
 }> => {
+    // ! The dynamic import module avoids page stalling caused by loading large files
+    const { CanisterStatus, HttpAgent } = await import('@dfinity/agent');
+
     const map = await CanisterStatus.request({
         canisterId: string2principal(canister_id),
         agent: HttpAgent.createSync(),

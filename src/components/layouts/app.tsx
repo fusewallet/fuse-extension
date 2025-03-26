@@ -1,6 +1,6 @@
 import { HeroUIProvider } from '@heroui/react';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HashRouter, useRoutes, type RouteObject } from 'react-router-dom';
 import type VConsole from 'vconsole';
 
@@ -13,7 +13,7 @@ import '~assets/styles/globals.css';
 import '~assets/styles/animation.css';
 import '~assets/iconfont/iconfont.js';
 
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 
 import { Toaster } from '~components/ui/sonner';
 import { useBackground } from '~hooks/memo/background';
@@ -23,6 +23,8 @@ import type { WindowType } from '~types/window';
 
 // FIXME refactor
 // import { useWatchCurrentIdentity } from '~hooks/memo/identity';
+
+const ReactQueryDevtools = lazy(() => import('./devtools'));
 
 export const SinglePageApp = ({
     className,
