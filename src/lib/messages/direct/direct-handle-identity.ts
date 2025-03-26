@@ -16,8 +16,9 @@ const direct_message_handle_identity = async (body: RequestBody): Promise<Extrac
 export const direct_message_handle_identity_restore_identity = async (
     password: string,
     key_rings: KeyRings,
+    initialized: string,
 ): Promise<boolean> => {
-    const result = await direct_message_handle_identity({ restore_identity: { password, key_rings } });
+    const result = await direct_message_handle_identity({ restore_identity: { password, key_rings, initialized } });
     if (!('restore_identity' in result))
         throw new Error(`can not get result from message: ${DIRECT_MESSAGE_HANDLE_IDENTITY}`);
     return result.restore_identity;

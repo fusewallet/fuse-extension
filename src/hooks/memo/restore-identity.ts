@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 import { inner_get_identity_address } from '~lib/identity/address';
 import { validate_mnemonic } from '~lib/identity/mnemonic';
-import { check_password } from '~lib/identity/password';
+import { check_password, hash_password } from '~lib/identity/password';
 import { direct_message_handle_identity_restore_identity } from '~lib/messages/direct/direct-handle-identity';
 import type { CombinedIdentityKey, KeyRings } from '~types/identity';
 import { CurrentState } from '~types/state';
@@ -23,7 +23,15 @@ export const useRestoreIdentity = (
 
             const key_rings = await new_key_rings_by_mnemonic(mnemonic);
 
-            if (!(await direct_message_handle_identity_restore_identity(password, key_rings))) return false;
+            if (
+                !(await direct_message_handle_identity_restore_identity(
+                    password,
+                    key_rings,
+                    await hash_password(password),
+                ))
+            ) {
+                return false;
+            }
 
             return true;
         },

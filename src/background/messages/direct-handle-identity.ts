@@ -14,7 +14,7 @@ import type { MessageResult } from '~lib/messages';
 import type { CombinedIdentityKey, IdentityId, KeyRings } from '~types/identity';
 
 export type RequestBody =
-    | { restore_identity: { password: string; key_rings: KeyRings } }
+    | { restore_identity: { password: string; key_rings: KeyRings; initialized: string } }
     | { show_mnemonic: { password: string; id: IdentityId } }
     | { show_private_key: { password: string; id: IdentityId } }
     | { delete_identity: { password: string; id: IdentityId } }
