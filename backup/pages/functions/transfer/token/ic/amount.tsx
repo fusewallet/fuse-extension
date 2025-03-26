@@ -1,5 +1,5 @@
 import { isPrincipalText } from '@choptop/haw';
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import BigNumber from 'bignumber.js';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 

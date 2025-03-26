@@ -1,4 +1,4 @@
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import { useNavigate } from 'react-router-dom';
 
 import logo_svg from '~assets/svg/logo.svg';

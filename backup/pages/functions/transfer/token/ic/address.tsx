@@ -1,4 +1,4 @@
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import _ from 'lodash';
 import { useMemo, useState } from 'react';
 

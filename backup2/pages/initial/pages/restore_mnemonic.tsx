@@ -1,4 +1,4 @@
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import { useCallback, useEffect, useState } from 'react';
 import { useTimeout } from 'usehooks-ts';
 

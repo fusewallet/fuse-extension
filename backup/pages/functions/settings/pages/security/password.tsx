@@ -1,4 +1,4 @@
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import { useCallback, useState } from 'react';
 
 import InputPassword from '~components/input-password';

@@ -1,4 +1,4 @@
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import { useMemo } from 'react';
 import { LuUnlink } from 'react-icons/lu';
 

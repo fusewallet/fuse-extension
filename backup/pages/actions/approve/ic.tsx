@@ -1,4 +1,4 @@
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import { useCallback, useMemo, useRef } from 'react';
 
 import { ShowSingleAddress } from '~/pages/home/components/show-address';

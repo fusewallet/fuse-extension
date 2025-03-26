@@ -1,4 +1,4 @@
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 import dayjs from 'dayjs';
 import { useMemo, useRef, useState } from 'react';
 
