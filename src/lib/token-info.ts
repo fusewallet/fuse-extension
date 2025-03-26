@@ -9,6 +9,7 @@ const get_token_logo_from_covalent = (address: string, chainId: number): string 
     return `https://logos.covalenthq.com/tokens/${chainId}/${address.toLowerCase()}.png`;
 };
 
+// FIXME move to hooks
 export const get_token_logo = async (info: CombinedTokenInfo): Promise<string | undefined> => {
     const preset = match_combined_token_info(info, {
         ic: (ic) => PRESET_LOGO_IC[`ic#${ic.canister_id}`],
