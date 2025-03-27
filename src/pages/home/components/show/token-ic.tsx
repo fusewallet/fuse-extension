@@ -2,9 +2,9 @@ import BigNumber from 'bignumber.js';
 import { useEffect, useMemo, useState } from 'react';
 
 import type { GotoFunction } from '~hooks/memo/goto';
+import { get_token_logo } from '~hooks/token-info';
 import type { TokenInfo } from '~types/tokens';
 import type { IcTokenInfo } from '~types/tokens/chain/ic';
-import { get_token_logo } from '~types/tokens/preset';
 import type { TokenPrices } from '~types/tokens/price';
 
 export const ShowTokenIc = ({
