@@ -17,7 +17,7 @@ import { get_token_unique_id, group_tokens_by_chain } from '~types/tokens';
 // import { EthereumTokenStandard } from '~types/tokens/chain/ethereum';
 
 import { AddressTooltip } from './components/address-tooltip';
-// import SelectChain from './components/select-chain';
+import SelectChain from './components/select-chain';
 import { HomeShowToken } from './components/show-token';
 
 function HomePage() {
@@ -115,7 +115,8 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
                             />
                         </div>
                     ))}
-                    {/* <SelectChain
+                    <SelectChain
+                        container={ref.current ?? undefined}
                         trigger={
                             <div>
                                 <Icon
@@ -124,8 +125,7 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
                                 />
                             </div>
                         }
-                        container={ref.current ?? undefined}
-                    /> */}
+                    />
                 </div>
             </div>
 

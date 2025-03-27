@@ -20,7 +20,7 @@ export const $bgsw_current_identity = async (): Promise<ResponseBody | undefined
     if (!current_chain_network) return undefined;
 
     const current = key_rings.keys.find((i) => i.id === key_rings.current);
-    if (!current) return { current_identity: undefined, current_identity_network: undefined };
+    if (!current) return { current_identity: undefined, current_chain_network, current_identity_network: undefined };
 
     // ! refresh agent
     $bgsw_agent_refresh_unique_identity(current, current_chain_network); // * refresh identity
@@ -28,6 +28,7 @@ export const $bgsw_current_identity = async (): Promise<ResponseBody | undefined
     const address = current.address;
     return {
         current_identity: inner_show_identity_key(key_rings, current),
+        current_chain_network,
         current_identity_network: get_current_identity_network(address, current_chain_network),
     };
 };
