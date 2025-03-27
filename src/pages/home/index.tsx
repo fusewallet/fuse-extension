@@ -7,9 +7,10 @@
 import { FusePage } from '~components/layouts/page';
 // import { useERC20Balances } from '~hooks/evm/contracts/multicall/read';
 import { useCurrentState } from '~hooks/memo/current_state';
+import { useCurrentIdentity } from '~hooks/ports/current-identity';
 
 // import { useTokenBalanceIcByRefreshing, useTokenInfoCurrentRead } from '~hooks/store/local';
-// import { useCurrentIdentity, useShowNetworks } from '~hooks/store/local-secure';
+// import { useShowNetworks } from '~hooks/store/local-secure';
 // import { useTokenPrices } from '~hooks/store/local/memo/price';
 // import { useTokenPriceUsd } from '~hooks/store/local/memo/usd';
 // import { useSonnerToast } from '~components/toast';
@@ -25,8 +26,10 @@ import { useCurrentState } from '~hooks/memo/current_state';
 
 function HomePage() {
     const current_state = useCurrentState();
-    console.error(`🚀 ~ HomePage ~ current_state: `, current_state);
-    // const { current_identity } = useCurrentIdentity();
+
+    const current_identity = useCurrentIdentity();
+
+    console.error(`🚀 ~ HomePage ~ current_state:`, current_state, current_identity);
 
     return (
         <FusePage

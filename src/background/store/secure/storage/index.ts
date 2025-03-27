@@ -98,7 +98,7 @@ export class FuseSecureStorage<T> {
         }
 
         const e = Date.now();
-        console.debug(`restore secure storage spend: ${e - s}ms`);
+        console.debug(`restore secure storage spend: ${e - s}ms`, this.key, 'has value ->', !!this.data);
 
         return verified;
     }
@@ -113,7 +113,8 @@ export class FuseSecureStorage<T> {
 
         const json = JSON.stringify(data);
         const encrypted = await this.#encrypt(passwordKey, json);
-        await this.storage.set(namespace_key, { data: encrypted, options: this.options });
+        const item: WrappedData = { encrypted, options: this.options };
+        await this.storage.set(namespace_key, item);
     };
 
     #decrypt = async (passwordKey: CryptoKey, encrypted: string) => {

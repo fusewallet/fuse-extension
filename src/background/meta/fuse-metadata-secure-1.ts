@@ -17,7 +17,7 @@ export const cachedFuseSecureData1 = <T, A>(
     meta: FuseSecureDataMetadata1<T, A>,
     arg: A | undefined, // ! cloud be undefined
 ): {
-    get: (arg: A) => Promise<T>;
+    get: () => Promise<T>;
     set: (value: T) => Promise<void>;
 } => {
     return {

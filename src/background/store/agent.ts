@@ -1,6 +1,6 @@
 import { HttpAgent } from '@dfinity/agent';
 
-import { get_address_by_mnemonic_and_metadata } from '~lib/mnemonic';
+import { get_address_by_mnemonic_and_metadata } from '~lib/identity/mnemonic';
 import { match_combined_identity_key, type IdentityKey } from '~types/identity';
 import type { CurrentChainNetwork } from '~types/network';
 
@@ -33,10 +33,10 @@ const refresh_unique_ic_agent = (
         },
     });
 };
-export const get_unique_ic_agent = () => UNIQUE_IC_AGENT.target?.agent;
+export const $bgsw_get_unique_ic_agent = () => UNIQUE_IC_AGENT.target?.agent;
 
 // refresh all unique identity
-export const agent_refresh_unique_identity = (
+export const $bgsw_agent_refresh_unique_identity = (
     identity_key: IdentityKey | undefined,
     current_chain_network: CurrentChainNetwork | undefined,
 ) => {
