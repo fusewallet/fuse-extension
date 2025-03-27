@@ -45,7 +45,6 @@ import { useCurrentChainNetworkInner } from './current/current_chain_network';
 import { get_current_connected_apps, useCurrentConnectedAppsInner } from './current/current_connected_apps';
 import { useKeyRingsInner } from './key_rings';
 import { get_current_identity_network, useCurrentIdentityBy } from './memo/current';
-import { useIdentityKeysBy, useIdentityKeysCountBy } from './memo/identity';
 import { useShowNetworksInner, useShowNetworksInner2 } from './show_networks';
 import { useSecureStorageInner } from './storage';
 
@@ -192,20 +191,6 @@ export const useEvmWalletClientCreator = (chain: EvmChain) => {
         });
     }, [chain, current_identity_network, key_rings, rpc]);
     return create_wallet_client;
-};
-
-export const useIdentityKeysCount = () => {
-    const [unlocked] = useUnlocked();
-    const storage = useSecureStorageBy(unlocked);
-    const [key_rings] = useKeyRingsInner(storage);
-    return useIdentityKeysCountBy(key_rings);
-};
-export const useIdentityKeys = () => {
-    const [password_hashed] = usePasswordHashed();
-    const [unlocked] = useUnlocked();
-    const storage = useSecureStorageBy(unlocked);
-    const [key_rings, setKeyRings] = useKeyRingsInner(storage);
-    return useIdentityKeysBy(password_hashed, key_rings, setKeyRings);
 };
 
 export const useRecentAddresses = () => {

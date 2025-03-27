@@ -5,9 +5,10 @@ import { FusePageTransition } from '~components/layouts/transition';
 import { useSonnerToast } from '~components/toast';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useGoto } from '~hooks/memo/goto';
+import { useShowIdentityList } from '~hooks/ports/show-identity-list';
 import { useTokenInfoCurrentRead } from '~hooks/store/local';
-import { useIdentityKeys } from '~hooks/store/local-secure';
 import { useTokenPrices } from '~hooks/store/local/memo/price';
+import { direct_message_handle_identity_push_identity_by_main_mnemonic } from '~lib/messages/direct/direct-handle-identity';
 
 import { FunctionHeader } from '../components/header';
 import { AccountItem } from './components/account-item';
@@ -19,13 +20,14 @@ function FunctionSwitchAccountPage() {
     const current_state = useCurrentState();
     const { setHide, goto: _goto } = useGoto();
 
-    const { current_identity, main_mnemonic_identity, identity_list, pushIdentityByMainMnemonic } = useIdentityKeys();
+    const { current_identity, identity_list, main_mnemonic_identity } = useShowIdentityList() ?? {};
 
     const current_tokens = useTokenInfoCurrentRead();
 
     const token_prices = useTokenPrices(current_tokens);
 
     const ref = useRef<HTMLDivElement>(null);
+    if (!current_identity || !identity_list) return <></>;
     return (
         <FusePage current_state={current_state} options={{ refresh_token_info_ic_sleep: 1000 * 60 * 5 }}>
             <div ref={ref} className="relative h-full w-full overflow-hidden">
@@ -56,7 +58,7 @@ function FunctionSwitchAccountPage() {
                                 }
                                 container={ref.current ?? undefined}
                                 onAddWalletByMainMnemonic={() => {
-                                    pushIdentityByMainMnemonic().then((r) => {
+                                    direct_message_handle_identity_push_identity_by_main_mnemonic().then((r) => {
                                         if (r === undefined) return;
                                         if (r === false) return;
                                         // notice successful
