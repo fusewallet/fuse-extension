@@ -180,7 +180,7 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
                 </div>
 
                 <div className="mt-5 flex w-full flex-col gap-y-[10px] px-5">
-                    {/* {show_tokens.map((token) => (
+                    {show_tokens.map((token) => (
                         <HomeShowToken
                             key={get_token_unique_id(token)}
                             goto={(path, options) =>
@@ -190,7 +190,7 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
                             token_prices={token_prices}
                             ic_balances={ic_balances}
                         />
-                    ))} */}
+                    ))}
                 </div>
             </div>
         </div>
