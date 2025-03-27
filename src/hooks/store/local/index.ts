@@ -27,7 +27,7 @@ import { useTokenInfoIcByRefreshingInner } from './token/ic/info';
 import {
     //     useTokenPriceIcByInitialInner,
     useTokenPriceIcByRefreshingInner,
-    //     useTokenPriceIcInner,
+    useTokenPriceIcInner,
 } from './token/ic/price';
 import { useWelcomedInner } from './welcome';
 
@@ -53,8 +53,8 @@ export const useTokenInfoIcByRefreshing = (sleep: number) => useTokenInfoIcByRef
 // // token/ic/balance
 // export const useTokenBalanceIcByRefreshing = (principal: string | undefined, canisters: string[], sleep: number) =>
 //     useTokenBalanceIcByRefreshingInner(LOCAL_STORAGE, principal, canisters, sleep); // local
-// // token/ic/price
-// export const useTokenPriceIcRead = () => useTokenPriceIcInner(LOCAL_STORAGE)[0]; // local
+// token/ic/price
+export const useTokenPriceIcRead = () => useTokenPriceIcInner(LOCAL_STORAGE)[0]; // local
 // export const useTokenPriceIcByInitial = (canister_id: string) =>
 //     useTokenPriceIcByInitialInner(LOCAL_STORAGE, canister_id); // local
 export const useTokenPriceIcByRefreshing = (sleep: number) => useTokenPriceIcByRefreshingInner(LOCAL_STORAGE, sleep); // local

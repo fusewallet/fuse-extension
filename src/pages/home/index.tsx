@@ -1,18 +1,18 @@
 // import BigNumber from 'bignumber.js';
-// import { useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // import ic_svg from '~assets/svg/chains/ic.min.svg';
 // import Icon from '~components/icon';
 import { FusePage } from '~components/layouts/page';
-// import { useTokenBalanceIcByRefreshing, useTokenInfoCurrentRead } from '~hooks/store/local';
-// import { useShowNetworks } from '~hooks/store/local-secure';
-// import { useTokenPrices } from '~hooks/store/local/memo/price';
 // import { useTokenPriceUsd } from '~hooks/store/local/memo/usd';
 import { useSonnerToast } from '~components/toast';
 // import { useERC20Balances } from '~hooks/evm/contracts/multicall/read';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useCurrentIdentity } from '~hooks/ports/current-identity';
+import { useShowChains, useTokenBalanceIcByRefreshing, useTokenInfoCurrentRead } from '~hooks/store/local';
+// import { useShowNetworks } from '~hooks/store/local-secure';
+import { useTokenPrices } from '~hooks/store/local/memo/price';
 
 // import { truncate_text } from '~lib/utils/text';
 // import type { ShowIdentityKey } from '~types/identity';
@@ -50,21 +50,16 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
     const toast = useSonnerToast();
     const navigate = useNavigate();
 
-    // const current_tokens = useTokenInfoCurrentRead();
+    const current_tokens = useTokenInfoCurrentRead();
 
-    // const [{ chains: show_networks }] = useShowNetworks();
+    const [show_chains] = useShowChains();
 
-    // const show_tokens = useMemo(() => {
-    //     return current_tokens.filter((s) => {
-    //         const exist = show_networks.filter((t) => s.tags.includes(`chain-${t}` as TokenTag));
+    const show_tokens = useMemo(() => {
+        const tags = show_chains.map((chain) => `chain-${chain}`);
+        return current_tokens.filter((t) => t.tags.find((tag) => tags.includes(tag)));
+    }, [current_tokens, show_chains]);
 
-    //         if (exist.length === 0) return false;
-
-    //         return true;
-    //     });
-    // }, [current_tokens, show_networks]);
-
-    // const token_prices = useTokenPrices(current_tokens);
+    const token_prices = useTokenPrices(current_tokens);
 
     // const tokens_by_chain = group_tokens_by_chain(current_tokens);
 
