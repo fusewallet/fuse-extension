@@ -1,4 +1,4 @@
-import type { ResponseBody } from '~background/ports/direct-show-identity';
+import type { ResponseBody } from '~background/ports/direct-show-identity-list';
 import { $bgsw_get_key_rings } from '~background/store/secure/key_rings';
 import { $bgsw_get_password } from '~background/store/session/password';
 import {
@@ -9,11 +9,11 @@ import {
     type ShowIdentityKey,
 } from '~types/identity';
 
-export const $bgsw_show_identity = async (): Promise<ResponseBody | undefined> => {
+export const $bgsw_show_identity_list = async (): Promise<ResponseBody | undefined> => {
     const password = await $bgsw_get_password();
     if (!password) return undefined;
 
-    const key_rings = await $bgsw_get_key_rings(password);
+    const key_rings = await $bgsw_get_key_rings();
     if (!key_rings) return undefined;
 
     const identity_list = key_rings.keys.map((key) => inner_show_identity_key(key_rings, key));
