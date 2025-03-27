@@ -1,14 +1,20 @@
-import type { Address as EvmAddress } from 'viem';
-
 import { match_chain, type Chain } from '~types/chain';
 
-import { CHAIN_BSC_MAINNET, type ChainBscNetwork } from './bsc';
-import { CHAIN_BSC_TEST_MAINNET, type ChainBscTestNetwork } from './bsc-test';
-import { CHAIN_ETHEREUM_MAINNET, type ChainEthereumNetwork } from './ethereum';
-import { CHAIN_ETHEREUM_TEST_SEPOLIA_MAINNET, type ChainEthereumTestSepoliaNetwork } from './ethereum-test-sepolia';
-import { CHAIN_IC_MAINNET, type ChainIcNetwork } from './ic';
-import { CHAIN_POLYGON_MAINNET, type ChainPolygonNetwork } from './polygon';
-import { CHAIN_POLYGON_TEST_AMOY_MAINNET, type ChainPolygonTestAmoyNetwork } from './polygon-test-amoy';
+import { CHAIN_BSC_MAINNET, type ChainBscIdentityNetwork, type ChainBscNetwork } from './chain/bsc';
+import { CHAIN_BSC_TEST_MAINNET, type ChainBscTestIdentityNetwork, type ChainBscTestNetwork } from './chain/bsc-test';
+import { CHAIN_ETHEREUM_MAINNET, type ChainEthereumIdentityNetwork, type ChainEthereumNetwork } from './chain/ethereum';
+import {
+    CHAIN_ETHEREUM_TEST_SEPOLIA_MAINNET,
+    type ChainEthereumTestSepoliaIdentityNetwork,
+    type ChainEthereumTestSepoliaNetwork,
+} from './chain/ethereum-test-sepolia';
+import { CHAIN_IC_MAINNET, type ChainIcIdentityNetwork, type ChainIcNetwork } from './chain/ic';
+import { CHAIN_POLYGON_MAINNET, type ChainPolygonIdentityNetwork, type ChainPolygonNetwork } from './chain/polygon';
+import {
+    CHAIN_POLYGON_TEST_AMOY_MAINNET,
+    type ChainPolygonTestAmoyIdentityNetwork,
+    type ChainPolygonTestAmoyNetwork,
+} from './chain/polygon-test-amoy';
 
 export type ChainEvmNetwork =
     | ChainEthereumNetwork
@@ -62,48 +68,6 @@ export const DEFAULT_CURRENT_CHAIN_NETWORK: CurrentChainNetwork = {
 };
 
 // =================== chain identity network ===================
-
-export interface ChainIcIdentityNetwork {
-    chain: 'ic';
-    owner: string;
-    network: ChainIcNetwork;
-}
-
-export interface ChainEthereumIdentityNetwork {
-    chain: 'ethereum';
-    address: EvmAddress;
-    network: ChainEthereumNetwork;
-}
-
-export interface ChainEthereumTestSepoliaIdentityNetwork {
-    chain: 'ethereum-test-sepolia';
-    address: EvmAddress;
-    network: ChainEthereumTestSepoliaNetwork;
-}
-
-export interface ChainPolygonIdentityNetwork {
-    chain: 'polygon';
-    address: EvmAddress;
-    network: ChainPolygonNetwork;
-}
-
-export interface ChainPolygonTestAmoyIdentityNetwork {
-    chain: 'polygon-test-amoy';
-    address: EvmAddress;
-    network: ChainPolygonTestAmoyNetwork;
-}
-
-export interface ChainBscIdentityNetwork {
-    chain: 'bsc';
-    address: EvmAddress;
-    network: ChainBscNetwork;
-}
-
-export interface ChainBscTestIdentityNetwork {
-    chain: 'bsc-test';
-    address: EvmAddress;
-    network: ChainBscTestNetwork;
-}
 
 export type IdentityNetwork =
     | ChainIcIdentityNetwork

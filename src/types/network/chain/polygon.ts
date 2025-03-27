@@ -1,3 +1,5 @@
+import type { Address as EvmAddress } from 'viem';
+
 export interface ChainPolygonNetwork {
     chain: 'polygon';
     chain_id: 137;
@@ -13,3 +15,11 @@ export const CHAIN_POLYGON_MAINNET: ChainPolygonNetwork = {
     created: 0, // inner, means mainnet
     rpc: 'mainnet', // 'https://polygon-bor-rpc.publicnode.com'
 };
+
+// ================= identity =================
+
+export interface ChainPolygonIdentityNetwork {
+    chain: 'polygon';
+    address: EvmAddress;
+    network: ChainPolygonNetwork;
+}

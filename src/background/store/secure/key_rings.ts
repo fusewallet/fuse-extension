@@ -6,14 +6,14 @@ import { LOCAL_SECURE_KEY_KEY_RINGS } from './storage/keys';
 
 type DataType = KeyRings | undefined;
 const get_key = (): string => LOCAL_SECURE_KEY_KEY_RINGS;
-const default_value: DataType = undefined;
-let cached_value: DataType | null = default_value;
+const get_default_value = (): DataType => undefined;
+let cached_value: DataType | null = null;
 const get_cached_value = async (): Promise<DataType | null> => cached_value;
 const set_cached_value = async (value: DataType): Promise<DataType> => (cached_value = value);
 const meta: FuseSecureDataMetadata0<DataType> = {
-    get_key,
-    default_value,
     get_password: $bgsw_get_password,
+    get_key,
+    get_default_value,
     get_cached_value,
     set_cached_value,
     callback: undefined,

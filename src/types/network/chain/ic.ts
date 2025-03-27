@@ -11,3 +11,11 @@ export const CHAIN_IC_MAINNET: ChainIcNetwork = {
     created: 0, // inner, means mainnet
     origin: 'mainnet', // 'https://icp-api.io'
 };
+
+// ================= identity =================
+
+export interface ChainIcIdentityNetwork {
+    chain: 'ic';
+    owner: string;
+    network: ChainIcNetwork;
+}

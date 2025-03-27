@@ -1,12 +1,14 @@
+import type { IdentityId } from '~types/identity';
+
 // prefix
 const LOCAL_SECURE_KEY_PREFIX = ':fuse:secure';
 
 // ############### LOCAL SECURE ###############
 
 export const LOCAL_SECURE_KEY_KEY_RINGS = `${LOCAL_SECURE_KEY_PREFIX}:key:rings`; // * local secure
-// export const LOCAL_SECURE_KEY_CHAIN_NETWORKS = `${LOCAL_SECURE_KEY_PREFIX}:chain:networks`; // * local secure
-// export const LOCAL_SECURE_KEY_CURRENT_CHAIN_NETWORK = (id: IdentityId) =>
-//     `${LOCAL_SECURE_KEY_PREFIX}:${id}:chain:network`; // * local secure
+export const LOCAL_SECURE_KEY_CHAIN_NETWORKS = `${LOCAL_SECURE_KEY_PREFIX}:chain:networks`; // * local secure
+export const LOCAL_SECURE_KEY_CURRENT_CHAIN_NETWORK = (id: IdentityId) =>
+    `${LOCAL_SECURE_KEY_PREFIX}:${id}:chain:network`; // * local secure
 // export const LOCAL_SECURE_KEY_CURRENT_CONNECTED_APPS = (identity_network: IdentityNetwork) =>
 //     `${LOCAL_SECURE_KEY_PREFIX}:${get_identity_network_key(identity_network)}:connected:apps`; // * local secure
 // // local secure, once use granted/denied local, there is somewhere catch this result, and BGSW cloud find it

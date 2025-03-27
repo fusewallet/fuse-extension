@@ -4,12 +4,12 @@ import { SESSION_KEY_POPUP_ACTIONS_LENGTH } from '~lib/storage/keys';
 import type { PopupActions } from '~types/actions';
 
 type DataType = PopupActions;
-const default_value: DataType = [];
-let cached_value: DataType = default_value;
+const get_default_value = (): DataType => [];
+let cached_value: DataType = get_default_value();
 const get_cached_value = async (): Promise<DataType> => cached_value;
 const set_cached_value = async (value: DataType): Promise<DataType> => (cached_value = value);
 const meta: FuseDataMetadata0<DataType> = {
-    default_value,
+    get_default_value,
     get_cached_value,
     set_cached_value,
     callback: async (value) => {

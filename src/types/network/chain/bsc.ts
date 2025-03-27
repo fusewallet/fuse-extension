@@ -1,3 +1,5 @@
+import type { Address as EvmAddress } from 'viem';
+
 export interface ChainBscNetwork {
     chain: 'bsc';
     chain_id: 56;
@@ -13,3 +15,11 @@ export const CHAIN_BSC_MAINNET: ChainBscNetwork = {
     created: 0, // inner, means mainnet
     rpc: 'mainnet', // 'https://bsc-rpc.publicnode.com'
 };
+
+// ================= identity =================
+
+export interface ChainBscIdentityNetwork {
+    chain: 'bsc';
+    address: EvmAddress;
+    network: ChainBscNetwork;
+}
