@@ -16,7 +16,7 @@ export const $bgsw_show_mnemonic = async ({
     const _password = await $bgsw_get_password();
     if (_password !== password) return false;
 
-    const key_rings = await $bgsw_get_key_rings(password);
+    const key_rings = await $bgsw_get_key_rings();
     if (!key_rings) return undefined;
 
     const identity = key_rings.keys.find((i) => i.id === id);

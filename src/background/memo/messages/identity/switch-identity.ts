@@ -12,7 +12,7 @@ export const $bgsw_switch_identity = async (id: SwitchIdentityRequestBody): Prom
     const password = await $bgsw_get_password();
     if (!password) return false;
 
-    const key_rings = await $bgsw_get_key_rings(password);
+    const key_rings = await $bgsw_get_key_rings();
     if (!key_rings) return undefined;
 
     const identity = key_rings?.keys.find((i) => i.id === id);
@@ -20,7 +20,7 @@ export const $bgsw_switch_identity = async (id: SwitchIdentityRequestBody): Prom
 
     if (identity.id === key_rings.current) return true;
 
-    await $bgsw_set_key_rings(password, {
+    await $bgsw_set_key_rings({
         mnemonic: key_rings.mnemonic,
         current: key_rings.current,
         keys: [...key_rings.keys],

@@ -13,7 +13,7 @@ export const $bgsw_is_key_exist = async (key: IsKeyExistRequestBody): Promise<Is
     const password = await $bgsw_get_password();
     if (!password) return false;
 
-    const key_rings = await $bgsw_get_key_rings(password);
+    const key_rings = await $bgsw_get_key_rings();
     if (!key_rings) return false;
 
     return !!key_rings.keys.find((identity) => is_same_combined_identity_key(identity.key, key));

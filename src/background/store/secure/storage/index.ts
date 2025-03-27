@@ -40,6 +40,7 @@ interface WrappedData {
 
 export const DEFAULT_NS_SEPARATOR = '|:|';
 
+// Each data set has its own options
 export class FuseSecureStorage<T> {
     #encoder = new TextEncoder();
     #decoder = new TextDecoder();

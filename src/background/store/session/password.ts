@@ -1,21 +1,23 @@
+import { cachedFuseData0, type FuseDataMetadata0 } from '~background/meta/fuse-metadata-0';
 import { __get_session_storage } from '~lib/storage';
 import { SESSION_KEY_UNLOCKED } from '~lib/storage/keys';
 
-let inner_password = '';
-
-export const $bgsw_get_password = async () => inner_password;
-
-// TODO how to notice data which dependency this data?
-export const $bgsw_set_password = async (password: string) => {
-    inner_password = password;
-    await refresh_unlocked();
+type DataType = string;
+const default_value: DataType = '';
+let cached_value: DataType = default_value;
+const get_cached_value = async (): Promise<DataType> => cached_value;
+const set_cached_value = async (value: DataType): Promise<DataType> => (cached_value = value);
+const meta: FuseDataMetadata0<DataType> = {
+    default_value,
+    get_cached_value,
+    set_cached_value,
+    callback: async (value) => {
+        await __get_session_storage().setItem(SESSION_KEY_UNLOCKED, !!value);
+    },
 };
 
-// TODO how to notice data which dependency this data?
-export const $bgsw_remove_password = async () => {
-    inner_password = '';
-    await refresh_unlocked();
-};
+const { get, set } = cachedFuseData0<DataType>(meta);
 
-// always refresh unlocked value
-const refresh_unlocked = async () => __get_session_storage().setItem(SESSION_KEY_UNLOCKED, !!inner_password);
+export const $bgsw_get_password = get;
+export const $bgsw_set_password = set;
+export const $bgsw_remove_password = async () => $bgsw_set_password('');

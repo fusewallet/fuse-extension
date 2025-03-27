@@ -16,7 +16,7 @@ export const $bgsw_delete_identity = async ({
     const _password = await $bgsw_get_password();
     if (_password !== password) return false;
 
-    const key_rings = await $bgsw_get_key_rings(password);
+    const key_rings = await $bgsw_get_key_rings();
     if (!key_rings) return undefined;
 
     if (key_rings.current === id) return false; // can not delete current identity
@@ -36,7 +36,7 @@ export const $bgsw_delete_identity = async ({
 
     const new_keys = key_rings.keys.filter((i) => i.id !== id);
 
-    await $bgsw_set_key_rings(password, { mnemonic: key_rings.mnemonic, current: key_rings.current, keys: new_keys });
+    await $bgsw_set_key_rings({ mnemonic: key_rings.mnemonic, current: key_rings.current, keys: new_keys });
 
     return true;
 };

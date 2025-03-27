@@ -18,7 +18,7 @@ export const $bgsw_push_identity_by_main_mnemonic = async (
     const password = await $bgsw_get_password();
     if (!password) return false;
 
-    const key_rings = await $bgsw_get_key_rings(password);
+    const key_rings = await $bgsw_get_key_rings();
     if (!key_rings) return undefined;
 
     if (!key_rings.mnemonic) return undefined;

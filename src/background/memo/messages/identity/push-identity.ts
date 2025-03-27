@@ -17,7 +17,7 @@ export const $bgsw_push_identity = async (key: PushIdentityRequestBody): Promise
     const password = await $bgsw_get_password();
     if (!password) return false;
 
-    const key_rings = await $bgsw_get_key_rings(password);
+    const key_rings = await $bgsw_get_key_rings();
     if (!key_rings) return undefined;
 
     if (key_rings.keys.find((identity) => is_same_combined_identity_key(identity.key, key))) {
@@ -39,7 +39,7 @@ export const $bgsw_push_identity = async (key: PushIdentityRequestBody): Promise
         },
     ];
 
-    await $bgsw_set_key_rings(password, { mnemonic: key_rings.mnemonic, current: key_rings.current, keys: new_keys });
+    await $bgsw_set_key_rings({ mnemonic: key_rings.mnemonic, current: key_rings.current, keys: new_keys });
 
     return true;
 };

@@ -1,43 +1,25 @@
-import { __get_local_storage } from '~lib/storage';
+import { cachedFuseSecureData0, type FuseSecureDataMetadata0 } from '~background/meta/fuse-metadata-secure-0';
 import type { KeyRings } from '~types/identity';
 
-import { FuseSecureStorage } from './storage';
+import { $bgsw_get_password } from '../session/password';
 import { LOCAL_SECURE_KEY_KEY_RINGS } from './storage/keys';
 
-// data
-let inner_key_rings: KeyRings | null | undefined = null;
-
-const get_secure_storage = async (password: string): Promise<FuseSecureStorage<KeyRings>> => {
-    const secure = new FuseSecureStorage<KeyRings>(__get_local_storage(), LOCAL_SECURE_KEY_KEY_RINGS);
-    await secure.restore(password);
-    return secure;
+type DataType = KeyRings | undefined;
+const get_key = (): string => LOCAL_SECURE_KEY_KEY_RINGS;
+const default_value: DataType = undefined;
+let cached_value: DataType | null = default_value;
+const get_cached_value = async (): Promise<DataType | null> => cached_value;
+const set_cached_value = async (value: DataType): Promise<DataType> => (cached_value = value);
+const meta: FuseSecureDataMetadata0<DataType> = {
+    get_key,
+    default_value,
+    get_password: $bgsw_get_password,
+    get_cached_value,
+    set_cached_value,
+    callback: undefined,
 };
 
-export const $bgsw_get_key_rings = async (password: string): Promise<KeyRings | undefined> => {
-    if (!password) return undefined;
+const { get, set } = cachedFuseSecureData0<DataType>(meta);
 
-    if (inner_key_rings === null) {
-        const secure = await get_secure_storage(password);
-        inner_key_rings = await secure.get();
-    }
-
-    return inner_key_rings;
-};
-
-// TODO how to notice data which dependency this data?
-export const $bgsw_set_key_rings = async (password: string, key_rings: KeyRings) => {
-    if (!password) throw new Error('invalid password');
-
-    const secure = await get_secure_storage(password);
-    await secure.set(key_rings);
-    inner_key_rings = key_rings;
-};
-
-// TODO how to notice data which dependency this data?
-export const $bgsw_remove_key_rings = async (password: string) => {
-    if (!password) throw new Error('invalid password');
-
-    const secure = await get_secure_storage(password);
-    await secure.remove();
-    inner_key_rings = undefined;
-};
+export const $bgsw_get_key_rings = get;
+export const $bgsw_set_key_rings = set;

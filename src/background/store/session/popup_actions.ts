@@ -1,8 +1,23 @@
+import { cachedFuseData0, type FuseDataMetadata0 } from '~background/meta/fuse-metadata-0';
+import { __get_session_storage } from '~lib/storage';
+import { SESSION_KEY_POPUP_ACTIONS_LENGTH } from '~lib/storage/keys';
 import type { PopupActions } from '~types/actions';
 
-let inner_popup_actions: PopupActions = [];
+type DataType = PopupActions;
+const default_value: DataType = [];
+let cached_value: DataType = default_value;
+const get_cached_value = async (): Promise<DataType> => cached_value;
+const set_cached_value = async (value: DataType): Promise<DataType> => (cached_value = value);
+const meta: FuseDataMetadata0<DataType> = {
+    default_value,
+    get_cached_value,
+    set_cached_value,
+    callback: async (value) => {
+        await __get_session_storage().setItem(SESSION_KEY_POPUP_ACTIONS_LENGTH, value.length);
+    },
+};
 
-export const $bgsw_get_popup_actions = async () => inner_popup_actions;
+const { get, set } = cachedFuseData0<DataType>(meta);
 
-// TODO how to notice data which dependency this data?
-export const $bgsw_set_popup_actions = async (actions: PopupActions) => (inner_popup_actions = actions);
+export const $bgsw_get_popup_actions = get;
+export const $bgsw_set_popup_actions = set;

@@ -16,8 +16,8 @@ export const $bgsw_restore_identity = async ({
     key_rings,
     initialized,
 }: RestoreIdentityRequestBody): Promise<RestoreIdentityResponseBody> => {
-    await $bgsw_set_key_rings(password, key_rings);
     await $bgsw_set_password(password);
+    await $bgsw_set_key_rings(key_rings);
     await $bgsw_set_password_alive(Date.now());
     await __get_local_storage().setItem(LOCAL_KEY_INITIALIZED, initialized);
     return true;

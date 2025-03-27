@@ -16,13 +16,13 @@ export const $bgsw_resort_identity = async ({
     const password = await $bgsw_get_password();
     if (!password) return false;
 
-    const key_rings = await $bgsw_get_key_rings(password);
+    const key_rings = await $bgsw_get_key_rings();
     if (!key_rings) return undefined;
 
     const next = resort_list(key_rings.keys, source_index, destination_index);
     if (typeof next === 'boolean') return next;
 
-    await $bgsw_set_key_rings(password, { ...key_rings, keys: next });
+    await $bgsw_set_key_rings({ ...key_rings, keys: next });
 
     return true;
 };
