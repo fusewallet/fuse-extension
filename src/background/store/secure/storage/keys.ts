@@ -17,6 +17,3 @@ export const LOCAL_SECURE_KEY_CURRENT_CHAIN_NETWORK = (id: IdentityId) =>
 
 // export const LOCAL_SECURE_KEY_RECENT_ADDRESSES = `${LOCAL_SECURE_KEY_PREFIX}:recent:addresses`; // * local secure
 // export const LOCAL_SECURE_KEY_MARKED_ADDRESSES = `${LOCAL_SECURE_KEY_PREFIX}:marked:addresses`; // * local secure
-
-// // current show network
-// export const LOCAL_SECURE_KEY_CURRENT_SHOW_NETWORK = `${LOCAL_SECURE_KEY_PREFIX}:current:show:network`; // * local secure

@@ -13,8 +13,9 @@ import {
 } from '~lib/storage/keys';
 
 import { useInitializedInner } from './initialized';
-// import { useTokenInfoCurrentInner, useTokenInfoCurrentInner2 } from './token/current';
-// import { useTokenInfoCustomInner2 } from './token/custom';
+import { useShowChainsInner } from './show_chains';
+import { useTokenInfoCurrentInner, useTokenInfoCurrentInner2 } from './token/current';
+import { useTokenInfoCustomInner2 } from './token/custom';
 // import { useTokenBalanceIcByRefreshingInner } from './token/ic/balance';
 // import { useTokenInfoIcByInitialInner, useTokenInfoIcByRefreshingInner } from './token/ic/info';
 import { useTokenInfoIcByRefreshingInner } from './token/ic/info';
@@ -38,12 +39,13 @@ const LOCAL_STORAGE = __get_local_storage(); // local
 // ############### LOCAL ###############
 export const useWelcomed = () => useWelcomedInner(LOCAL_STORAGE); // local
 export const useInitialized = () => useInitializedInner(LOCAL_STORAGE)[0]; // local
+export const useShowChains = () => useShowChainsInner(LOCAL_STORAGE); // local
 
-// // token/custom
-// export const useTokenInfoCustom = () => useTokenInfoCustomInner2(LOCAL_STORAGE); // local
-// // token/current
-// export const useTokenInfoCurrentRead = () => useTokenInfoCurrentInner(LOCAL_STORAGE)[0]; // local
-// export const useTokenInfoCurrent = () => useTokenInfoCurrentInner2(LOCAL_STORAGE); // local
+// token/custom
+export const useTokenInfoCustom = () => useTokenInfoCustomInner2(LOCAL_STORAGE); // local
+// token/current
+export const useTokenInfoCurrentRead = () => useTokenInfoCurrentInner(LOCAL_STORAGE)[0]; // local
+export const useTokenInfoCurrent = () => useTokenInfoCurrentInner2(LOCAL_STORAGE); // local
 // // token/ic/info
 // export const useTokenInfoIcByInitial = (canister_id: string) =>
 //     useTokenInfoIcByInitialInner(LOCAL_STORAGE, canister_id); // local

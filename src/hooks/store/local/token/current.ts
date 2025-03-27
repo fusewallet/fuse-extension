@@ -3,11 +3,10 @@ import { useCallback } from 'react';
 import type { Storage } from '@plasmohq/storage';
 
 import { useCachedStoreData0, type DataMetadata0 } from '~hooks/meta/metadata-0';
+import { LOCAL_KEY_TOKEN_INFO_CURRENT } from '~lib/storage/keys';
 import { resort_list, type ResortFunction } from '~lib/utils/sort';
 import { get_token_symbol, is_same_token_info, type CurrentTokens, type TokenInfo } from '~types/tokens';
 import { DEFAULT_TOKEN_INFO } from '~types/tokens/preset';
-
-import { LOCAL_KEY_TOKEN_INFO_CURRENT } from '../../keys';
 
 // ! always try to use this value to avoid BLINK
 type DataType = CurrentTokens;

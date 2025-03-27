@@ -15,16 +15,17 @@ export const SYNC_KEY_USER_SETTINGS_IDLE = `${SYNC_KEY_PREFIX_USER_SETTINGS}:idl
 
 // ############### LOCAL ###############
 
-export const LOCAL_KEY_WELCOMED = `${LOCAL_KEY_PREFIX}:welcomed`; // * local
-export const LOCAL_KEY_INITIALIZED = `${LOCAL_KEY_PREFIX}:initialized`; // * local
-
 const LOCAL_KEY_PREFIX_CACHED = `${LOCAL_KEY_PREFIX}:cached`;
 export const LOCAL_KEY_CACHED_KEY = (key: string) => `${LOCAL_KEY_PREFIX_CACHED}:${key}`; // * local
 
+export const LOCAL_KEY_WELCOMED = `${LOCAL_KEY_PREFIX}:welcomed`; // * local
+export const LOCAL_KEY_INITIALIZED = `${LOCAL_KEY_PREFIX}:initialized`; // * local
+export const LOCAL_KEY_SHOW_CHAINS = `${LOCAL_KEY_PREFIX}:show:chains`; // * local
+
 // token info
 const LOCAL_KEY_PREFIX_TOKEN = `${LOCAL_KEY_PREFIX}:token`;
-// export const LOCAL_KEY_TOKEN_INFO_CUSTOM = `${LOCAL_KEY_PREFIX_TOKEN}:info:custom`; // * local
-// export const LOCAL_KEY_TOKEN_INFO_CURRENT = `${LOCAL_KEY_PREFIX_TOKEN}:info:current`; // * local
+export const LOCAL_KEY_TOKEN_INFO_CUSTOM = `${LOCAL_KEY_PREFIX_TOKEN}:info:custom`; // * local
+export const LOCAL_KEY_TOKEN_INFO_CURRENT = `${LOCAL_KEY_PREFIX_TOKEN}:info:current`; // * local
 // ic
 export const LOCAL_KEY_TOKEN_INFO_IC = `${LOCAL_KEY_PREFIX_TOKEN}:info:ic`; // * local
 export const LOCAL_KEY_TOKEN_INFO_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:info:ic:updated`; // * local

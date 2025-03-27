@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import type { Storage } from '@plasmohq/storage';
 
 import { useCachedStoreData0, type DataMetadata0 } from '~hooks/meta/metadata-0';
+import { LOCAL_KEY_TOKEN_INFO_CUSTOM } from '~lib/storage/keys';
 import { resort_list, type ResortFunction } from '~lib/utils/sort';
 import { match_chain, type Chain } from '~types/chain';
 import {
@@ -16,8 +17,6 @@ import {
 } from '~types/tokens';
 import type { IcTokenInfo } from '~types/tokens/chain/ic';
 import { is_known_token } from '~types/tokens/preset';
-
-import { LOCAL_KEY_TOKEN_INFO_CUSTOM } from '../../keys';
 
 // ! always try to use this value to avoid BLINK
 type DataType = CustomTokens;
