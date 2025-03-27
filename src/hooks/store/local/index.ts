@@ -16,7 +16,7 @@ import { useInitializedInner } from './initialized';
 import { useShowChainsInner } from './show_chains';
 import { useTokenInfoCurrentInner, useTokenInfoCurrentInner2 } from './token/current';
 import { useTokenInfoCustomInner2 } from './token/custom';
-// import { useTokenBalanceIcByRefreshingInner } from './token/ic/balance';
+import { useTokenBalanceIcByRefreshingInner } from './token/ic/balance';
 // import { useTokenInfoIcByInitialInner, useTokenInfoIcByRefreshingInner } from './token/ic/info';
 import { useTokenInfoIcByRefreshingInner } from './token/ic/info';
 // import {
@@ -50,9 +50,9 @@ export const useTokenInfoCurrent = () => useTokenInfoCurrentInner2(LOCAL_STORAGE
 // export const useTokenInfoIcByInitial = (canister_id: string) =>
 //     useTokenInfoIcByInitialInner(LOCAL_STORAGE, canister_id); // local
 export const useTokenInfoIcByRefreshing = (sleep: number) => useTokenInfoIcByRefreshingInner(LOCAL_STORAGE, sleep); // local
-// // token/ic/balance
-// export const useTokenBalanceIcByRefreshing = (principal: string | undefined, canisters: string[], sleep: number) =>
-//     useTokenBalanceIcByRefreshingInner(LOCAL_STORAGE, principal, canisters, sleep); // local
+// token/ic/balance
+export const useTokenBalanceIcByRefreshing = (principal: string | undefined, canisters: string[], sleep: number) =>
+    useTokenBalanceIcByRefreshingInner(LOCAL_STORAGE, principal, canisters, sleep); // local
 // token/ic/price
 export const useTokenPriceIcRead = () => useTokenPriceIcInner(LOCAL_STORAGE)[0]; // local
 // export const useTokenPriceIcByInitial = (canister_id: string) =>

@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 // import ic_svg from '~assets/svg/chains/ic.min.svg';
 // import Icon from '~components/icon';
 import { FusePage } from '~components/layouts/page';
-// import { useTokenPriceUsd } from '~hooks/store/local/memo/usd';
 import { useSonnerToast } from '~components/toast';
 // import { useERC20Balances } from '~hooks/evm/contracts/multicall/read';
 import { useCurrentState } from '~hooks/memo/current_state';
@@ -13,10 +12,11 @@ import { useCurrentIdentity } from '~hooks/ports/current-identity';
 import { useShowChains, useTokenBalanceIcByRefreshing, useTokenInfoCurrentRead } from '~hooks/store/local';
 // import { useShowNetworks } from '~hooks/store/local-secure';
 import { useTokenPrices } from '~hooks/store/local/memo/price';
-
+import { useTokenPriceUsd } from '~hooks/store/local/memo/usd';
 // import { truncate_text } from '~lib/utils/text';
-// import type { ShowIdentityKey } from '~types/identity';
-// import { get_token_unique_id, group_tokens_by_chain, TokenTag } from '~types/tokens';
+import type { ShowIdentityKey } from '~types/identity';
+import { get_token_unique_id, group_tokens_by_chain, TokenTag } from '~types/tokens';
+
 // import { EthereumTokenStandard } from '~types/tokens/chain/ethereum';
 
 // import { AddressTooltip } from './components/address-tooltip';
@@ -61,13 +61,15 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
 
     const token_prices = useTokenPrices(current_tokens);
 
-    // const tokens_by_chain = group_tokens_by_chain(current_tokens);
+    const tokens_by_chain = group_tokens_by_chain(current_tokens);
 
-    // const canisters = useMemo<string[]>(
-    //     () => tokens_by_chain.ic.map((t) => t.info.ic.canister_id).filter((s) => !!s) as string[],
-    //     [tokens_by_chain.ic],
-    // );
-    // const [ic_balances] = useTokenBalanceIcByRefreshing(current_identity.address.ic?.owner, canisters, 15000);
+    const canisters = useMemo<string[]>(
+        () => tokens_by_chain.ic.map((t) => t.info.ic.canister_id).filter((s) => !!s) as string[],
+        [tokens_by_chain.ic],
+    );
+    const [ic_balances] = useTokenBalanceIcByRefreshing(current_identity.address.ic?.owner, canisters, 15000);
+
+    // FIXME
     // const { balances: evm_balances } = useERC20Balances(
     //     'ethereum',
     //     current_identity.address.ethereum?.address,
@@ -76,10 +78,10 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
     //         .map((t) => t.info.ethereum.address),
     // );
     // console.debug('🚀 ~ InnerHomePage ~ evm_balances:', evm_balances);
-    // const { usd, usd_changed, usd_changed_24h } = useTokenPriceUsd(current_tokens, token_prices, ic_balances);
 
-    // const ref = useRef<HTMLDivElement>(null);
+    const { usd, usd_changed, usd_changed_24h } = useTokenPriceUsd(current_tokens, token_prices, ic_balances);
 
+    const ref = useRef<HTMLDivElement>(null);
     return <>12312</>;
     // return (
     //     <div ref={ref} className="relative w-full h-full">

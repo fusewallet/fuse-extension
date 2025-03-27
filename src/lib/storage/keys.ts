@@ -33,7 +33,7 @@ export const LOCAL_KEY_TOKEN_INFO_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:info:i
 // export const LOCAL_KEY_TOKEN_METADATA_IC = `${LOCAL_KEY_PREFIX_TOKEN}:metadata:ic`; // * local
 // export const LOCAL_KEY_TOKEN_METADATA_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:metadata:ic:updated`; // * local
 
-// export const LOCAL_KEY_TOKEN_BALANCE_IC = (principal: string) => `${LOCAL_KEY_PREFIX_TOKEN}:balance:ic:${principal}`; // * local
+export const LOCAL_KEY_TOKEN_BALANCE_IC = (principal: string) => `${LOCAL_KEY_PREFIX_TOKEN}:balance:ic:${principal}`; // * local
 export const LOCAL_KEY_TOKEN_PRICE_IC = `${LOCAL_KEY_PREFIX_TOKEN}:price:ic`; // * local
 export const LOCAL_KEY_TOKEN_PRICE_IC_UPDATED = `${LOCAL_KEY_PREFIX_TOKEN}:price:ic:updated`; // * local
 

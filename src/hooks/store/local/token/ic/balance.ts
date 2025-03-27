@@ -6,9 +6,8 @@ import type { Storage } from '@plasmohq/storage';
 
 import { useCachedStoreData1, type DataMetadata1 } from '~hooks/meta/metadata-1';
 import { icrc1_balance_of } from '~lib/canisters/icrc1';
+import { LOCAL_KEY_TOKEN_BALANCE_IC } from '~lib/storage/keys';
 import type { IdentityAddress } from '~types/identity';
-
-import { LOCAL_KEY_TOKEN_BALANCE_IC } from '../../../keys';
 
 // ! always try to use this value to avoid BLINK
 type DataType = Record<string, string>; // <prefix>:balance:ic:address => [canister_id => balance]
