@@ -25,8 +25,6 @@ function HomePage() {
 
     const current = useCurrentIdentity();
 
-    console.error(`🚀 ~ HomePage ~ current_state:`, current_state, current);
-
     return (
         <FusePage
             current_state={current_state}

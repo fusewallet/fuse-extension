@@ -2,6 +2,8 @@ import { cachedFuseData0, type FuseDataMetadata0 } from '~background/meta/fuse-m
 import { __get_session_storage } from '~lib/storage';
 import { SESSION_KEY_UNLOCKED } from '~lib/storage/keys';
 
+import { $bgsw_port_updated } from './port-updated';
+
 type DataType = string;
 const get_default_value = (): DataType => '';
 let cached_value: DataType = get_default_value();
@@ -13,6 +15,7 @@ const meta: FuseDataMetadata0<DataType> = {
     set_cached_value,
     callback: async (value) => {
         await __get_session_storage().setItem(SESSION_KEY_UNLOCKED, !!value);
+        await $bgsw_port_updated();
     },
 };
 

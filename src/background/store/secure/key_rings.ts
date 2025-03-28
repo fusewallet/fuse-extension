@@ -2,6 +2,7 @@ import { cachedFuseSecureData0, type FuseSecureDataMetadata0 } from '~background
 import type { KeyRings } from '~types/identity';
 
 import { $bgsw_get_password } from '../session/password';
+import { $bgsw_port_updated } from '../session/port-updated';
 import { LOCAL_SECURE_KEY_KEY_RINGS } from './storage/keys';
 
 type DataType = KeyRings | undefined;
@@ -16,7 +17,9 @@ const meta: FuseSecureDataMetadata0<DataType> = {
     get_default_value,
     get_cached_value,
     set_cached_value,
-    callback: undefined,
+    callback: async () => {
+        await $bgsw_port_updated();
+    },
 };
 
 const { get, set } = cachedFuseSecureData0<DataType>(meta);
