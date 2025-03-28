@@ -22,7 +22,7 @@ export const $bgsw_switch_identity = async (id: SwitchIdentityRequestBody): Prom
 
     await $bgsw_set_key_rings({
         mnemonic: key_rings.mnemonic,
-        current: key_rings.current,
+        current: identity.id,
         keys: [...key_rings.keys],
     });
 
