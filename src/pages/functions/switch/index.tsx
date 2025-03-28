@@ -8,7 +8,7 @@ import { useGoto } from '~hooks/memo/goto';
 import { useShowIdentityList } from '~hooks/ports/show-identity-list';
 import { useTokenInfoCurrentRead } from '~hooks/store/local';
 import { useTokenPrices } from '~hooks/store/local/memo/price';
-import { direct_message_handle_identity_push_identity_by_main_mnemonic } from '~lib/messages/direct/direct-handle-identity';
+import { direct_message_handle_identity_push_identity_by_main_mnemonic } from '~lib/messages/direct/handle-identity';
 
 import { FunctionHeader } from '../components/header';
 import { AccountItem } from './components/account-item';

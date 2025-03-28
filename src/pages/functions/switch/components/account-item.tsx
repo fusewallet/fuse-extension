@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 
 import Icon from '~components/icon';
 import { useTokenBalanceIcByRefreshing } from '~hooks/store/local';
-import { useIdentityKeys } from '~hooks/store/local-secure';
 import { useTokenPriceUsd } from '~hooks/store/local/memo/usd';
+import { direct_message_handle_identity_switch_identity } from '~lib/messages/direct/handle-identity';
 import { cn } from '~lib/utils/cn';
 import type { ShowIdentityKey } from '~types/identity';
 import { type CurrentTokens } from '~types/tokens';
@@ -20,8 +20,6 @@ export const AccountItem = ({
     token_prices: TokenPrices;
     current_tokens: CurrentTokens;
 }) => {
-    const { switchIdentity } = useIdentityKeys();
-
     const canisters = useMemo(() => {
         const canisters: string[] = [];
         for (const token of current_tokens) {
@@ -42,7 +40,7 @@ export const AccountItem = ({
             )}
             onClick={() => {
                 if (current_identity !== wallet.id) {
-                    switchIdentity(wallet.id).then((r) => {
+                    direct_message_handle_identity_switch_identity(wallet.id).then((r) => {
                         if (r === undefined) return;
                         if (r === false) throw Error('switch identity failed');
                         // notice successful
