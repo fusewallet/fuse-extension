@@ -3,6 +3,8 @@ import { Storage } from '@plasmohq/storage';
 import { sha256_hash } from '~lib/utils/hash';
 import { same } from '~lib/utils/same';
 
+import { getCachedPasswordKey } from './password-key';
+
 interface CryptoOptions {
     algorithm: 'PBKDF2';
     hash_algo: 'SHA-256';
@@ -67,22 +69,22 @@ export class FuseSecureStorage<T> {
         this.key_namespace = `${this.namespace}${this.separator}`;
 
         const namespace_key = `${this.key_namespace}${this.key}`;
+        const s2 = Date.now();
         const wrapped_data = await this.storage.get<WrappedData>(namespace_key);
+        const e2 = Date.now();
+        if (10 < e2 - s2) console.warn(`read wrapped data spend: ${e2 - s2}ms`, this.key);
         const { encrypted, options: _options } = wrapped_data ?? { options: this.options };
 
-        const passwordBuffer = this.#encoder.encode(password);
-        this.passwordKey = await crypto.subtle.importKey(
-            'raw',
-            passwordBuffer,
-            { name: _options.algorithm },
-            false, // Not exportable
-            ['deriveKey'],
-        );
+        this.passwordKey = await getCachedPasswordKey(password, _options.algorithm);
+
         let verified = false;
         if (encrypted) {
             try {
+                const s = Date.now();
                 const json = await this.#decrypt(this.passwordKey, encrypted);
                 this.data = JSON.parse(json);
+                const e = Date.now();
+                if (10 < e - s) console.warn(`decrypted data spend: ${e - s}ms`, this.key);
                 verified = true;
             } catch (e) {
                 console.error(`wrong password`, e);
@@ -98,7 +100,7 @@ export class FuseSecureStorage<T> {
         }
 
         const e = Date.now();
-        console.debug(`restore secure storage spend: ${e - s}ms`, this.key, 'has value ->', !!this.data);
+        if (10 < e - s) console.warn(`restore secure storage spend: ${e - s}ms`, this.key, 'has value ->', !!this.data);
 
         return verified;
     }
@@ -214,6 +216,6 @@ const deriveKey = async (options: CryptoOptions, passwordKey: CryptoKey, salt: U
         keyUsage,
     );
     const e = Date.now();
-    console.debug(`derive key spend: ${e - s}ms`);
+    if (10 < e - s) console.warn(`derive key spend: ${e - s}ms`);
     return key;
 };

@@ -1,3 +1,4 @@
+import { FuseLock } from '~background/meta/fuse-lock';
 import { cachedFuseSecureData0, type FuseSecureDataMetadata0 } from '~background/meta/fuse-metadata-secure-0';
 import type { KeyRings } from '~types/identity';
 
@@ -12,6 +13,7 @@ let cached_value: DataType | null = null;
 const get_cached_value = async (): Promise<DataType | null> => cached_value;
 const set_cached_value = async (value: DataType): Promise<DataType> => (cached_value = value);
 const meta: FuseSecureDataMetadata0<DataType> = {
+    lock: new FuseLock(),
     get_password: $bgsw_get_password,
     get_key,
     get_default_value,

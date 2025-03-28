@@ -14,18 +14,20 @@ export const cachedFuseData0 = <T>(
     meta: FuseDataMetadata0<T>,
 ): {
     get: () => Promise<T>;
-    set: (value: T) => Promise<void>;
+    set: (value: T, effect?: () => Promise<void>) => Promise<void>;
 } => {
     return {
         get: async () => {
             const value = await meta.get_cached_value();
             return value ?? meta.get_default_value();
         },
-        set: async (value: T) => {
+        set: async (value: T, effect?: () => Promise<void>) => {
             const old = await meta.get_cached_value();
             if (same(value, old)) return;
 
             await meta.set_cached_value(value);
+
+            effect?.();
             meta.callback?.(value);
         },
     };

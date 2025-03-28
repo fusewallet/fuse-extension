@@ -1,9 +1,12 @@
 import { get_local_secure_storage } from '~background/store/secure/storage/local';
 import { same } from '~lib/utils/same';
 
+import type { FuseLock } from './fuse-lock';
+
 // does not need any args, fixed key
 
 export interface FuseSecureDataMetadata1<T, A> {
+    lock: FuseLock;
     get_password: () => Promise<string>;
     get_key: (arg: A) => string;
     get_default_value: (arg: A | undefined) => T;
@@ -22,18 +25,20 @@ export const cachedFuseSecureData1 = <T, A>(
 } => {
     return {
         get: async () => {
-            let cached = await meta.get_cached_value(arg);
-            if (cached === null) {
-                const password = await meta.get_password();
-                if (!password) throw new Error('invalid password');
-                if (!arg) throw new Error('invalid arg');
-                const storage = await get_local_secure_storage<T>(password, meta.get_key(arg));
-                const value = await storage.get();
-                if (value) await meta.set_cached_value(value, arg);
-                if (value === undefined) return meta.get_default_value(arg);
-                cached = value;
-            }
-            return cached ?? meta.get_default_value(arg);
+            return meta.lock.lock(async () => {
+                let cached = await meta.get_cached_value(arg);
+                if (cached === null) {
+                    const password = await meta.get_password();
+                    if (!password) throw new Error('invalid password');
+                    if (!arg) throw new Error('invalid arg');
+                    const storage = await get_local_secure_storage<T>(password, meta.get_key(arg));
+                    const value = await storage.get();
+                    if (value) await meta.set_cached_value(value, arg);
+                    if (value === undefined) return meta.get_default_value(arg);
+                    cached = value;
+                }
+                return cached ?? meta.get_default_value(arg);
+            });
         },
         set: async (value: T) => {
             const cached = await meta.get_cached_value(arg);

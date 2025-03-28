@@ -1,9 +1,12 @@
 import { get_local_secure_storage } from '~background/store/secure/storage/local';
 import { same } from '~lib/utils/same';
 
+import type { FuseLock } from './fuse-lock';
+
 // does not need any args, fixed key
 
 export interface FuseSecureDataMetadata0<T> {
+    lock: FuseLock;
     get_password: () => Promise<string>;
     get_key: () => string;
     get_default_value: () => T;
@@ -21,17 +24,19 @@ export const cachedFuseSecureData0 = <T>(
 } => {
     return {
         get: async () => {
-            let cached = await meta.get_cached_value();
-            if (cached === null) {
-                const password = await meta.get_password();
-                if (!password) throw new Error('invalid password');
-                const storage = await get_local_secure_storage<T>(password, meta.get_key());
-                const value = await storage.get();
-                if (value) await meta.set_cached_value(value);
-                if (value === undefined) return meta.get_default_value();
-                cached = value;
-            }
-            return cached ?? meta.get_default_value();
+            return meta.lock.lock(async () => {
+                let cached = await meta.get_cached_value();
+                if (cached === null) {
+                    const password = await meta.get_password();
+                    if (!password) throw new Error('invalid password');
+                    const storage = await get_local_secure_storage<T>(password, meta.get_key());
+                    const value = await storage.get();
+                    if (value) await meta.set_cached_value(value);
+                    if (value === undefined) return meta.get_default_value();
+                    cached = value;
+                }
+                return cached ?? meta.get_default_value();
+            });
         },
         set: async (value: T) => {
             const cached = await meta.get_cached_value();

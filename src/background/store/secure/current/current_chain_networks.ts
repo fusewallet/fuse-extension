@@ -1,3 +1,4 @@
+import { FuseLock } from '~background/meta/fuse-lock';
 import { cachedFuseSecureData1, type FuseSecureDataMetadata1 } from '~background/meta/fuse-metadata-secure-1';
 import type { IdentityId } from '~types/identity';
 import { DEFAULT_CURRENT_CHAIN_NETWORK, type CurrentChainNetwork } from '~types/network';
@@ -13,6 +14,7 @@ const get_cached_value = async (id: IdentityId | undefined): Promise<DataType> =
 const set_cached_value = async (value: DataType, id: IdentityId | undefined): Promise<DataType> =>
     (cached_value[id ?? ''] = value);
 const meta: FuseSecureDataMetadata1<DataType, IdentityId> = {
+    lock: new FuseLock(),
     get_password: $bgsw_get_password,
     get_key,
     get_default_value,
