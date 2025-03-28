@@ -1,4 +1,4 @@
-import type { ResponseBody } from '~background/ports/direct-show-identity-list';
+import type { ResponseBody } from '~background/ports/direct/show-identity-list';
 import { useFusePort, type PortDataMetadata0 } from '~hooks/meta/port-0';
 import { DIRECT_PORT_SHOW_IDENTITY_LIST } from '~lib/messages';
 
@@ -16,3 +16,7 @@ const meta: PortDataMetadata0<DataType> = {
 };
 
 export const useShowIdentityList = (): DataType => useFusePort<DataType>(meta);
+
+export const useIdentityKeysCount = () => {
+    return useShowIdentityList()?.identity_list.length ?? 0;
+};

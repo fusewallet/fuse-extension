@@ -1,4 +1,4 @@
-import type { ResponseBody } from '~background/ports/direct-popup-actions';
+import type { ResponseBody } from '~background/ports/direct/popup-actions';
 import { useFusePort, type PortDataMetadata0 } from '~hooks/meta/port-0';
 import { DIRECT_PORT_POPUP_ACTIONS } from '~lib/messages';
 

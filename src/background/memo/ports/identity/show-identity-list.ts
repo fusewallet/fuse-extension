@@ -1,4 +1,4 @@
-import type { ResponseBody } from '~background/ports/direct-show-identity-list';
+import type { ResponseBody } from '~background/ports/direct/show-identity-list';
 import { $bgsw_get_key_rings } from '~background/store/secure/key_rings';
 import { $bgsw_get_password } from '~background/store/session/password';
 import {

@@ -5,7 +5,7 @@ import { FusePage } from '~components/layouts/page';
 import { useCurrentState } from '~hooks/memo/current_state';
 import { useRestoreIdentity } from '~hooks/memo/restore-identity';
 import { random_mnemonic, validate_mnemonic } from '~lib/identity/mnemonic';
-import { direct_message_handle_identity_push_identity } from '~lib/messages/direct/direct-handle-identity';
+import { direct_message_handle_identity_push_identity } from '~lib/messages/direct/handle-identity';
 import type { CombinedIdentityKey } from '~types/identity';
 import { CurrentState } from '~types/state';
 import type { WindowType } from '~types/window';

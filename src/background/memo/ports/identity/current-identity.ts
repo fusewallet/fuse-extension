@@ -1,4 +1,4 @@
-import type { ResponseBody } from '~background/ports/direct-current-identity';
+import type { ResponseBody } from '~background/ports/direct/current-identity';
 import { $bgsw_agent_refresh_unique_identity } from '~background/store/agent';
 import { $bgsw_current_chain_network } from '~background/store/secure/current/current_chain_networks';
 import { $bgsw_get_key_rings } from '~background/store/secure/key_rings';

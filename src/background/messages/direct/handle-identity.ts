@@ -39,7 +39,7 @@ export type ResponseBody = MessageResult<
 >;
 
 const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async (req, res) => {
-    if (req.body === undefined) throw new Error(`can not find request body from direct-handle-identity message`);
+    if (req.body === undefined) throw new Error(`can not find request body from direct/handle-identity message`);
 
     if ('restore_identity' in req.body) {
         return res.send({ ok: { restore_identity: await $bgsw_restore_identity(req.body.restore_identity) } });
@@ -99,7 +99,7 @@ const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async
         });
     }
 
-    throw new Error(`can not find action: ${Object.keys(req.body)[0]} for direct-handle-identity message`);
+    throw new Error(`can not find action: ${Object.keys(req.body)[0]} for direct/handle-identity message`);
 };
 
 export default handler;

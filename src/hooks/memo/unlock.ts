@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { verify_password } from '~lib/identity/password';
-import { direct_message_handle_password_unlock } from '~lib/messages/direct/direct-handle-password';
+import { direct_message_handle_password_unlock } from '~lib/messages/direct/handle-password';
 import { CurrentState } from '~types/state';
 
 export const useUnlock = (

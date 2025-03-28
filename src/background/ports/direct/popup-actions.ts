@@ -7,7 +7,7 @@ export type RequestBody = undefined;
 export type ResponseBody = PopupActions;
 
 const handler: PlasmoMessaging.PortHandler<RequestBody, ResponseBody> = async (_, res) => {
-    // if (req.body === undefined) throw new Error(`can not find request body from direct-popup-actions port`);
+    // if (req.body === undefined) throw new Error(`can not find request body from direct/popup-actions port`);
 
     const actions = await $bgsw_get_popup_actions();
     res.send(actions);

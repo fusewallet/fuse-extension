@@ -1,4 +1,4 @@
-import type { RequestBody, ResponseBody } from '~background/messages/direct-handle-identity';
+import type { RequestBody, ResponseBody } from '~background/messages/direct/handle-identity';
 import { DIRECT_MESSAGE_HANDLE_IDENTITY, type ExtractOkType } from '~lib/messages';
 import { message_with_timeout } from '~lib/utils/timeout';
 import type { CombinedIdentityKey, IdentityId, KeyRings } from '~types/identity';

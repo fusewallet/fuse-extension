@@ -14,7 +14,7 @@ export type ResponseBody = MessageResult<
 >;
 
 const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async (req, res) => {
-    if (req.body === undefined) throw new Error(`can not find request body from direct-handle-identity message`);
+    if (req.body === undefined) throw new Error(`can not find request body from direct/handle-identity message`);
 
     if ('unlock' in req.body) {
         return res.send({ ok: { unlock: await $bgsw_unlock(req.body.unlock) } });
@@ -24,7 +24,7 @@ const handler: PlasmoMessaging.MessageHandler<RequestBody, ResponseBody> = async
         return res.send({ ok: { lock: await $bgsw_lock(req.body.lock) } });
     }
 
-    throw new Error(`can not find action: ${Object.keys(req.body)[0]} for direct-handle-identity message`);
+    throw new Error(`can not find action: ${Object.keys(req.body)[0]} for direct/handle-identity message`);
 };
 
 export default handler;

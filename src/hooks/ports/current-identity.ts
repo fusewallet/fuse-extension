@@ -1,4 +1,4 @@
-import type { ResponseBody } from '~background/ports/direct-current-identity';
+import type { ResponseBody } from '~background/ports/direct/current-identity';
 import { useFusePort, type PortDataMetadata0 } from '~hooks/meta/port-0';
 import { DIRECT_PORT_CURRENT_IDENTITY } from '~lib/messages';
 

@@ -7,8 +7,8 @@ export type ExtractOkType<T> = T extends { ok: infer U } ? U : never;
 // Message Flow
 // * Extension-Pages/CS	-> BGSW
 // export const MESSAGE_PING = 'ping';
-export const DIRECT_MESSAGE_HANDLE_IDENTITY = 'direct-handle-identity'; // Extension-Pages/CS -> BGSW // ? one-time
-export const DIRECT_MESSAGE_HANDLE_PASSWORD = 'direct-handle-password'; // Extension-Pages/CS -> BGSW // ? one-time
+export const DIRECT_MESSAGE_HANDLE_IDENTITY = 'direct/handle-identity'; // Extension-Pages/CS -> BGSW // ? one-time
+export const DIRECT_MESSAGE_HANDLE_PASSWORD = 'direct/handle-password'; // Extension-Pages/CS -> BGSW // ? one-time
 
 // Relay Flow via relay
 // * Website -> CS/BGSW
@@ -28,10 +28,10 @@ export const DIRECT_MESSAGE_HANDLE_PASSWORD = 'direct-handle-password'; // Exten
 // * Extension-Pages/CS	<-> BGSW
 // * BGSW <-> Extension-Pages/CS
 // export const PORT_MAIL = 'mail';
-export const DIRECT_PORT_CHECK_ALIVE = 'direct-check-alive'; // BGSW -> Extension-Pages // ? long-lived
-export const DIRECT_PORT_POPUP_ACTIONS = 'direct-popup-actions'; // BGSW -> Extension-Pages // ? long-lived
-export const DIRECT_PORT_SHOW_IDENTITY_LIST = 'direct-show-identity-list'; // BGSW -> Extension-Pages // ? long-lived
-export const DIRECT_PORT_CURRENT_IDENTITY = 'direct-current-identity'; // BGSW -> Extension-Pages // ? long-lived
+export const DIRECT_PORT_CHECK_ALIVE = 'direct/check-alive'; // BGSW -> Extension-Pages // ? long-lived
+export const DIRECT_PORT_POPUP_ACTIONS = 'direct/popup-actions'; // BGSW -> Extension-Pages // ? long-lived
+export const DIRECT_PORT_SHOW_IDENTITY_LIST = 'direct/show-identity-list'; // BGSW -> Extension-Pages // ? long-lived
+export const DIRECT_PORT_CURRENT_IDENTITY = 'direct/current-identity'; // BGSW -> Extension-Pages // ? long-lived
 
 // Ports + Relay
 // * BGSW -> WebPage

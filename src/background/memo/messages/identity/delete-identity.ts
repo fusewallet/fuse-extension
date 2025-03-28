@@ -1,4 +1,4 @@
-import type { RequestBody, ResponseBody } from '~background/messages/direct-handle-identity';
+import type { RequestBody, ResponseBody } from '~background/messages/direct/handle-identity';
 import { $bgsw_get_key_rings, $bgsw_set_key_rings } from '~background/store/secure/key_rings';
 import { $bgsw_get_password } from '~background/store/session/password';
 import type { ExtractOkType } from '~lib/messages';

@@ -1,6 +1,5 @@
 // import { Storage } from '@plasmohq/storage';
 
-// import { direct_message_unlocked } from '~lib/messages/direct/direct-unlocked';
 // import { sha256_hash } from '~lib/utils/hash';
 // import { is_same_popup_action, type PopupAction, type PopupActions } from '~types/actions';
 // import { type Chain } from '~types/chain';

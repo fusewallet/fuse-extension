@@ -8,7 +8,7 @@ import { validate_mnemonic } from '~lib/identity/mnemonic';
 import {
     direct_message_handle_identity_is_key_exist,
     direct_message_handle_identity_push_identity,
-} from '~lib/messages/direct/direct-handle-identity';
+} from '~lib/messages/direct/handle-identity';
 import type { CombinedIdentityKey } from '~types/identity';
 import { CurrentState } from '~types/state';
 import type { WindowType } from '~types/window';

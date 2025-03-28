@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { usePort } from '@plasmohq/messaging/hook';
 
-import type { RequestBody, ResponseBody } from '~background/ports/direct-check-alive';
+import type { RequestBody, ResponseBody } from '~background/ports/direct/check-alive';
 import { DIRECT_PORT_CHECK_ALIVE } from '~lib/messages';
 
 export const useCheckAlive = (): [boolean, (idle: number) => void] => {

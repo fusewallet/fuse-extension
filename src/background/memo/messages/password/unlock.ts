@@ -1,4 +1,4 @@
-import type { RequestBody, ResponseBody } from '~background/messages/direct-handle-password';
+import type { RequestBody, ResponseBody } from '~background/messages/direct/handle-password';
 import { $bgsw_set_password } from '~background/store/session/password';
 import { $bgsw_set_password_alive } from '~background/store/session/password_alive';
 import type { ExtractOkType } from '~lib/messages';

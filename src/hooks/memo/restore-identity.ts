@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { inner_get_identity_address } from '~lib/identity/address';
 import { validate_mnemonic } from '~lib/identity/mnemonic';
 import { check_password, hash_password } from '~lib/identity/password';
-import { direct_message_handle_identity_restore_identity } from '~lib/messages/direct/direct-handle-identity';
+import { direct_message_handle_identity_restore_identity } from '~lib/messages/direct/handle-identity';
 import type { CombinedIdentityKey, KeyRings } from '~types/identity';
 import { CurrentState } from '~types/state';
 

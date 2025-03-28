@@ -13,7 +13,7 @@ export type ResponseBody =
     | undefined;
 
 const handler: PlasmoMessaging.PortHandler<RequestBody, ResponseBody> = async (_, res) => {
-    // if (req.body === undefined) throw new Error(`can not find request body from direct-show-identity port`);
+    // if (req.body === undefined) throw new Error(`can not find request body from direct/show-identity port`);
 
     const show = await $bgsw_show_identity_list();
     res.send(show);
