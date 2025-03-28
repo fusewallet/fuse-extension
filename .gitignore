@@ -33,4 +33,4 @@ dist/
 .tsbuildinfo
 
 # cursor
-.cursor/**
+.cursor

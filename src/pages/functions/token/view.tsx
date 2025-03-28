@@ -47,7 +47,7 @@ function FunctionTokenViewPage() {
 
     const { setHide, goto: _goto } = useGoto();
 
-    const [custom, { pushCustomIcToken, removeCustomToken }] = useTokenInfoCustom();
+    const [custom, { pushCustomIcToken, pushCustomToken, removeCustomToken }] = useTokenInfoCustom();
     const [current, { pushToken, removeToken, resortToken }] = useTokenInfoCurrent();
 
     const [search, setSearch] = useState('');
@@ -132,17 +132,17 @@ function FunctionTokenViewPage() {
     const ref = useRef<HTMLDivElement>(null);
     return (
         <FusePage current_state={current_state} options={{ refresh_token_info_ic_sleep: 1000 * 60 * 5 }}>
-            <div ref={ref} className="overflow-hidden relative w-full h-full">
+            <div ref={ref} className="relative h-full w-full overflow-hidden">
                 <FusePageTransition setHide={setHide}>
                     <div className="relative flex h-full w-full flex-col items-center justify-start pt-[52px]">
                         <FunctionHeader title={'Search'} onBack={() => _goto('/')} onClose={() => _goto('/')} />
 
-                        <div className="px-5 w-full">
+                        <div className="w-full px-5">
                             <div className="flex h-12 w-full items-center rounded-xl border border-[#333333] px-3 transition duration-300 hover:border-[#FFCF13]">
                                 <Icon name="icon-search" className="h-[16px] w-[16px] text-[#999999]" />
                                 <input
                                     type="text"
-                                    className="pl-3 w-full h-full text-base bg-transparent border-transparent outline-none placeholder:text-sm"
+                                    className="h-full w-full border-transparent bg-transparent pl-3 text-base outline-none placeholder:text-sm"
                                     placeholder="Search token or canister"
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
@@ -150,14 +150,14 @@ function FunctionTokenViewPage() {
                             </div>
                         </div>
 
-                        <div className="flex justify-between items-center px-5 pt-3 w-full">
+                        <div className="flex w-full items-center justify-between px-5 pt-3">
                             <div className="flex items-center text-sm text-[#eee] hover:text-[#FFCF13]">
                                 Custom Token
                             </div>
                             <CustomTokenDrawer
                                 trigger={
                                     <div className="flex cursor-pointer items-center text-sm text-[#eee] hover:text-[#FFCF13]">
-                                        <Icon name="icon-arrow-right" className="w-3 h-3" />
+                                        <Icon name="icon-arrow-right" className="h-3 w-3" />
                                     </div>
                                 }
                                 container={ref.current ?? undefined}
@@ -167,10 +167,15 @@ function FunctionTokenViewPage() {
                                         if (token) pushToken(token);
                                     });
                                 }}
+                                pushCustomToken={async (token, chain) => {
+                                    pushCustomToken(token, chain).then((token) => {
+                                        if (token) pushToken(token);
+                                    });
+                                }}
                             />
                         </div>
 
-                        <div className="flex justify-between items-center px-5 py-3 w-full">
+                        <div className="flex w-full items-center justify-between px-5 py-3">
                             <div className="flex items-center text-sm">Tokens</div>
 
                             <GrSort
@@ -189,7 +194,7 @@ function FunctionTokenViewPage() {
                                             className="flex w-full flex-1 flex-col gap-y-[10px] overflow-y-auto px-5 pb-5"
                                         >
                                             {wrapped.length === 0 && (
-                                                <div className="flex flex-col justify-center items-center w-full h-full">
+                                                <div className="flex h-full w-full flex-col items-center justify-center">
                                                     <Icon
                                                         name="icon-empty"
                                                         className="h-[70px] w-[70px] text-[#999999]"
@@ -213,6 +218,11 @@ function FunctionTokenViewPage() {
                                                                 if (token) pushToken(token);
                                                             });
                                                         }}
+                                                        pushCustomToken={async (token, chain) => {
+                                                            pushCustomToken(token, chain).then((token) => {
+                                                                if (token) pushToken(token);
+                                                            });
+                                                        }}
                                                     />
                                                 </div>
                                             )}
@@ -228,7 +238,7 @@ function FunctionTokenViewPage() {
                                                             ref={provided.innerRef}
                                                             {...provided.draggableProps}
                                                             {...provided.dragHandleProps}
-                                                            className="w-full h-auto"
+                                                            className="h-auto w-full"
                                                         >
                                                             <ShowTokenItem
                                                                 tab={tab}
@@ -324,14 +334,14 @@ const ShowTokenItem = ({
     return (
         <div className="flex w-full cursor-pointer items-center justify-between rounded-xl bg-[#181818] p-[10px] transition duration-300 hover:bg-[#2B2B2B]">
             <div className="flex items-center">
-                <img src={logo} className="w-10 h-10 rounded-full" />
+                <img src={logo} className="h-10 w-10 rounded-full" />
                 <div className="ml-[10px]">
                     <strong className="block text-base text-[#EEEEEE]">{get_token_symbol(token)}</strong>
                     <span className="text-xs text-[#999999]"> {get_token_name(token)}</span>
                 </div>
             </div>
             <div className="flex items-center">
-                <div className="flex flex-col mr-2">
+                <div className="mr-2 flex flex-col">
                     <strong className="text-sm text-[#EEEEEE]">{balance}</strong>
                     <span className="text-xs text-[#999999]">${usd}</span>
                 </div>

@@ -1,7 +1,7 @@
 import { TokenTag, type TokenInfo } from '..';
 import { BscTokenStandard, type BscTokenInfo } from './../chain/bsc';
 
-export const TOKEN_INFO_BSC_BNB: BscTokenInfo  = { address: '0x0000000000000000000000000000000000000000', name: 'Binance Coin',   symbol: 'BNB',  decimals: 18, standards: [BscTokenStandard.NATIVE] };
+export const TOKEN_INFO_BSC_BNB: BscTokenInfo  = { address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', name: 'Binance Coin',   symbol: 'BNB',  decimals: 18, standards: [BscTokenStandard.NATIVE] };
 export const TOKEN_INFO_BSC_WBNB: BscTokenInfo = { address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', name: 'Wrapped BNB',    symbol: 'WBNB', decimals: 18, standards: [BscTokenStandard.BEP20] };
 export const TOKEN_INFO_BSC_BUSD: BscTokenInfo = { address: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', name: 'Binance USD',    symbol: 'BUSD', decimals: 18, standards: [BscTokenStandard.BEP20] };
 export const TOKEN_INFO_BSC_USDT: BscTokenInfo = { address: '0x55d398326f99059fF775485246999027B3197955', name: 'Tether USD',     symbol: 'USDT', decimals: 18, standards: [BscTokenStandard.BEP20] };

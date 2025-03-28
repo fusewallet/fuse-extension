@@ -1,26 +1,22 @@
 import BigNumber from 'bignumber.js';
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ic_svg from '~assets/svg/chains/ic.min.svg';
 import Icon from '~components/icon';
 import { FusePage } from '~components/layouts/page';
-import { useERC20Balances } from '~hooks/evm/contracts/multicall/read';
 import { useCurrentState } from '~hooks/memo/current_state';
-import { useTokenBalanceIcByRefreshing, useTokenInfoCurrentRead } from '~hooks/store/local';
-import { useCurrentIdentity, useShowNetworks } from '~hooks/store/local-secure';
-import { useTokenPrices } from '~hooks/store/local/memo/price';
-import { useTokenPriceUsd } from '~hooks/store/local/memo/usd';
+import { useCurrentIdentity } from '~hooks/store/local-secure';
+import { useCurrentTokensShowInfo } from '~hooks/store/local/token';
 import { useSonnerToast } from '~hooks/toast';
 import { truncate_text } from '~lib/utils/text';
 import type { ShowIdentityKey } from '~types/identity';
-import { get_token_unique_id, group_tokens_by_chain, TokenTag } from '~types/tokens';
-import { EthereumTokenStandard } from '~types/tokens/chain/ethereum';
+import { get_token_unique_id } from '~types/tokens';
 
 import { AddressTooltip } from './components/address-tooltip';
 import SelectChain from './components/select-chain';
 import { ShowSingleAddress } from './components/show-address';
-import { HomeShowToken } from './components/show-token';
+import { TokenCard } from './components/show-token';
 
 function HomePage() {
     const current_state = useCurrentState();
@@ -45,43 +41,11 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
     const toast = useSonnerToast();
     const navigate = useNavigate();
 
-    const current_tokens = useTokenInfoCurrentRead();
-
-    const [{ chains: show_networks }] = useShowNetworks();
-
-    const show_tokens = useMemo(() => {
-        return current_tokens.filter((s) => {
-            const exist = show_networks.filter((t) => s.tags.includes(`chain-${t}` as TokenTag));
-
-            if (exist.length === 0) return false;
-
-            return true;
-        });
-    }, [current_tokens, show_networks]);
-
-    const token_prices = useTokenPrices(current_tokens);
-
-    const tokens_by_chain = group_tokens_by_chain(current_tokens);
-
-    const canisters = useMemo<string[]>(
-        () => tokens_by_chain.ic.map((t) => t.info.ic.canister_id).filter((s) => !!s) as string[],
-        [tokens_by_chain.ic],
-    );
-    const [ic_balances] = useTokenBalanceIcByRefreshing(current_identity.address.ic?.owner, canisters, 15000);
-    const { balances: evm_balances } = useERC20Balances(
-        'ethereum',
-        current_identity.address.ethereum?.address,
-        tokens_by_chain.ethereum
-            .filter((t) => !t.info.ethereum.standards.includes(EthereumTokenStandard.NATIVE))
-            .map((t) => t.info.ethereum.address),
-    );
-    console.debug('🚀 ~ InnerHomePage ~ evm_balances:', evm_balances);
-    const { usd, usd_changed, usd_changed_24h } = useTokenPriceUsd(current_tokens, token_prices, ic_balances);
-
     const ref = useRef<HTMLDivElement>(null);
+    const { tokens_info, all_usd, all_usd_changed, all_usd_changed_24h } = useCurrentTokensShowInfo();
     return (
-        <div ref={ref} className="relative w-full h-full">
-            <div className="absolute top-0 flex w-full items-center justify-between bg-[#0a0600] px-5 py-3">
+        <div ref={ref} className="relative h-full w-full">
+            <div className="absolute top-0 z-10 flex w-full items-center justify-between bg-[#0a0600] px-5 py-3">
                 <div className="flex items-center">
                     <div
                         className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#333333] text-lg font-semibold text-[#999999]"
@@ -103,7 +67,7 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
                         container={ref.current ?? undefined}
                         trigger={
                             <div className="flex flex-row items-center justify-center text-[#EEEEEE] transition duration-300 hover:text-[#FFCF13]">
-                                <span className="px-2 text-base cursor-pointer">{current_identity.name}</span>
+                                <span className="cursor-pointer px-2 text-base">{current_identity.name}</span>
                                 <Icon name="icon-copy" className="h-[14px] w-[14px] cursor-pointer" />
                             </div>
                         }
@@ -159,24 +123,31 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
             </div>
 
             <div className="h-full flex-1 overflow-y-auto pb-5 pt-[60px]">
-                <div className="py-2 w-full">
-                    <div className="block text-center text-4xl font-semibold text-[#FFCF13]">${usd}</div>
-                    <div className="flex justify-center items-center mt-2 w-full">
+                <div className="w-full py-2">
+                    <div className="block text-center text-4xl font-semibold text-[#FFCF13]">
+                        ${all_usd.toFormat(2)}
+                    </div>
+                    <div className="mt-2 flex w-full items-center justify-center">
                         <span className="mr-2 text-sm text-[#00C431]">
-                            {usd_changed.gt(BigNumber(0)) ? '+' : usd_changed.lt(BigNumber(0)) ? '-' : ''}$
-                            {usd_changed.abs().toFormat(2)}
+                            {all_usd_changed.gt(BigNumber(0)) ? '+' : all_usd_changed.lt(BigNumber(0)) ? '-' : ''}$
+                            {all_usd_changed.abs().toFormat(2)}
                         </span>
                         <span className="rounded bg-[#193620] px-2 py-[2px] text-sm text-[#00C431]">
-                            {usd_changed_24h.gt(BigNumber(0)) ? '+' : usd_changed_24h.lt(BigNumber(0)) ? '-' : ''}
-                            {usd_changed_24h.abs().toFormat(2)}%
+                            {all_usd_changed_24h.gt(BigNumber(0))
+                                ? '+'
+                                : all_usd_changed_24h.lt(BigNumber(0))
+                                  ? '-'
+                                  : ''}
+                            {all_usd_changed_24h.abs().toFormat(2)}%
                         </span>
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center px-5 mt-2 w-full">
+                <div className="mt-2 flex w-full items-center justify-between px-5">
                     {[
-                        { callback: () => navigate('/home/transfer'), icon: 'icon-send', name: 'Send' },
-                        { callback: () => navigate('/home/receive'), icon: 'icon-receive', name: 'Receive' },
+                        { callback: () => navigate('/home/transfer/transfer'), icon: 'icon-send', name: 'Send' },
+                        // { callback: () => navigate('/home/receive'), icon: 'icon-receive', name: 'Receive' },
+                        { callback: () => navigate('/home/transfer/receive'), icon: 'icon-receive', name: 'Receive' },
                         {
                             callback: () => {
                                 toast.info('Come soon');
@@ -209,15 +180,13 @@ function InnerHomePage({ current_identity }: { current_identity: ShowIdentityKey
                 </div>
 
                 <div className="mt-5 flex w-full flex-col gap-y-[10px] px-5">
-                    {show_tokens.map((token) => (
-                        <HomeShowToken
-                            key={get_token_unique_id(token)}
+                    {tokens_info.map((info) => (
+                        <TokenCard
+                            key={get_token_unique_id(info.token)}
                             goto={(path, options) =>
                                 typeof path === 'number' ? navigate(path) : navigate(path, options)
                             }
-                            token={token}
-                            token_prices={token_prices}
-                            ic_balances={ic_balances}
+                            info={info}
                         />
                     ))}
                 </div>

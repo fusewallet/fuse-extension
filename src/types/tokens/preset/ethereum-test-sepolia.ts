@@ -2,7 +2,7 @@
 import { TokenTag, type TokenInfo } from '..';
 import { EthereumTestSepoliaTokenStandard, type EthereumTestSepoliaTokenInfo } from '../chain/ethereum-test-sepolia';
 
-export const TOKEN_INFO_ETHEREUM_TEST_SEPOLIA_ETH: EthereumTestSepoliaTokenInfo   = { address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', name: 'Sepolia Ether',   symbol: 'ETH',   decimals: 18, standards: [EthereumTestSepoliaTokenStandard.NATIVE] };
+export const TOKEN_INFO_ETHEREUM_TEST_SEPOLIA_ETH: EthereumTestSepoliaTokenInfo   = { address: '0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9', name: 'Sepolia Ether',   symbol: 'ETH',   decimals: 18, standards: [EthereumTestSepoliaTokenStandard.NATIVE] };
 export const TOKEN_INFO_ETHEREUM_TEST_SEPOLIA_WETH: EthereumTestSepoliaTokenInfo  = { address: '0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9', name: 'Wrapped Ether',   symbol: 'WETH',  decimals: 18, standards: [EthereumTestSepoliaTokenStandard.ERC20] };
 export const TOKEN_INFO_ETHEREUM_TEST_SEPOLIA_USDC: EthereumTestSepoliaTokenInfo  = { address: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238', name: 'USD Coin',        symbol: 'USDC',  decimals: 6,  standards: [EthereumTestSepoliaTokenStandard.ERC20] };
 export const TOKEN_INFO_ETHEREUM_TEST_SEPOLIA_USDT: EthereumTestSepoliaTokenInfo  = { address: '0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0', name: 'Tether USD',      symbol: 'USDT',  decimals: 6,  standards: [EthereumTestSepoliaTokenStandard.ERC20] };

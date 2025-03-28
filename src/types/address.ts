@@ -1,4 +1,5 @@
 import { isAccountHex, isPrincipalText } from '@choptop/haw';
+import { isAddress as isEvmAddress } from 'viem';
 
 export type AddressType = 'ic' | 'evm';
 
@@ -28,7 +29,7 @@ export const check_chain_address = (address: ChainAddress): boolean => {
         case 'ic':
             return isPrincipalText(address.address) || isAccountHex(address.address);
         case 'evm':
-            return /^0x[a-fA-F0-9]{40}$/.test(address.address);
+            return isEvmAddress(address.address);
         default:
             throw new Error(`Invalid address type: ${address.type}`);
     }
@@ -36,6 +37,6 @@ export const check_chain_address = (address: ChainAddress): boolean => {
 
 export const check_address_type = (address: string): AddressType => {
     if (isPrincipalText(address) || isAccountHex(address)) return 'ic';
-    if (/^0x[a-fA-F0-9]{40}$/.test(address)) return 'evm';
+    if (isEvmAddress(address)) return 'evm';
     throw new Error(`Invalid address: ${address}`);
 };

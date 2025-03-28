@@ -28,7 +28,7 @@ export function useERC20ReadContract<TFunctionName extends ContractFunctionName<
 export function useERC20ReadContractBalanceOf(
     chain: EvmChain,
     address: Address,
-    args: ContractFunctionArgs<typeof erc20Abi, 'view', 'balanceOf'>,
+    args?: ContractFunctionArgs<typeof erc20Abi, 'view', 'balanceOf'>,
     queryOptions?: Omit<UseQueryOptions, 'queryKey' | 'queryFn'>,
 ) {
     return useERC20ReadContract<'balanceOf'>(chain, address, 'balanceOf', args, queryOptions);

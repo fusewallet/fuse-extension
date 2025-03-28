@@ -8,6 +8,7 @@ import { useTokenInfoCurrentRead } from '~hooks/store/local';
 import { useIdentityKeys } from '~hooks/store/local-secure';
 import { useTokenPrices } from '~hooks/store/local/memo/price';
 import { useSonnerToast } from '~hooks/toast';
+import { group_tokens_by_chain } from '~types/tokens';
 
 import { FunctionHeader } from '../components/header';
 import { AccountItem } from './components/account-item';
@@ -22,10 +23,10 @@ function FunctionSwitchAccountPage() {
     const { current_identity, main_mnemonic_identity, identity_list, pushIdentityByMainMnemonic } = useIdentityKeys();
 
     const current_tokens = useTokenInfoCurrentRead();
-
-    const token_prices = useTokenPrices(current_tokens);
-
+    const tokens_by_chain = group_tokens_by_chain(current_tokens);
+    const token_prices = useTokenPrices(current_tokens, tokens_by_chain);
     const ref = useRef<HTMLDivElement>(null);
+
     return (
         <FusePage current_state={current_state} options={{ refresh_token_info_ic_sleep: 1000 * 60 * 5 }}>
             <div ref={ref} className="relative h-full w-full overflow-hidden">

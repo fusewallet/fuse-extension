@@ -1,7 +1,7 @@
 import { TokenTag, type TokenInfo } from '..';
 import { BscTestTokenStandard, type BscTestTokenInfo } from '../chain/bsc-test';
 
-export const TOKEN_INFO_BSC_TEST_BNB: BscTestTokenInfo  = { address: '0x0000000000000000000000000000000000000000', name: 'Test BNB',         symbol: 'tBNB', decimals: 18, standards: [BscTestTokenStandard.NATIVE] };
+export const TOKEN_INFO_BSC_TEST_BNB: BscTestTokenInfo  = { address: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd', name: 'Test BNB',         symbol: 'tBNB', decimals: 18, standards: [BscTestTokenStandard.NATIVE] };
 export const TOKEN_INFO_BSC_TEST_WBNB: BscTestTokenInfo = { address: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd', name: 'Wrapped BNB',      symbol: 'WBNB', decimals: 18, standards: [BscTestTokenStandard.BEP20] };
 export const TOKEN_INFO_BSC_TEST_BUSD: BscTestTokenInfo = { address: '0x78867BbEeF44f2326bF8DDd1941a4439382EF2A7', name: 'Test BUSD',        symbol: 'BUSD', decimals: 18, standards: [BscTestTokenStandard.BEP20] };
 export const TOKEN_INFO_BSC_TEST_USDT: BscTestTokenInfo = { address: '0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684', name: 'Test USDT',        symbol: 'USDT', decimals: 18, standards: [BscTestTokenStandard.BEP20] };

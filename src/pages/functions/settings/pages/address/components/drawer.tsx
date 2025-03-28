@@ -17,14 +17,16 @@ export const AddAddressDrawer = ({
     onAddAddress,
     trigger,
     container,
+    address = '',
 }: {
     onAddAddress: (address: ChainAddress, name: string) => void;
     trigger?: React.ReactNode;
     container?: HTMLElement | null;
+    address?: string;
 }) => {
     const [open, setOpen] = useState(false);
     const [addrName, setAddrName] = useState<string>('');
-    const [customAddress, setCustomAddress] = useState<string>('');
+    const [customAddress, setCustomAddress] = useState<string>(address);
     const [showError, setShowError] = useState<boolean>(false);
 
     const handleAddAddress = () => {

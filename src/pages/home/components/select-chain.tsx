@@ -76,7 +76,7 @@ const SelectChain = ({ trigger, container }: SelectChainProps) => {
             <DrawerContent className="!h-full">
                 <DrawerHeader className="border-t border-[#333333] bg-[#0a0600] text-left">
                     <DrawerTitle>
-                        <div className="flex justify-between items-center w-full text-white">
+                        <div className="flex w-full items-center justify-between text-white">
                             <span className="text-sm">Select Chain</span>
                             <span
                                 className="cursor-pointer text-sm text-[#FFCF13] transition duration-300 hover:opacity-85"
@@ -97,9 +97,9 @@ const SelectChain = ({ trigger, container }: SelectChainProps) => {
                             )}
                         >
                             <div className="flex items-center">
-                                <div className="flex relative justify-center items-center mr-3 w-10 h-10 rounded-full">
+                                <div className="relative mr-3 flex h-10 w-10 items-center justify-center rounded-full">
                                     {typeof item.logo === 'string' && (
-                                        <img src={item.logo} alt={item.name} className="w-10 h-10" />
+                                        <img src={item.logo} alt={item.name} className="h-10 w-10" />
                                     )}
                                     {typeof item.logo === 'object' && (
                                         <div className="h-10 w-10 rounded-full bg-[#FFCF13] p-2">{item.logo}</div>

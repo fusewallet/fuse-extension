@@ -11,7 +11,8 @@ import {
 } from 'viem';
 
 import { useReadContract } from '~hooks/evm/contracts';
-import type { EvmChain } from '~types/chain';
+import { type EvmChain } from '~types/chain';
+import { get_token_unique_id, match_combined_token_info, type TokenInfo, type TokenUniqueId } from '~types/tokens';
 
 const MULTICALL_ADDRESS: Record<EvmChain, Address> = {
     ethereum: '0xcA11bde05977b3631167028862bE2a173976CA11',
@@ -156,13 +157,26 @@ export function useERC20Metadata(chain: EvmChain, target?: Address) {
  * @param tokenAddresses Array of token addresses
  * @returns Object with token balances and status
  */
-export function useERC20Balances(chain: EvmChain, owner?: Address, tokenAddresses?: Address[]) {
+export function useERC20Balances(chain: EvmChain, owner?: Address, tokens?: TokenInfo[]) {
     const multicall_address = MULTICALL_ADDRESS[chain];
-    const enabled = !!(owner && tokenAddresses?.length && multicall_address);
+    const enabled = !!(owner && tokens?.length && multicall_address);
+    const tokenAddresses = tokens?.map((t) =>
+        match_combined_token_info(t.info, {
+            ic: () => {
+                throw new Error('IC tokens are not supported');
+            },
+            ethereum: (ethereum) => ethereum.address,
+            ethereum_test_sepolia: (ethereum_test_sepolia) => ethereum_test_sepolia.address,
+            polygon: (polygon) => polygon.address,
+            polygon_test_amoy: (polygon_test_amoy) => polygon_test_amoy.address,
+            bsc: (bsc) => bsc.address,
+            bsc_test: (bsc_test) => bsc_test.address,
+        }),
+    );
     // Prepare calls for balanceOf for each token
     const calls =
         owner && tokenAddresses?.length
-            ? tokenAddresses.map((tokenAddress) => ({
+            ? [...tokenAddresses].sort().map((tokenAddress) => ({
                   target: tokenAddress,
                   allowFailure: true,
                   callData: encodeFunctionData({
@@ -184,13 +198,14 @@ export function useERC20Balances(chain: EvmChain, owner?: Address, tokenAddresse
     const getBalances = useCallback(() => {
         if (!tokenAddresses || !isSuccess || !results) return {};
 
-        const balances: Record<Address, bigint> = {};
+        const balances: Record<TokenUniqueId, string> = {};
 
         results.forEach((result, index) => {
-            if (result.success && tokenAddresses[index]) {
+            if (result.success && tokenAddresses[index] && tokens?.[index]) {
                 try {
+                    const unique_id = get_token_unique_id(tokens[index]);
                     const balance = decodeAbiParameters([{ type: 'uint256' }], result.returnData)[0];
-                    balances[tokenAddresses[index]] = balance;
+                    balances[unique_id] = balance.toString();
                 } catch (error) {
                     console.error(`Error decoding balance for token ${tokenAddresses[index]}:`, error);
                 }

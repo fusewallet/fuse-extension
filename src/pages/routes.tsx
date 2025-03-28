@@ -32,6 +32,8 @@ import FunctionSwitchAccountPage from './functions/switch';
 import FunctionRecordsPage from './functions/record';
 import HomePage from './home';
 import ImportExtraAccountPage from './functions/switch/pages/import-extra-account';
+import FunctionTokenEvmPage from './functions/token/evm';
+import FunctionTransferTokenEvmPage from './functions/transfer/token/evm';
 
 export const getRoutes = (wt: WindowType) => {
     const routes: RouteObject[] = [
@@ -89,7 +91,7 @@ export const getRoutes = (wt: WindowType) => {
         // -------------- home icons --------------
 
         // send
-        ...(hit(wt, []) ? [{ path: '/home/transfer', element: <FunctionTransferPage   /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/home/transfer/:type', element: <FunctionTransferPage   /> }] : []),
         // send token
         ...(hit(wt, []) ? [{ path: '/home/transfer/token/ic', element: <FunctionTransferTokenIcPage   /> }] : []),
 
@@ -109,7 +111,10 @@ export const getRoutes = (wt: WindowType) => {
         ...(hit(wt, []) ? [{ path: '/home/token/ic/transfer', element: <FunctionTransferTokenIcPage   /> }] : []),
         ...(hit(wt, []) ? [{ path: '/home/token/ic/receive', element: <FunctionReceivePage   /> }] : []),
 
-
+        // token evm
+        ...(hit(wt, []) ? [{ path: '/home/token/evm', element: <FunctionTokenEvmPage /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/home/token/evm/transfer', element: <FunctionTransferTokenEvmPage /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/home/token/evm/receive', element: <FunctionReceivePage /> }] : []),
         // action
         ...(hit(wt, []) ? [{ path: '/action', element: <ActionsPage wt={wt} /> }] : []),
 

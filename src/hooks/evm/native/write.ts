@@ -20,14 +20,18 @@ export const useNativeTransfer = (chain: EvmChain) => {
     }, [identity_key]);
     return useMutation({
         mutationKey,
-        mutationFn: async (args: { to: Address; amount: bigint }) => {
+        mutationFn: async (args: {
+            to: Address;
+            amount: bigint;
+            data?: `0x${string}`;
+            maxFeePerGas?: bigint;
+            maxPriorityFeePerGas?: bigint;
+            gas?: bigint;
+        }) => {
             if (!enabled) throw new Error('evm chain is required');
             let walletClient = create_wallet_client();
             if (!walletClient) throw new Error('wallet client is required');
-            const tx = await walletClient.sendTransaction({
-                to: args.to,
-                value: args.amount,
-            });
+            const tx = await walletClient.sendTransaction(args);
             walletClient = undefined;
             return tx;
         },

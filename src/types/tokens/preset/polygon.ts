@@ -12,7 +12,7 @@ export const PRESET_LOGO_POLYGON: Record<string, string> = {
 
 // =========================== token info ===========================
 
-export const TOKEN_INFO_POLYGON_MATIC: PolygonTokenInfo  = { address: '0x0000000000000000000000000000000000001010', name: 'Matic',           symbol: 'MATIC',  decimals: 18, standards: [PolygonTokenStandard.NATIVE] };
+export const TOKEN_INFO_POLYGON_MATIC: PolygonTokenInfo  = { address: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', name: 'Matic',           symbol: 'MATIC',  decimals: 18, standards: [PolygonTokenStandard.NATIVE] };
 export const TOKEN_INFO_POLYGON_WMATIC: PolygonTokenInfo = { address: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', name: 'Wrapped Matic',   symbol: 'WMATIC', decimals: 18, standards: [PolygonTokenStandard.ERC20] };
 export const TOKEN_INFO_POLYGON_USDC: PolygonTokenInfo   = { address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', name: 'USD Coin',        symbol: 'USDC',   decimals: 6,  standards: [PolygonTokenStandard.ERC20] };
 export const TOKEN_INFO_POLYGON_USDT: PolygonTokenInfo   = { address: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F', name: 'Tether USD',      symbol: 'USDT',   decimals: 6,  standards: [PolygonTokenStandard.ERC20] };

@@ -26,8 +26,8 @@ import type { TokenTransferredIcRecord } from '~types/records/token/transferred_
 import type { IcTokenInfo } from '~types/tokens/chain/ic';
 import { get_token_logo, PRESET_ALL_TOKEN_INFO } from '~types/tokens/preset';
 
-import TokenMetadata from './components/token-metadata';
-import TransferDetailDrawer from './components/transfer-detail-drawer';
+import { TokenMetadataIc } from './components/token-metadata';
+import { TransferDetailDrawerIc } from './components/transfer-detail-drawer';
 
 const TransferItem = ({
     item,
@@ -231,7 +231,9 @@ const InnerPage = ({ canister_id, navigate }: { canister_id: string; navigate: N
                                     name: 'Send',
                                 },
                                 {
-                                    callback: () => navigate('/home/token/ic/receive'),
+                                    // callback: () => navigate('/home/token/ic/receive'),
+                                    callback: () =>
+                                        navigate('/home/receive', { state: { chain: 'ic', address: canister_id } }),
                                     icon: 'icon-receive',
                                     name: 'Receive',
                                 },
@@ -265,7 +267,7 @@ const InnerPage = ({ canister_id, navigate }: { canister_id: string; navigate: N
                             ))}
                         </div>
 
-                        <TokenMetadata canister_id={canister_id} />
+                        <TokenMetadataIc canister_id={canister_id} />
 
                         <div ref={transactionsRef} className="mt-5 w-full pb-5">
                             <h3 className="block px-5 pb-4 text-sm text-[#999999]">Transactions</h3>
@@ -277,7 +279,7 @@ const InnerPage = ({ canister_id, navigate }: { canister_id: string; navigate: N
                                             records.map((record, idx) => {
                                                 return (
                                                     <div className="w-full" key={`transfer_item_${idx}`}>
-                                                        <TransferDetailDrawer
+                                                        <TransferDetailDrawerIc
                                                             trigger={
                                                                 <TransferItem item={record} logo={logo} token={token} />
                                                             }
@@ -306,13 +308,7 @@ function FunctionTokenIcPage() {
     const { goto: _goto, navigate } = useGoto();
 
     const location = useLocation();
-    const [canister_id, setCanisterId] = useState<string>();
-
-    useEffect(() => {
-        const canister_id = location.state.canister_id;
-        if (!canister_id) return _goto(-1);
-        setCanisterId(canister_id);
-    }, [_goto, location]);
+    const canister_id = location.state?.token?.info?.ic?.canister_id;
 
     if (!canister_id) return <></>;
     return (

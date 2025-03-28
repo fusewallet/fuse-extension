@@ -2,7 +2,7 @@
 import { TokenTag, type TokenInfo } from '..';
 import { EthereumTokenStandard, type EthereumTokenInfo } from './../chain/ethereum';
 
-export const TOKEN_INFO_ETHEREUM_ETH: EthereumTokenInfo  = { address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', name: 'Ethereum',      symbol: 'ETH',   decimals: 18, standards: [EthereumTokenStandard.NATIVE] };
+export const TOKEN_INFO_ETHEREUM_ETH: EthereumTokenInfo  = { address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', name: 'Ethereum',      symbol: 'ETH',   decimals: 18, standards: [EthereumTokenStandard.NATIVE] };
 export const TOKEN_INFO_ETHEREUM_WETH: EthereumTokenInfo = { address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', name: 'Wrapped Ether', symbol: 'WETH',  decimals: 18, standards: [EthereumTokenStandard.ERC20] };
 export const TOKEN_INFO_ETHEREUM_USDC: EthereumTokenInfo = { address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', name: 'USD Coin',      symbol: 'USDC',  decimals: 6,  standards: [EthereumTokenStandard.ERC20] };
 export const TOKEN_INFO_ETHEREUM_USDT: EthereumTokenInfo = { address: '0xdAC17F958D2ee523a2206206994597C13D831ec7', name: 'Tether USD',    symbol: 'USDT',  decimals: 6,  standards: [EthereumTokenStandard.ERC20] };
