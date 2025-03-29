@@ -27,7 +27,7 @@ import WelcomePage from './welcome';
 // import FunctionTransferTokenIcPage from './functions/transfer/token/ic';
 // import FunctionTransferPage from './functions/transfer';
 // import FunctionTokenIcPage from './functions/token/ic';
-// import FunctionTokenViewPage from './functions/token/view';
+import FunctionTokenViewPage from './functions/token/view';
 import FunctionSwitchAccountPage from './functions/switch';
 // import FunctionRecordsPage from './functions/record';
 import HomePage from './home';
@@ -56,8 +56,8 @@ export const getRoutes = (wt: WindowType) => {
         ...(hit(wt, []) ? [{ path: '/home/switch/account', element: <FunctionSwitchAccountPage /> }] : []),
         ...(hit(wt, []) ? [{ path: '/home/switch/account/import/:type', element: <ImportExtraAccountPage /> }] : []),
 
-        // // token `gallery
-        // ...(hit(wt, []) ? [{ path: '/home/token/view', element: <FunctionTokenViewPage   /> }] : []),
+        // token gallery
+        ...(hit(wt, []) ? [{ path: '/home/token/view', element: <FunctionTokenViewPage   /> }] : []),
 
         // // records
         // ...(hit(wt, []) ? [{ path: '/home/records', element: <FunctionRecordsPage   /> }] : []),

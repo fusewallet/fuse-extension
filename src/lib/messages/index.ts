@@ -32,6 +32,7 @@ export const DIRECT_PORT_CHECK_ALIVE = 'direct/check-alive'; // BGSW -> Extensio
 export const DIRECT_PORT_POPUP_ACTIONS = 'direct/popup-actions'; // BGSW -> Extension-Pages // ? long-lived
 export const DIRECT_PORT_SHOW_IDENTITY_LIST = 'direct/show-identity-list'; // BGSW -> Extension-Pages // ? long-lived
 export const DIRECT_PORT_CURRENT_IDENTITY = 'direct/current-identity'; // BGSW -> Extension-Pages // ? long-lived
+export const DIRECT_PORT_CHAIN_NETWORKS = 'direct/chain-networks'; // BGSW -> Extension-Pages // ? long-lived
 
 // Ports + Relay
 // * BGSW -> WebPage

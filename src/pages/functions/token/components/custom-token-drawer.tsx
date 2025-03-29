@@ -1,11 +1,13 @@
 import { anonymous, isCanisterIdText } from '@choptop/haw';
-import { Button, Skeleton } from '@heroui/react';
+import { Button } from '@heroui/button';
+import { Skeleton } from '@heroui/skeleton';
 import BigNumber from 'bignumber.js';
-import CHAIN_BSC_SVG from 'data-base64:~assets/svg/chains/bsc.svg';
-import CHAIN_ETH_SVG from 'data-base64:~assets/svg/chains/eth.svg';
-import CHAIN_IC_SVG from 'data-base64:~assets/svg/chains/ic.min.svg';
-import CHAIN_POL_SVG from 'data-base64:~assets/svg/chains/pol.svg';
 import { useEffect, useMemo, useState } from 'react';
+
+import CHAIN_BSC_SVG from 'data-base64:~assets/svg/chains/bsc.min.svg';
+import CHAIN_ETHEREUM_SVG from 'data-base64:~assets/svg/chains/ethereum.min.svg';
+import CHAIN_IC_SVG from 'data-base64:~assets/svg/chains/ic.min.svg';
+import CHAIN_POLYGON_SVG from 'data-base64:~assets/svg/chains/polygon.min.svg';
 
 import Icon from '~components/icon';
 import {
@@ -18,14 +20,21 @@ import {
     DrawerTrigger,
 } from '~components/ui/drawer';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '~components/ui/select';
+import { useAllChainNetworks } from '~hooks/ports/chain-networks';
 import { get_cached_data } from '~hooks/store/local';
-import { useAllChainNetworks } from '~hooks/store/local-secure';
 import { get_token_info_ic } from '~hooks/store/local/token/ic/info';
 import { icrc1_logo } from '~lib/canisters/icrc1';
 import { cn } from '~lib/utils/cn';
 import type { Chain } from '~types/chain';
 import type { IcTokenInfo } from '~types/tokens/chain/ic';
 import { get_token_logo_key } from '~types/tokens/preset';
+
+const getLogo = (chain: Chain) => {
+    if (chain === 'ic') return CHAIN_IC_SVG;
+    if (chain.indexOf('ethereum') >= 0) return CHAIN_ETHEREUM_SVG;
+    if (chain.indexOf('polygon') >= 0) return CHAIN_POLYGON_SVG;
+    if (chain.indexOf('bsc') >= 0) return CHAIN_BSC_SVG;
+};
 
 const CustomTokenDrawer = ({
     trigger,
@@ -38,7 +47,7 @@ const CustomTokenDrawer = ({
     isTokenExist: (token: { chain: Chain; address: string }) => boolean;
     pushIcToken: (token: IcTokenInfo) => Promise<void>;
 }) => {
-    const [chain_networks] = useAllChainNetworks();
+    const chain_networks = useAllChainNetworks();
 
     const [open, setOpen] = useState(false);
 
@@ -47,7 +56,7 @@ const CustomTokenDrawer = ({
     const [chain, setChain] = useState<Chain>();
 
     const isCanisterId = useMemo(() => isCanisterIdText(address), [address]);
-    // TODO: 校验是否是evm 合约地址
+    // TODO: Verify whether it is an evm contract address
     // const isContractAddress = useMemo(() => {}, [evmAddress]);
 
     const isExist = useMemo(() => {
@@ -65,13 +74,6 @@ const CustomTokenDrawer = ({
     const [ic_token, setIcToken] = useState<IcTokenInfo>();
 
     const [pushing, setPushing] = useState(false);
-
-    const getLogo = (chain: Chain) => {
-        if (chain === 'ic') return CHAIN_IC_SVG;
-        if (chain.indexOf('ethereum') >= 0) return CHAIN_ETH_SVG;
-        if (chain.indexOf('pol') >= 0) return CHAIN_POL_SVG;
-        if (chain.indexOf('bsc') >= 0) return CHAIN_BSC_SVG;
-    };
 
     const onSelectChange = (val: Chain) => {
         setChain(val);

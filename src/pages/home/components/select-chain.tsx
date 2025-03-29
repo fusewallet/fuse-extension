@@ -2,9 +2,9 @@ import { Switch } from '@heroui/switch';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import CHAIN_BSC_SVG from 'data-base64:~assets/svg/chains/bsc.min.svg';
-import CHAIN_ETH_SVG from 'data-base64:~assets/svg/chains/eth.min.svg';
+import CHAIN_ETHEREUM_SVG from 'data-base64:~assets/svg/chains/ethereum.min.svg';
 import CHAIN_IC_SVG from 'data-base64:~assets/svg/chains/ic.min.svg';
-import CHAIN_POLYGON_SVG from 'data-base64:~assets/svg/chains/pol.min.svg';
+import CHAIN_POLYGON_SVG from 'data-base64:~assets/svg/chains/polygon.min.svg';
 
 import {
     Drawer,
@@ -33,7 +33,7 @@ interface SelectChainProps {
 
 const getLogo = (chain: Chain) => {
     if (chain === 'ic') return CHAIN_IC_SVG;
-    if (chain.indexOf('ethereum') >= 0) return CHAIN_ETH_SVG;
+    if (chain.indexOf('ethereum') >= 0) return CHAIN_ETHEREUM_SVG;
     if (chain.indexOf('polygon') >= 0) return CHAIN_POLYGON_SVG;
     if (chain.indexOf('bsc') >= 0) return CHAIN_BSC_SVG;
 };
