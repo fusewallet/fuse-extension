@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom';
-// import { lazy } from 'react';
 
 import type { WindowType } from '~types/window';
 
@@ -32,10 +31,8 @@ import WelcomePage from './welcome';
 import FunctionSwitchAccountPage from './functions/switch';
 // import FunctionRecordsPage from './functions/record';
 import HomePage from './home';
+import ImportExtraAccountPage from './functions/switch/pages/import-extra-account';
 
-// import ImportExtraAccountPage from './functions/switch/pages/import-extra-account';
-
-// const InitialPage = lazy(() => import(`./initial`));
 
 export const getRoutes = (wt: WindowType) => {
     const routes: RouteObject[] = [
@@ -57,7 +54,7 @@ export const getRoutes = (wt: WindowType) => {
 
         // select wallet
         ...(hit(wt, []) ? [{ path: '/home/switch/account', element: <FunctionSwitchAccountPage /> }] : []),
-        // ...(hit(wt, []) ? [{ path: '/home/switch/account/import/:type', element: <ImportExtraAccountPage /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/home/switch/account/import/:type', element: <ImportExtraAccountPage /> }] : []),
 
         // // token `gallery
         // ...(hit(wt, []) ? [{ path: '/home/token/view', element: <FunctionTokenViewPage   /> }] : []),
@@ -72,7 +69,7 @@ export const getRoutes = (wt: WindowType) => {
         ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra', element: <InitialPage extra={true} /> }] : []),
         ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra/create', element: <InnerCreatePage wt={wt} extra={true} /> }] : []),
         ...(hit(wt, []) ? [{ path: '/home/settings/accounts/extra/restore', element: <CreateRestorePage wt={wt} extra={true} /> }] : []),
-        // ...(hit(wt, []) ? [{ path: '/home/settings/accounts/import/:type', element: <ImportExtraAccountPage /> }] : []),
+        ...(hit(wt, []) ? [{ path: '/home/settings/accounts/import/:type', element: <ImportExtraAccountPage /> }] : []),
         // ...(hit(wt, []) ? [{ path: '/home/settings/accounts/:id', element: <AccountsSinglePage /> }] : []),
         // // settings/security
         // ...(hit(wt, []) ? [{ path: '/home/settings/security', element: <FunctionSettingsSecurityPage /> }] : []),
