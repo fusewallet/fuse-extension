@@ -7,11 +7,11 @@ module.exports = {
     content: [
         './src/**/*.tsx',
         // make sure it's pointing to the ROOT node_module
-        // './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
+        './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
         // single component styles
         // './node_modules/@heroui/theme/dist/components/button.js',
         // or you can use a glob pattern (multiple component styles)
-        './node_modules/@heroui/theme/dist/components/(button|input|switch|skeleton).js',
+        // './node_modules/@heroui/theme/dist/components/(button|input|switch|skeleton).js',
     ],
     theme: {
         extend: {

@@ -45,16 +45,23 @@ type Tab = 'current' | 'all';
 
 function FunctionTokenViewPage() {
     const current_state = useCurrentState();
+
     const { setHide, goto: _goto } = useGoto();
+
     const [custom, { pushCustomIcToken, removeCustomToken }] = useTokenInfoCustom();
     const [current, { pushToken, removeToken, resortToken }] = useTokenInfoCurrent();
+
     const [search, setSearch] = useState('');
+
     const currentTokens = useMemo(() => current, [current]);
+
     const allTokens = useMemo(() => [...PRESET_ALL_TOKEN_INFO, ...custom.map((t) => t.token)], [custom]);
     // const ckTokens = useMemo(() => PRESET_ALL_TOKEN_INFO.filter((t) => t.tags.includes(TokenTag.ChainIcCk)), []);
     // const snsTokens = useMemo(() => PRESET_ALL_TOKEN_INFO.filter((t) => t.tags.includes(TokenTag.ChainIcSns)), []);
     // const customTokens = useMemo(() => custom.map((t) => t.token), [custom]);
+
     const [tab] = useState<Tab>('current');
+
     const tokens = useMemo<(TokenInfo & { id: string; current: boolean })[]>(() => {
         const tokens: Record<Tab, TokenInfo[]> = {
             current: currentTokens,
@@ -70,7 +77,9 @@ function FunctionTokenViewPage() {
             current: !!currentTokens.find((c) => is_same_token_info(c, t)),
         }));
     }, [search, currentTokens, allTokens]);
+
     const [sort, setSort] = useState(false);
+
     const onSwitchToken = useCallback(
         (token: TokenInfo & { current: boolean }, selected: boolean) => {
             if (token.current === selected) return;
@@ -79,6 +88,7 @@ function FunctionTokenViewPage() {
         },
         [pushToken, removeToken],
     );
+
     const [wrapped, setWrapped] = useState<(TokenInfo & { id: string; current: boolean })[]>([]);
     useEffect(() => setWrapped([...tokens]), [tokens]);
     const onDragEnd = useCallback(
@@ -86,6 +96,7 @@ function FunctionTokenViewPage() {
             const source_index = result.source.index;
             const destination_index = result.destination?.index;
             if (destination_index === undefined) return;
+
             if (source_index === destination_index) {
                 console.error('same source_index with destination_index', source_index, destination_index);
                 return;
@@ -96,6 +107,7 @@ function FunctionTokenViewPage() {
         },
         [wrapped, resortToken],
     );
+
     // ! Switch has this problem.
     // ! Can't perform a React state update on a component that hasn't mounted yet
     const mounted = useMounted();
@@ -116,6 +128,7 @@ function FunctionTokenViewPage() {
         },
         [allTokens],
     );
+
     const ref = useRef<HTMLDivElement>(null);
     return (
         <FusePage current_state={current_state} options={{ refresh_token_info_ic_sleep: 1000 * 60 * 5 }}>
@@ -139,7 +152,7 @@ function FunctionTokenViewPage() {
                             <div className="flex items-center text-sm text-[#eee] hover:text-[#FFCF13]">
                                 Custom Token
                             </div>
-                            {/* <CustomTokenDrawer
+                            <CustomTokenDrawer
                                 trigger={
                                     <div className="flex cursor-pointer items-center text-sm text-[#eee] hover:text-[#FFCF13]">
                                         <Icon name="icon-arrow-right" className="h-3 w-3" />
@@ -152,7 +165,7 @@ function FunctionTokenViewPage() {
                                         if (token) pushToken(token);
                                     });
                                 }}
-                            /> */}
+                            />
                         </div>
                         <div className="flex w-full items-center justify-between px-5 py-3">
                             <div className="flex items-center text-sm">Tokens</div>
@@ -302,51 +315,50 @@ const ShowTokenItem = ({
         getBalance();
     }, [getBalance, token]);
 
-    // return (
-    //     <div className="flex w-full cursor-pointer items-center justify-between rounded-xl bg-[#181818] p-[10px] transition duration-300 hover:bg-[#2B2B2B]">
-    //         <div className="flex items-center">
-    //             <img src={logo} className="h-10 w-10 rounded-full" />
-    //             <div className="ml-[10px]">
-    //                 <strong className="block text-base text-[#EEEEEE]">{get_token_symbol(token)}</strong>
-    //                 <span className="text-xs text-[#999999]"> {get_token_name(token)}</span>
-    //             </div>
-    //         </div>
-    //         <div className="flex items-center">
-    //             <div className="mr-2 flex flex-col">
-    //                 <strong className="text-sm text-[#EEEEEE]">{balance}</strong>
-    //                 <span className="text-xs text-[#999999]">${usd}</span>
-    //             </div>
-    //             {tab === 'current' && sort ? (
-    //                 <BsArrowsMove size={16} className="mr-2" />
-    //             ) : (
-    //                 <>
-    //                     {/* {tab === 'custom' && (
-    //                         <ConfirmModal
-    //                             container={container}
-    //                             trigger={<AiOutlineMinusCircle size={14} className="text-[#FF0000]" />}
-    //                             title={'Delete this token?'}
-    //                             description={
-    //                                 'Once the Token is removed, it must be added again in order to be displayed.'
-    //                             }
-    //                             confirm={
-    //                                 <div className="w-full h-full" onClick={() => onDeleteCustomToken(token)}>
-    //                                     <span>Confirm</span>
-    //                                 </div>
-    //                             }
-    //                         />
-    //                     )} */}
-    //                     <div className="scale-[0.6]">
-    //                         <Switch
-    //                             isSelected={token.current}
-    //                             onValueChange={(s) => onSwitchToken(token, s)}
-    //                             color="success"
-    //                             size="sm"
-    //                         />
-    //                     </div>
-    //                 </>
-    //             )}
-    //         </div>
-    //     </div>
-    // );
-    return <></>;
+    return (
+        <div className="flex w-full cursor-pointer items-center justify-between rounded-xl bg-[#181818] p-[10px] transition duration-300 hover:bg-[#2B2B2B]">
+            <div className="flex items-center">
+                <img src={logo} className="h-10 w-10 rounded-full" />
+                <div className="ml-[10px]">
+                    <strong className="block text-base text-[#EEEEEE]">{get_token_symbol(token)}</strong>
+                    <span className="text-xs text-[#999999]"> {get_token_name(token)}</span>
+                </div>
+            </div>
+            <div className="flex items-center">
+                <div className="mr-2 flex flex-col">
+                    <strong className="text-sm text-[#EEEEEE]">{balance}</strong>
+                    <span className="text-xs text-[#999999]">${usd}</span>
+                </div>
+                {tab === 'current' && sort ? (
+                    <BsArrowsMove size={16} className="mr-2" />
+                ) : (
+                    <>
+                        {/* {tab === 'custom' && (
+                            <ConfirmModal
+                                container={container}
+                                trigger={<AiOutlineMinusCircle size={14} className="text-[#FF0000]" />}
+                                title={'Delete this token?'}
+                                description={
+                                    'Once the Token is removed, it must be added again in order to be displayed.'
+                                }
+                                confirm={
+                                    <div className="w-full h-full" onClick={() => onDeleteCustomToken(token)}>
+                                        <span>Confirm</span>
+                                    </div>
+                                }
+                            />
+                        )} */}
+                        <div className="scale-[0.6]">
+                            <Switch
+                                isSelected={token.current}
+                                onValueChange={(s) => onSwitchToken(token, s)}
+                                color="success"
+                                size="sm"
+                            />
+                        </div>
+                    </>
+                )}
+            </div>
+        </div>
+    );
 };

@@ -216,11 +216,6 @@ export const useShowNetworks = () => {
     return useShowNetworksInner2(storage);
 };
 
-export const useAllChainNetworks = () => {
-    const [unlocked] = useUnlocked();
-    const storage = useSecureStorageBy(unlocked);
-    return useChainNetworksInner(storage);
-};
 // ================ set directly by storage ================
 
 // ############### LOCAL SECURE ###############
