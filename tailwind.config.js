@@ -11,7 +11,7 @@ module.exports = {
         // single component styles
         // './node_modules/@heroui/theme/dist/components/button.js',
         // or you can use a glob pattern (multiple component styles)
-        './node_modules/@heroui/theme/dist/components/(button|input|switch).js',
+        './node_modules/@heroui/theme/dist/components/(button|input|switch|skeleton).js',
     ],
     theme: {
         extend: {
