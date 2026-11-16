@@ -18,7 +18,7 @@ export const AddWalletDrawer = ({
     trigger,
     container,
     onAddWalletByMainMnemonic,
-    goto,
+    goto: _goto,
     has_main_mnemonic,
     import_prefix,
 }: {
@@ -72,7 +72,10 @@ export const AddWalletDrawer = ({
                                       ]
                                     : []),
                                 {
-                                    callback: () => goto(`${import_prefix}/mnemonic`),
+                                    callback: () => {
+                                        setOpen(false);
+                                        _goto(`${import_prefix}/mnemonic`);
+                                    },
                                     icon: 'icon-file',
                                     name: 'Import Seed Phrase',
                                     description: 'Import accounts from another wallet',

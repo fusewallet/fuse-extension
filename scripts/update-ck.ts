@@ -86,7 +86,7 @@ const main = async () => {
         let fee_spaces = '';
         for (let i = 0; i < max_fee_length - item.token.icrc1_metadata.icrc1_fee.length; i++) fee_spaces += ' ';
         console.log(
-            `export const ${item.token_info_name}${token_info_spaces} : IcTokenInfo = { canister_id: '${item.token.ledger_canister_id}', standards: [IcTokenStandard.ICRC1, IcTokenStandard.ICRC2], name: '${item.token.icrc1_metadata.icrc1_symbol}',${token_name_spaces} symbol: '${item.token.icrc1_metadata.icrc1_symbol}',${token_info_spaces} decimals: ${decimals_spaces}${item.token.icrc1_metadata.icrc1_decimals}, fee: ${fee_spaces}'${item.token.icrc1_metadata.icrc1_fee}' }; // fee ${BigNumber(
+            `export const ${item.token_info_name}${token_info_spaces} : IcTokenInfo = { canister_id: '${item.token.ledger_canister_id}', standards: [IcTokenStandard.ICRC1, IcTokenStandard.ICRC2], name: '${item.token.icrc1_metadata.icrc1_name}',${token_name_spaces} symbol: '${item.token.icrc1_metadata.icrc1_symbol}',${token_info_spaces} decimals: ${decimals_spaces}${item.token.icrc1_metadata.icrc1_decimals}, fee: ${fee_spaces}'${item.token.icrc1_metadata.icrc1_fee}' }; // fee ${BigNumber(
                 item.token.icrc1_metadata.icrc1_fee,
             )
                 .div(BigNumber(10).pow(BigNumber(item.token.icrc1_metadata.icrc1_decimals)))

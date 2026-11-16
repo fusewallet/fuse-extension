@@ -83,7 +83,8 @@ export const useTokenInfoIcByRefreshingInner = (storage: Storage, sleep: number)
 export const get_token_info_ic = async (canister_id: string): Promise<IcTokenInfo | undefined> => {
     const { candid } = await get_canister_status(canister_id);
     if (candid === undefined) return;
-    const standards = await get_canister_standards(candid);
+    // const standards = await get_canister_standards(candid);
+    const standards = [IcTokenStandard.ICRC1];
 
     if (standards.includes(IcTokenStandard.ICRC1)) {
         const name = await icrc1_name(anonymous, canister_id);
